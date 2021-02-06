@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/marcelo-oliveira-agamenon/startup-barbearia.git",
-  "author": "Guilherme <luiz.guilherme@sambatech.com.br>",
+  "author": "Guilherme <guilherme_ecb@hotmail.com>",
   "license": "MIT",
   "scripts":{
     "dev": "tsc src/shared/server.ts"
