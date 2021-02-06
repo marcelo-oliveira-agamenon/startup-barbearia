@@ -6,12 +6,13 @@
   "author": "Guilherme <guilherme_ecb@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon eslint . --ext .ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register src/shared/server.ts",
     "test": "jest"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ts-node-dev": "^1.1.1"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
@@ -23,6 +24,7 @@
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^4.1.3"
   }
 }

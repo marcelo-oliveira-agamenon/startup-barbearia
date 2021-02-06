@@ -1,5 +1,6 @@
 import express from 'express';
-import Routes from './infra/routes/index';
+import Routes from '@shared/infra/routes/index';
+
 import dotenv from 'dotenv';
 
 const app = express();
