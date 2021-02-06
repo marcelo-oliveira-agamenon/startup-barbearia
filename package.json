@@ -6,7 +6,7 @@
   "author": "Guilherme <guilherme_ecb@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register src/shared/server.ts",
+    "dev": "nodemon eslint . --ext .ts",
     "test": "jest"
   },
   "dependencies": {
