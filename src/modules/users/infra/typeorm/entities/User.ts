@@ -20,7 +20,8 @@ export default class User {
   user_type: string;
 
   @Column({
-    length: '12'
+    length: '12',
+    nullable: true
   })
   user_phone: string;
 
