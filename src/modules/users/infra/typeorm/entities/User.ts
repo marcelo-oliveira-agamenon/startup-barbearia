@@ -14,11 +14,21 @@ export default class User {
   @Column()
   user_name: string;
 
-  @Column()
+  @Column({
+    enum: ['admin', 'normal']
+  })
   user_type: string;
 
-  @Column()
+  @Column({
+    length: '12'
+  })
   user_phone: string;
+
+  @Column({
+    length: '255',
+    select: false
+  })
+  password: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
