@@ -10,7 +10,6 @@ export default class CreateUserService {
     @inject('UserRepository')
     private userRepository: IUserRepository
   ) {}
-
   public async execute(data: ICreateUserDTO): Promise<User> {
     const user = await this.userRepository.create(data);
 

@@ -1,9 +1,10 @@
-import { Router, Request, Response } from 'express';
+import 'reflect-metadata';
+
+import { Router } from 'express';
+import userRouter from '@modules/users/infra/http/routes/user.routes';
 
 const router = Router();
 
-router.get('/', (res: Request, req: Response) => {
-  console.log('dasdasd', req, res);
-});
+router.use('/users', userRouter);
 
 export default router;
