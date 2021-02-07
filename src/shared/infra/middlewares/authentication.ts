@@ -7,18 +7,21 @@ export default function verifyToken(
   next: NextFunction
 ): NextFunction | Response | undefined {
   const bearerToken = req.header('Authorization');
-  if (!bearerToken) return res.status(401).json('Access Denied');
+  if (!bearerToken)
+    return res.status(401).json('Access Denied! You must have a token!');
 
   try {
     const secret: string =
       process.env.JWTSECRET === undefined ? '' : process.env.JWTSECRET;
     const token = bearerToken.replace('Bearer ', '');
 
-    verify(token, secret);
+    const isValidToken = verify(token, secret);
+
+    if (!isValidToken) return res.status(401).json('Invalid Token');
 
     const obj = decode(token);
 
-    if (obj !== null) {
+    if (obj) {
       req.user = {
         type: obj['type'],
         user_id: obj['user_id']
@@ -27,6 +30,6 @@ export default function verifyToken(
 
     next();
   } catch {
-    return res.status(401).json('Invalid token');
+    return res.status(401).json('Something went wrong!');
   }
 }
