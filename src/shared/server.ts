@@ -1,9 +1,11 @@
-import express from 'express';
-import Routes from '@shared/infra/routes/index';
 import 'reflect-metadata';
 import 'dotenv/config';
+import 'shared/container';
+import express from 'express';
+import Routes from '@shared/infra/routes/index';
 import config from '@shared/infra/typeorm/ormconfig';
 import { createConnection } from 'typeorm';
+import { errors } from 'celebrate';
 
 (async () => {
   try {
@@ -13,8 +15,7 @@ import { createConnection } from 'typeorm';
     return error;
   }
   const app = express();
-
-  app.use(Routes);
+  app.use(express.json(), Routes, errors());
 
   app.listen(process.env.PORT, () => {
     console.log('Server listening on PORT:', process.env.PORT);
