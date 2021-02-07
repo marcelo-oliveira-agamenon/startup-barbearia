@@ -1,3 +1,5 @@
+import { Exclude } from 'class-transformer';
+
 import {
   Column,
   CreateDateColumn,
@@ -29,6 +31,7 @@ export default class User {
     length: '255',
     select: false
   })
+  @Exclude()
   password: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
