@@ -1,11 +1,28 @@
-import { CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 
 @Entity('user')
 export default class User {
-  @PrimaryColumn(uuidv4())
+  @PrimaryGeneratedColumn('uuid')
   user_id: string;
+
+  @Column()
+  user_name: string;
+
+  @Column()
+  user_type: string;
+
+  @Column()
+  user_phone: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 }

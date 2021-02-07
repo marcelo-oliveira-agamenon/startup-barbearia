@@ -11,6 +11,7 @@ const config: ConnectionOptions = {
   cli: {
     migrationsDir: './src/shared/infra/typeorm/migrations'
   },
+  migrations: ['./src/shared/infra/typeorm/migrations/*.ts'],
   synchronize: false
 };
 
