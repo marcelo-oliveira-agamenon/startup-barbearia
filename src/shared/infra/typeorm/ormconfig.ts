@@ -7,11 +7,11 @@ const config: ConnectionOptions = {
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  entities: ['./src/modules/users/infra/typeorm/entities/*.ts'],
   cli: {
-    migrationsDir: './src/shared/infra/typeorm/migrations',
-    entitiesDir: './src/modules/*/infra/typeorm/entities/*.ts'
-  }
+    migrationsDir: './src/shared/infra/typeorm/migrations'
+  },
+  synchronize: false
 };
 
 export default config;
