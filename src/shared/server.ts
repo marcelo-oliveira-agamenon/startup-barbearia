@@ -17,6 +17,6 @@ import { createConnection } from 'typeorm';
   app.use(Routes);
 
   app.listen(process.env.PORT, () => {
-    console.log('Port', process.env.PORT);
+    console.log('Server listening on PORT: ', process.env.PORT);
   });
 })();
