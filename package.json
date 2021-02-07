@@ -12,7 +12,10 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "ts-node-dev": "^1.1.1"
+    "pg": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-node-dev": "^1.1.1",
+    "typeorm": "^0.2.30"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
