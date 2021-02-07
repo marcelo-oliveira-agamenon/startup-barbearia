@@ -8,7 +8,9 @@ const config: ConnectionOptions = {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  cli: {
+    migrationsDir: './src/shared/infra/typeorm/migrations'
+  },
   synchronize: true
 };
-
 export default config;
