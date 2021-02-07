@@ -12,9 +12,11 @@ export default function verifyToken(
   try {
     const secret: string =
       process.env.JWTSECRET === undefined ? '' : process.env.JWTSECRET;
-    verify(bearerToken.replace('Bearer ', ''), secret);
+    const token = bearerToken.replace('Bearer ', '');
 
-    const obj = decode(bearerToken.replace('Bearer ', ''));
+    verify(token, secret);
+
+    const obj = decode(token);
 
     if (obj !== null) {
       req.user = {
