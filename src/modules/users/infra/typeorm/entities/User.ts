@@ -1,4 +1,8 @@
 import { Exclude } from 'class-transformer';
+export enum UserRole {
+  ADMIN = 'admin',
+  NORMAL = 'normal'
+}
 
 import {
   Column,
@@ -9,7 +13,7 @@ import {
 } from 'typeorm';
 
 @Entity('user')
-export default class User {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   user_id: string;
 
@@ -17,9 +21,11 @@ export default class User {
   user_name: string;
 
   @Column({
-    enum: ['admin', 'normal']
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.NORMAL
   })
-  user_type: string;
+  user_type: UserRole;
 
   @Column({
     length: '12',
@@ -33,6 +39,9 @@ export default class User {
   })
   @Exclude()
   password: string;
+
+  @Column({ default: true })
+  is_active: boolean;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
