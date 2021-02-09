@@ -6,6 +6,7 @@ import Routes from '@shared/infra/routes/index';
 import config from '@shared/infra/typeorm/ormconfig';
 import { createConnection } from 'typeorm';
 import { errors } from 'celebrate';
+import cors from 'cors';
 
 (async () => {
   try {
@@ -15,7 +16,7 @@ import { errors } from 'celebrate';
     return error;
   }
   const app = express();
-  app.use(express.json(), Routes, errors());
+  app.use(cors(), express.json(), Routes, errors());
 
   app.listen(process.env.PORT, () => {
     console.log('Server listening on PORT:', process.env.PORT);

@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe';
 
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 
-import User from '@modules/users/infra/typeorm/entities/User';
+import { User } from '@modules/users/infra/typeorm/entities/User';
 
 import { ICreateUserDTO } from '@modules/users/dtos/IUserDTO';
 
