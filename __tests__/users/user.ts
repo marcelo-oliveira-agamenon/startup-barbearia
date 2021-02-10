@@ -1,15 +1,9 @@
 import request from 'supertest';
-import express from 'express';
 import 'reflect-metadata';
-import { Connection, createConnection } from 'typeorm';
-import config from '@shared/infra/typeorm/ormconfig';
-let connection: Connection;
+
+const API = 'http://localhost:3000';
 
 describe('POST /users/register', function () {
-  beforeAll(async () => {
-    connection = await createConnection(config);
-  });
-
   it('responds with json', function (done) {
     const body = {
       user_name: 'teste',
@@ -18,15 +12,13 @@ describe('POST /users/register', function () {
       password: '6165165651'
     };
 
-    request(express)
+    request(API)
       .post('/users/register')
       .send(body)
       .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(201);
-  });
-
-  afterAll(async () => {
-    await connection.close();
+      .end((err, res) => {
+        expect(201);
+        done();
+      });
   });
 });
