@@ -1,7 +1,6 @@
 import request from 'supertest';
 import 'reflect-metadata';
-
-const API = 'http://localhost:3000';
+const API = 'http://127.0.0.1:4000';
 
 describe('POST /users/register', function () {
   it('responds with json', function (done) {
@@ -15,10 +14,8 @@ describe('POST /users/register', function () {
     request(API)
       .post('/users/register')
       .send(body)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        expect(201);
-        done();
-      });
+      .expect('Content-Type', /json/)
+      .expect({ name: 'AuthenticationError', message: 'Unauthorized' })
+      .expect(401, done);
   });
 });
