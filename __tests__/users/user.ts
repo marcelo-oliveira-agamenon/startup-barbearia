@@ -1,14 +1,16 @@
 import request from 'supertest';
-import { Any } from 'typeorm';
 import { User } from '@modules/users/infra/typeorm/entities/User';
+import faker from 'faker';
+
 const API = 'http://127.0.0.1:4000';
 
 const body = {
-  user_name: 'teste',
+  user_name: faker.name.findName(),
   user_type: 'admin',
-  user_phone: '75986667171',
-  password: '6165165651'
+  user_phone: faker.phone.phoneNumber(),
+  password: faker.name.findName()
 };
+
 describe('POST /users/register', function () {
   it('responds with json', function (done) {
     request(API)
