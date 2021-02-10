@@ -8,8 +8,6 @@ import { createConnection } from 'typeorm';
 import { errors } from 'celebrate';
 import cors from 'cors';
 
-export let expressInstance: Express;
-
 (async () => {
   try {
     await createConnection(config);
@@ -17,9 +15,9 @@ export let expressInstance: Express;
     console.log('Error while connecting to the database', error);
     return error;
   }
+
   const app = express();
   app.use(cors(), express.json(), Routes, errors());
-  expressInstance = app;
 
   app.listen(process.env.PORT, () => {
     console.log('Server listening on PORT:', process.env.PORT);
