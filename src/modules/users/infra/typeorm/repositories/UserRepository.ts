@@ -12,13 +12,15 @@ export default class UserRepository implements IUserRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async create(data: ICreateUserDTO): Promise<User> {
-    try {
-      const user = await this.ormRepository.save(data);
+  public async create(data: ICreateUserDTO): Promise<string> {
+    const userInserted = await this.ormRepository.insert(data);
+    const user_id = userInserted.identifiers[0].user_id;
+    return user_id;
+  }
 
-      return user;
-    } catch (error) {
-      throw new AppError(500, 'quebrou repo');
-    }
+  public async findOne(id: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne(id);
+
+    return user;
   }
 }

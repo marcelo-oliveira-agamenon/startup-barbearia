@@ -13,10 +13,11 @@ userRouter.post(
       user_name: Joi.string().required(),
       user_type: Joi.string().required(),
       user_phone: Joi.string(),
-      password: Joi.string().required()
+      cpf: Joi.string().length(14).required(),
+      email: Joi.string(),
+      password: Joi.string().required().min(5).max(12)
     }
   }),
   userController.create
 );
-
 export default userRouter;

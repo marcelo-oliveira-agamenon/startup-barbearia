@@ -15,11 +15,10 @@ export default class CreateUserService {
     private userRepository: IUserRepository
   ) {}
 
-  public async execute(data: ICreateUserDTO): Promise<User> {
-    const user = await this.userRepository.create(data);
-    if (!user) {
-      throw new AppError(500, 'quebrou');
-    }
+  public async execute(data: ICreateUserDTO): Promise<User | undefined> {
+    const user_id = await this.userRepository.create(data);
+    if (!user_id) throw new Error('User has not been created!');
+    const user = await this.userRepository.findOne(user_id);
 
     return user;
   }
