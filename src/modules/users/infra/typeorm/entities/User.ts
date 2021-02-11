@@ -29,16 +29,13 @@ export class User {
   user_type: UserRole;
 
   @Column({
-    length: '12',
     nullable: true
   })
   user_phone: string;
 
   @Column({
-    length: '255',
     select: false
   })
-  @Exclude()
   password: string;
 
   @Column({ default: true })

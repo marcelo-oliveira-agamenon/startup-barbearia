@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import 'shared/container';
-import express from 'express';
+import express, { Express } from 'express';
 import Routes from '@shared/infra/routes/index';
 import config from '@shared/infra/typeorm/ormconfig';
 import { createConnection } from 'typeorm';
@@ -15,6 +15,7 @@ import cors from 'cors';
     console.log('Error while connecting to the database', error);
     return error;
   }
+
   const app = express();
   app.use(cors(), express.json(), Routes, errors());
 
