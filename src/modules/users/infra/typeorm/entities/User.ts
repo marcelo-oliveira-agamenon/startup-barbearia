@@ -33,8 +33,12 @@ export class User {
   })
   user_phone: string;
 
+  @Column({ length: 14 })
+  cpf: string;
+
   @Column({
-    select: false
+    select: false,
+    length: 12
   })
   password: string;
 
