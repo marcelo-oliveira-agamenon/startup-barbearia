@@ -3,15 +3,15 @@ import { Request, Response } from 'express';
 
 import { classToClass } from 'class-transformer';
 
-import CreateUserService from '@modules/sales/services/';
+import CreateServicesService from '@modules/sales/services/services/CreateServicesService';
 
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
-    const createUser = container.resolve(CreateUserService);
-    const user = await createUser.execute(data);
+    const createService = container.resolve(CreateServicesService);
+    const service = await createService.execute(data);
 
-    return response.status(201).json(classToClass(user));
+    return response.status(201).json(classToClass(service));
   }
 }
