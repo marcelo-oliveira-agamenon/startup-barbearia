@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 export enum UserRole {
   ADMIN = 'admin',
   NORMAL = 'normal'
@@ -33,8 +32,15 @@ export class User {
   })
   user_phone: string;
 
+  @Column({ length: 14 })
+  cpf: string;
+
+  @Column({ nullable: true })
+  email: string;
+
   @Column({
-    select: false
+    select: false,
+    length: 12
   })
   password: string;
 

@@ -8,7 +8,9 @@ const body = {
   user_name: faker.name.findName(),
   user_type: 'admin',
   user_phone: faker.phone.phoneNumber(),
-  password: faker.name.findName()
+  cpf: '100.000.000-00',
+  password: 'minimum',
+  email: faker.random.word()
 };
 
 describe('POST /users/register', function () {
@@ -22,7 +24,15 @@ describe('POST /users/register', function () {
       .send(body)
       .expect('Content-Type', /json/)
       .expect(User)
-      .expect(201, done);
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('user_name', body.user_name);
+        expect(res.body).toHaveProperty('user_type', body.user_type);
+        expect(res.body).toHaveProperty('user_phone', body.user_phone);
+        expect(res.body).toHaveProperty('cpf', body.cpf);
+        expect(res.body).toHaveProperty('email', body.email);
+      })
+      .end(done);
   });
   afterAll(async () => {
     await connection.close();

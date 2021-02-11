@@ -11,13 +11,9 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async create(data: ICreateUserDTO): Promise<string> {
-    try {
-      const userInserted = await this.ormRepository.insert(data);
-      const user_id = userInserted.identifiers[0].user_id;
-      return user_id;
-    } catch (error) {
-      throw new Error(error);
-    }
+    const userInserted = await this.ormRepository.insert(data);
+    const user_id = userInserted.identifiers[0].user_id;
+    return user_id;
   }
 
   public async findOne(id: string): Promise<User | undefined> {
