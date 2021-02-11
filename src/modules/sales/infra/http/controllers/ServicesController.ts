@@ -1,17 +1,20 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import { classToClass } from 'class-transformer';
-
-import CreateServicesService from '@modules/sales/services/services/CreateServicesService';
+import CreateServicesService from '@modules/sales/services/service/CreateServicesService';
 
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const data = request.body;
+    try {
+      const data = request.body;
 
-    const createService = container.resolve(CreateServicesService);
-    const service = await createService.execute(data);
+      const createService = container.resolve(CreateServicesService);
+      const service = await createService.execute(data);
 
-    return response.status(201).json(classToClass(service));
+      return response.status(201).json(service);
+    } catch (error) {
+      console.log(error);
+      throw new Error();
+    }
   }
 }
