@@ -12,6 +12,10 @@ const body = {
 };
 
 describe('POST /users/register', function () {
+  beforeAll(async () => {
+    connection = await createConnection(config);
+  });
+
   it('responds with json', function (done) {
     request(API)
       .post('/users/register')
@@ -19,5 +23,8 @@ describe('POST /users/register', function () {
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(201, done);
+  });
+  afterAll(async () => {
+    await connection.close();
   });
 });
