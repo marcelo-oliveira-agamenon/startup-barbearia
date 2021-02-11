@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import faker from 'faker';
+import { assert } from 'console';
 
 const API = 'http://127.0.0.1:4000';
 
@@ -18,6 +19,12 @@ describe('POST /users/register', function () {
       .send(body)
       .expect('Content-Type', /json/)
       .expect(User)
-      .expect(201, done);
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('user_name', body.user_name);
+        expect(res.body).toHaveProperty('user_type', body.user_type);
+        expect(res.body).toHaveProperty('user_phone', body.user_phone);
+      })
+      .end(done);
   });
 });
