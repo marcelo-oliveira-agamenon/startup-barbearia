@@ -9,7 +9,8 @@ const body = {
   user_type: 'admin',
   user_phone: faker.phone.phoneNumber(),
   cpf: '100.000.000-00',
-  password: 'minimum'
+  password: 'minimum',
+  email: faker.random.word()
 };
 
 describe('POST /users/register', function () {
@@ -25,6 +26,7 @@ describe('POST /users/register', function () {
         expect(res.body).toHaveProperty('user_type', body.user_type);
         expect(res.body).toHaveProperty('user_phone', body.user_phone);
         expect(res.body).toHaveProperty('cpf', body.cpf);
+        expect(res.body).toHaveProperty('email', body.email);
       })
       .end(done);
   });
