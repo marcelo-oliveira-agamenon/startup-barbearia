@@ -1,11 +1,14 @@
 import { container } from 'tsyringe';
+
 import UserRepository from '@modules/users/infra/typeorm/repositories/UserRepository';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
-import ServicesRepository from '@modules/sales/infra/typeorm/repositories/ServicesRepository';
-import IServicesRepository from '@modules/sales/repositories/IServicesRepository';
+
+import ServiceRepository from '@modules/sales/infra/typeorm/repositories/ServiceRepository';
+import IServiceRepository from '@modules/sales/repositories/IServiceRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
-container.registerSingleton<IServicesRepository>(
-  'ServicesRepository',
-  ServicesRepository
+
+container.registerSingleton<IServiceRepository>(
+  'ServiceRepository',
+  ServiceRepository
 );

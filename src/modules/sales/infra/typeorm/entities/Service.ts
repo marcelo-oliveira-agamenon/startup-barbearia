@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('service')
-export class Service {
+export default class Service {
   @PrimaryGeneratedColumn('increment')
   id: number;
 

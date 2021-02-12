@@ -6,8 +6,6 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 
 import { ICreateUserDTO } from '@modules/users/dtos/IUserDTO';
 
-import { AppError } from '@shared/errors/AppError';
-
 @injectable()
 export default class CreateUserService {
   constructor(

@@ -5,9 +5,9 @@ import CreateServicesService from '@modules/sales/services/service/CreateService
 
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
-    try {
-      const data = request.body;
+    const data = request.body;
 
+    try {
       const createService = container.resolve(CreateServicesService);
       const service = await createService.execute(data);
 
