@@ -34,6 +34,7 @@ const requiredBody = {
   email: faker.internet.email()
 };
 const createEndPoint = '/users/signup';
+let updateEndPoint = '/users/';
 
 describe('POST /users/register', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
@@ -44,6 +45,7 @@ describe('POST /users/register', function () {
       .expect(User)
       .expect(201)
       .expect((res) => {
+        updateEndPoint = updateEndPoint + res.body.user_id;
         expect(res.body).toEqual(
           expect.objectContaining({
             name,
@@ -75,6 +77,28 @@ describe('POST /users/register', function () {
             cpf: null,
             email: requiredBody.email,
             is_active: true,
+            deleted_at: null
+          })
+        );
+      })
+      .end(done);
+  });
+  it('Should update a user and return {user}.', function (done) {
+    request(API)
+      .put(updateEndPoint)
+      .send(body)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            name,
+            user_type,
+            phone,
+            cpf,
+            email,
+            is_active,
             deleted_at: null
           })
         );

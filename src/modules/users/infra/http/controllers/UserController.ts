@@ -22,7 +22,7 @@ export default class UserController {
       const updateUser = container.resolve(UpdateUserService);
       const user = await updateUser.execute(data, user_id);
 
-      return response.status(201).json(user);
+      return response.status(200).json(user);
     } catch (error) {
       throw new Error(error);
     }
