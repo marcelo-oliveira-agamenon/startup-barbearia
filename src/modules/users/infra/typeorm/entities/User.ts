@@ -32,10 +32,10 @@ export class User {
   })
   phone: string;
 
-  @Column({ length: 14, nullable: true })
+  @Column({ length: 14, nullable: true, unique: true })
   cpf: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column({
