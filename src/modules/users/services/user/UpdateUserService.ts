@@ -20,20 +20,18 @@ export default class UpdateUserService {
     const userExists = await this.userRepository.findOne(user_id);
     if (!userExists) throw new Error('User does not exist!');
 
-    if (data.cpf) {
-      if (data.cpf != userExists.cpf) {
-        const cpfExists = await this.userRepository.findByCpf(data.cpf);
-        if (cpfExists)
-          throw new Error('There is already a user registered with this cpf!');
-      }
-    }
     if (data.email) {
       if (data.email != userExists.email) {
         const emailExists = await this.userRepository.findByEmail(data.email);
         if (emailExists)
-          throw new Error(
-            'There is already a user registered with this email!'
-          );
+          throw new Error('This email already belongs to another user!');
+      }
+    }
+    if (data.cpf) {
+      if (data.cpf != userExists.cpf) {
+        const cpfExists = await this.userRepository.findByCpf(data.cpf);
+        if (cpfExists)
+          throw new Error('This cpf already belongs to another user!');
       }
     }
     delete data.confirmPassword;
