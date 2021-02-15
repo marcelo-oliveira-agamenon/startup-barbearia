@@ -5,6 +5,6 @@ export default interface IUserRepository {
   create(data: ICreateUserDTO): Promise<string>;
   update(user_id: string, data: IUpdateUserDTO): Promise<number | undefined>;
   findOne(id: string): Promise<User | undefined>;
-  findByCpf(id: string): Promise<User | undefined>;
-  findByEmail(id: string): Promise<User | undefined>;
+  findByCpf(cpf: string): Promise<User | undefined>;
+  findByEmail(email: string): Promise<User | undefined>;
 }
