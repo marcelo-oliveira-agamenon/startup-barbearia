@@ -6,17 +6,19 @@ import faker from 'faker';
 
 const API = process.env.TEST_URL;
 
-const body = {
-  user_name: faker.name.findName(),
-  user_type: 'admin',
-  user_phone: faker.phone.phoneNumber(),
-  cpf: '100.000.000-00',
-  password: 'minimum',
-  email: faker.random.word()
-};
+const name = faker.name.findName(),
+  user_type = 'admin',
+  phone = faker.phone.phoneNumber(),
+  cpf = '100.000.000-00',
+  password = 'minimum',
+  email = faker.random.word(),
+  is_active = faker.random.boolean();
+
+const body = { name, user_type, phone, cpf, password, email, is_active };
+const requiredBody = { name, user_type, password, email };
 
 describe('POST /users/register', function () {
-  it('responds with json', function (done) {
+  it('Should send all fields and return {user}.', function (done) {
     request(API)
       .post('/users/register')
       .send(body)
@@ -26,11 +28,34 @@ describe('POST /users/register', function () {
       .expect((res) => {
         expect(res.body).toEqual(
           expect.objectContaining({
-            name: body.user_name,
-            type: body.user_type,
-            phone: body.user_phone,
-            cpf: body.cpf,
-            email: body.email
+            name,
+            user_type,
+            phone,
+            cpf,
+            email,
+            is_active
+          })
+        );
+      })
+      .end(done);
+  });
+
+  it('Should send only the required fields and return {user}. ', function (done) {
+    request(API)
+      .post('/users/register')
+      .send(requiredBody)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            name,
+            user_type,
+            phone,
+            cpf,
+            email,
+            is_active
           })
         );
       })

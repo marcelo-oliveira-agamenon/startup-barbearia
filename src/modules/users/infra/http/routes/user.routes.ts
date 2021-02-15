@@ -13,8 +13,8 @@ userRouter.post(
       name: Joi.string().required(),
       user_type: Joi.string().required(),
       phone: Joi.string(),
-      cpf: Joi.string().length(14).required(),
-      email: Joi.string(),
+      cpf: Joi.string().length(14),
+      email: Joi.string().required(),
       password: Joi.string().required().min(5).max(12),
       is_active: Joi.boolean()
     }
