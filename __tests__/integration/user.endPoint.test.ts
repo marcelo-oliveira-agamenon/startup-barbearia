@@ -10,10 +10,10 @@ const API = process.env.TEST_URL;
 const name = faker.name.findName(),
   user_type = UserRole.ADMIN,
   phone = faker.phone.phoneNumber(),
-  cpf = '100.000.000-00',
-  password = 'minimum',
-  confirmPassword = 'minimum',
-  email = faker.random.word(),
+  cpf = faker.internet.password(14),
+  password = faker.internet.password(6),
+  confirmPassword = password,
+  email = faker.internet.email(),
   is_active = faker.random.boolean();
 
 const body = {
@@ -31,9 +31,8 @@ const requiredBody = {
   user_type: UserRole.NORMAL,
   password,
   confirmPassword,
-  email
+  email: faker.internet.email()
 };
-
 const createEndPoint = '/users/signup';
 
 describe('POST /users/register', function () {
@@ -74,7 +73,7 @@ describe('POST /users/register', function () {
             user_type: UserRole.NORMAL,
             phone: null,
             cpf: null,
-            email,
+            email: requiredBody.email,
             is_active: true,
             deleted_at: null
           })
