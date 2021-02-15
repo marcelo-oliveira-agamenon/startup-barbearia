@@ -4,7 +4,7 @@ import IUserRepository from '@modules/users/repositories/IUserRepository';
 
 import { User } from '@modules/users/infra/typeorm/entities/User';
 
-import { ICreateUserDTO } from '@modules/users/dtos/IUserDTO';
+import { IUpdateUserDTO } from '@modules/users/dtos/IUserDTO';
 
 @injectable()
 export default class UpdateUserService {
@@ -13,9 +13,36 @@ export default class UpdateUserService {
     private userRepository: IUserRepository
   ) {}
 
-  public async execute(data: ICreateUserDTO): Promise<User | undefined> {
-    const user_id = await this.userRepository.create(data);
-    if (!user_id) throw new Error('User has not been created!');
+  public async execute(
+    data: IUpdateUserDTO,
+    user_id: string
+  ): Promise<User | undefined> {
+    const userExists = await this.userRepository.findOne(user_id);
+    if (!userExists) throw new Error('User does not exist!');
+
+    if (data.cpf) {
+      if (data.cpf != userExists.cpf) {
+        const cpfExists = await this.userRepository.findByCpf(data.cpf);
+        if (cpfExists)
+          throw new Error('There is already a user registered with this cpf!');
+      }
+    }
+    if (data.email) {
+      if (data.email != userExists.email) {
+        const emailExists = await this.userRepository.findByEmail(data.email);
+        if (emailExists)
+          throw new Error(
+            'There is already a user registered with this email!'
+          );
+      }
+    }
+    delete data.confirmPassword;
+    const isUserUpdated = await this.userRepository.update(
+      userExists.user_id,
+      data
+    );
+    if (!isUserUpdated) throw new Error('User has not been updated!');
+
     const user = await this.userRepository.findOne(user_id);
 
     return user;

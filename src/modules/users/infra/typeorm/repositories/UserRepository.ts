@@ -1,7 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User';
-import { ICreateUserDTO } from '@modules/users/dtos/IUserDTO';
+import { ICreateUserDTO, IUpdateUserDTO } from '@modules/users/dtos/IUserDTO';
 
 export default class UserRepository implements IUserRepository {
   private ormRepository: Repository<User>;
@@ -16,8 +16,28 @@ export default class UserRepository implements IUserRepository {
     return user_id;
   }
 
+  public async update(
+    user_id: string,
+    data: User
+  ): Promise<number | undefined> {
+    const userUpdated = await this.ormRepository.update(user_id, data);
+    return userUpdated.affected;
+  }
+
   public async findOne(id: string): Promise<User | undefined> {
     const user = await this.ormRepository.findOne(id);
+
+    return user;
+  }
+
+  public async findByCpf(cpf: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({ cpf });
+
+    return user;
+  }
+
+  public async findByEmail(email: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({ email });
 
     return user;
   }
