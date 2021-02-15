@@ -18,11 +18,7 @@ userRouter.post(
       cpf: Joi.string().length(14),
       email: Joi.string().required(),
       password: Joi.string().required().min(5).max(12),
-      confirmPassword: Joi.string()
-        .required()
-        .min(5)
-        .max(12)
-        .valid(Joi.ref('password')),
+      confirmPassword: Joi.string().required().valid(Joi.ref('password')),
       is_active: Joi.boolean()
     }
   }),
@@ -43,13 +39,10 @@ userRouter.put(
       email: Joi.string(),
       password: Joi.string().min(5).max(12),
       confirmPassword: Joi.string()
-        .min(5)
-        .max(12)
         .valid(Joi.ref('password'))
         .when('password', {
           is: Joi.exist(),
-          then: Joi.required(),
-          otherwise: Joi.optional()
+          then: Joi.required()
         }),
       is_active: Joi.boolean()
     }
