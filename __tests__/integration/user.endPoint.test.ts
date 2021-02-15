@@ -33,7 +33,8 @@ describe('POST /users/register', function () {
             phone,
             cpf,
             email,
-            is_active
+            is_active,
+            deleted_at: null
           })
         );
       })
@@ -52,10 +53,11 @@ describe('POST /users/register', function () {
           expect.objectContaining({
             name,
             user_type,
-            phone,
-            cpf,
+            phone: null,
+            cpf: null,
             email,
-            is_active
+            is_active: true,
+            deleted_at: null
           })
         );
       })
