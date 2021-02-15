@@ -34,10 +34,12 @@ const requiredBody = {
   email
 };
 
+const createEndPoint = '/users/signup';
+
 describe('POST /users/register', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
-      .post('/users/register')
+      .post(createEndPoint)
       .send(body)
       .expect('Content-Type', /json/)
       .expect(User)
@@ -60,7 +62,7 @@ describe('POST /users/register', function () {
 
   it('Should created a user with only the required input fields and return {user}. ', function (done) {
     request(API)
-      .post('/users/register')
+      .post(createEndPoint)
       .send(requiredBody)
       .expect('Content-Type', /json/)
       .expect(User)
