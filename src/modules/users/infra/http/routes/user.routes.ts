@@ -10,12 +10,13 @@ userRouter.post(
   '/register',
   celebrate({
     [Segments.BODY]: {
-      user_name: Joi.string().required(),
+      name: Joi.string().required(),
       user_type: Joi.string().required(),
-      user_phone: Joi.string(),
+      phone: Joi.string(),
       cpf: Joi.string().length(14).required(),
       email: Joi.string(),
-      password: Joi.string().required().min(5).max(12)
+      password: Joi.string().required().min(5).max(12),
+      is_active: Joi.boolean()
     }
   }),
   userController.create

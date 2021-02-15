@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import faker from 'faker';
 
-const API = `http://127.0.0.1:${process.env.PORT}`;
+const API = process.env.TEST_URL;
 
 const body = {
   user_name: faker.name.findName(),
@@ -24,11 +24,15 @@ describe('POST /users/register', function () {
       .expect(User)
       .expect(201)
       .expect((res) => {
-        expect(res.body).toHaveProperty('user_name', body.user_name);
-        expect(res.body).toHaveProperty('user_type', body.user_type);
-        expect(res.body).toHaveProperty('user_phone', body.user_phone);
-        expect(res.body).toHaveProperty('cpf', body.cpf);
-        expect(res.body).toHaveProperty('email', body.email);
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            name: body.user_name,
+            type: body.user_type,
+            phone: body.user_phone,
+            cpf: body.cpf,
+            email: body.email
+          })
+        );
       })
       .end(done);
   });
