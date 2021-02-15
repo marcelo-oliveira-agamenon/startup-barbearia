@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import faker from 'faker';
+//import server from '@shared/server';
 
 const API = 'http://127.0.0.1:4000';
 
