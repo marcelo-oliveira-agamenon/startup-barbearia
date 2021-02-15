@@ -1,42 +1,108 @@
 import request from 'supertest';
 import 'dotenv/config';
 
-import { User } from '@modules/users/infra/typeorm/entities/User';
+import { User, UserRole } from '@modules/users/infra/typeorm/entities/User';
+
 import faker from 'faker';
 
-const API = `http://127.0.0.1:${process.env.PORT}`;
+const API = process.env.TEST_URL;
+
+const name = faker.name.findName(),
+  user_type = UserRole.ADMIN,
+  phone = faker.phone.phoneNumber(),
+  cpf = faker.internet.password(14),
+  password = faker.internet.password(6),
+  confirmPassword = password,
+  email = faker.internet.email(),
+  is_active = faker.random.boolean();
 
 const body = {
-  user_name: faker.name.findName(),
-  user_type: 'admin',
-  user_phone: faker.phone.phoneNumber(),
-  cpf: '100.000.000-00',
-  password: 'minimum',
-  email: faker.random.word()
+  name,
+  user_type,
+  phone,
+  cpf,
+  password,
+  confirmPassword,
+  email,
+  is_active
 };
+const requiredBody = {
+  name,
+  user_type: UserRole.NORMAL,
+  password,
+  confirmPassword,
+  email: faker.internet.email()
+};
+const createEndPoint = '/users/signup';
+let updateEndPoint = '/users/';
 
 describe('POST /users/register', function () {
-  beforeAll(async () => {
-    connection = await createConnection(config);
-  });
-
-  it('responds with json', function (done) {
+  it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
-      .post('/users/register')
+      .post(createEndPoint)
       .send(body)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(201)
       .expect((res) => {
-        expect(res.body).toHaveProperty('user_name', body.user_name);
-        expect(res.body).toHaveProperty('user_type', body.user_type);
-        expect(res.body).toHaveProperty('user_phone', body.user_phone);
-        expect(res.body).toHaveProperty('cpf', body.cpf);
-        expect(res.body).toHaveProperty('email', body.email);
+        updateEndPoint = updateEndPoint + res.body.user_id;
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            name,
+            user_type,
+            phone,
+            cpf,
+            email,
+            is_active,
+            deleted_at: null
+          })
+        );
       })
       .end(done);
   });
-  afterAll(async () => {
-    await connection.close();
+
+  it('Should created a user with only the required input fields and return {user}. ', function (done) {
+    request(API)
+      .post(createEndPoint)
+      .send(requiredBody)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            name,
+            user_type: UserRole.NORMAL,
+            phone: null,
+            cpf: null,
+            email: requiredBody.email,
+            is_active: true,
+            deleted_at: null
+          })
+        );
+      })
+      .end(done);
+  });
+  it('Should update a user and return {user}.', function (done) {
+    request(API)
+      .put(updateEndPoint)
+      .send(body)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining({
+            name,
+            user_type,
+            phone,
+            cpf,
+            email,
+            is_active,
+            deleted_at: null
+          })
+        );
+      })
+      .end(done);
   });
 });
