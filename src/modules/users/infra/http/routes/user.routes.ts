@@ -3,6 +3,8 @@ import { celebrate, Segments, Joi } from 'celebrate';
 
 import UserController from '@modules/users/infra/http/controllers/UserController';
 
+import { UserRole } from '@modules/users/infra/typeorm/entities/User';
+
 const userRouter = Router();
 const userController = new UserController();
 
@@ -11,7 +13,7 @@ userRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      user_type: Joi.string().required(),
+      user_type: Joi.string().required().valid(UserRole.ADMIN, UserRole.NORMAL),
       phone: Joi.string(),
       cpf: Joi.string().length(14),
       email: Joi.string().required(),

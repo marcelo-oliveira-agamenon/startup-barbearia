@@ -1,13 +1,14 @@
 import request from 'supertest';
 import 'dotenv/config';
 
-import { User } from '@modules/users/infra/typeorm/entities/User';
+import { User, UserRole } from '@modules/users/infra/typeorm/entities/User';
+
 import faker from 'faker';
 
 const API = process.env.TEST_URL;
 
 const name = faker.name.findName(),
-  user_type = 'admin',
+  user_type = UserRole.ADMIN,
   phone = faker.phone.phoneNumber(),
   cpf = '100.000.000-00',
   password = 'minimum',
@@ -15,7 +16,7 @@ const name = faker.name.findName(),
   is_active = faker.random.boolean();
 
 const body = { name, user_type, phone, cpf, password, email, is_active };
-const requiredBody = { name, user_type, password, email };
+const requiredBody = { name, user_type: UserRole.NORMAL, password, email };
 
 describe('POST /users/register', function () {
   it('Should send all fields and return {user}.', function (done) {
@@ -52,7 +53,7 @@ describe('POST /users/register', function () {
         expect(res.body).toEqual(
           expect.objectContaining({
             name,
-            user_type,
+            user_type: UserRole.NORMAL,
             phone: null,
             cpf: null,
             email,
