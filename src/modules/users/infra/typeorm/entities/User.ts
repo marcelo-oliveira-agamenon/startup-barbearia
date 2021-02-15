@@ -18,7 +18,7 @@ export class User {
   user_id: string;
 
   @Column()
-  user_name: string;
+  name: string;
 
   @Column({
     type: 'enum',
@@ -30,12 +30,12 @@ export class User {
   @Column({
     nullable: true
   })
-  user_phone: string;
+  phone: string;
 
-  @Column({ length: 14 })
+  @Column({ length: 14, nullable: true, unique: true })
   cpf: string;
 
-  @Column({ nullable: true })
+  @Column({ unique: true })
   email: string;
 
   @Column({

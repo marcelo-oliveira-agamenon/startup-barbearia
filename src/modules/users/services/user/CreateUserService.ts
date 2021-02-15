@@ -14,8 +14,20 @@ export default class CreateUserService {
   ) {}
 
   public async execute(data: ICreateUserDTO): Promise<User | undefined> {
+    const emailExists = await this.userRepository.findByEmail(data.email);
+    if (emailExists) {
+      throw new Error('This email already belongs to another user!');
+    }
+
+    if (data.cpf) {
+      const cpfExists = await this.userRepository.findByCpf(data.cpf);
+      if (cpfExists)
+        throw new Error('This cpf already belongs to another user!');
+    }
+
     const user_id = await this.userRepository.create(data);
     if (!user_id) throw new Error('User has not been created!');
+
     const user = await this.userRepository.findOne(user_id);
 
     return user;
