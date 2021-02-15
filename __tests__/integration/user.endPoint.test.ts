@@ -1,8 +1,10 @@
 import request from 'supertest';
+import 'dotenv/config';
+
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import faker from 'faker';
 
-const API = 'http://127.0.0.1:4000';
+const API = `http://127.0.0.1:${process.env.PORT}`;
 
 const body = {
   user_name: faker.name.findName(),
