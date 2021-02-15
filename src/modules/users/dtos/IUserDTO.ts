@@ -7,5 +7,17 @@ export interface ICreateUserDTO {
   cpf?: string;
   email: string;
   password: string;
+  confirmPassword: string;
+  is_active?: boolean;
+}
+
+export interface IUpdateUserDTO {
+  name?: string;
+  user_type?: UserRole;
+  phone?: string;
+  cpf?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
   is_active?: boolean;
 }

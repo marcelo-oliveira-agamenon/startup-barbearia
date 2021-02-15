@@ -31,21 +31,23 @@ userRouter.put(
     [Segments.PARAMS]: {
       user_id: Joi.string().required()
     },
-    [Segments.BODY]: {
-      name: Joi.string(),
-      user_type: Joi.string().valid(UserRole.ADMIN, UserRole.NORMAL),
-      phone: Joi.string(),
-      cpf: Joi.string().length(14),
-      email: Joi.string(),
-      password: Joi.string().min(5).max(12),
-      confirmPassword: Joi.string()
-        .valid(Joi.ref('password'))
-        .when('password', {
-          is: Joi.exist(),
-          then: Joi.required()
-        }),
-      is_active: Joi.boolean()
-    }
+    [Segments.BODY]: Joi.object()
+      .keys({
+        name: Joi.string(),
+        user_type: Joi.string().valid(UserRole.ADMIN, UserRole.NORMAL),
+        phone: Joi.string(),
+        cpf: Joi.string().length(14),
+        email: Joi.string(),
+        password: Joi.string().min(5).max(12),
+        confirmPassword: Joi.string()
+          .valid(Joi.ref('password'))
+          .when('password', {
+            is: Joi.exist(),
+            then: Joi.required()
+          }),
+        is_active: Joi.boolean()
+      })
+      .min(1)
   }),
   userController.update
 );

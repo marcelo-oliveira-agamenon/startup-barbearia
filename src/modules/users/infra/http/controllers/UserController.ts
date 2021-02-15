@@ -9,7 +9,6 @@ export default class UserController {
     try {
       const createUser = container.resolve(CreateUserService);
       const user = await createUser.execute(data);
-
       return response.status(201).json(user);
     } catch (error) {
       throw new Error(error);
