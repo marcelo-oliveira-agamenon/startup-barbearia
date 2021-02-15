@@ -12,11 +12,27 @@ const name = faker.name.findName(),
   phone = faker.phone.phoneNumber(),
   cpf = '100.000.000-00',
   password = 'minimum',
+  confirmPassword = 'minimum',
   email = faker.random.word(),
   is_active = faker.random.boolean();
 
-const body = { name, user_type, phone, cpf, password, email, is_active };
-const requiredBody = { name, user_type: UserRole.NORMAL, password, email };
+const body = {
+  name,
+  user_type,
+  phone,
+  cpf,
+  password,
+  confirmPassword,
+  email,
+  is_active
+};
+const requiredBody = {
+  name,
+  user_type: UserRole.NORMAL,
+  password,
+  confirmPassword,
+  email
+};
 
 describe('POST /users/register', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
