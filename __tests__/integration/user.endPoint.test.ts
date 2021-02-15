@@ -19,7 +19,7 @@ const body = { name, user_type, phone, cpf, password, email, is_active };
 const requiredBody = { name, user_type: UserRole.NORMAL, password, email };
 
 describe('POST /users/register', function () {
-  it('Should send all fields and return {user}.', function (done) {
+  it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
       .post('/users/register')
       .send(body)
@@ -42,7 +42,7 @@ describe('POST /users/register', function () {
       .end(done);
   });
 
-  it('Should send only the required fields and return {user}. ', function (done) {
+  it('Should created a user with only the required input fields and return {user}. ', function (done) {
     request(API)
       .post('/users/register')
       .send(requiredBody)
