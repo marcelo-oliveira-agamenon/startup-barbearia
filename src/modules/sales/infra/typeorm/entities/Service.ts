@@ -10,7 +10,7 @@ import {
 @Entity('service')
 export default class Service {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  service_id: number;
 
   @Column()
   name: string;

@@ -12,7 +12,7 @@ export default class ServiceRepository implements IServiceRepository {
 
   public async create(data: ICreateServicesDTO): Promise<number> {
     const serviceInserted = await this.ormRepository.insert(data);
-    const service_id = serviceInserted.identifiers[0].user_id;
+    const service_id = serviceInserted.identifiers[0].service_id;
     return service_id;
   }
 
