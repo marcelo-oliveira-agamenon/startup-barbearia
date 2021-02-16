@@ -135,7 +135,7 @@ describe('POST /users/register', function () {
       })
       .end(done);
   });
-  it('Should update a user and return {user}.', function (done) {
+  it('Should delete a user softly and return {user}.', function (done) {
     request(API)
       .delete(deleteOrUpdateEndPoint)
       .expect('Content-Type', /json/)
