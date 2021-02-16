@@ -38,25 +38,7 @@ const body = {
     updated_at: expect.anything(),
     deleted_at: null
   };
-const requiredBody = {
-    name,
-    user_type: UserRole.NORMAL,
-    password,
-    confirmPassword,
-    email: faker.internet.email()
-  },
-  requiredCreatedResponse = {
-    user_id: expect.anything(),
-    name,
-    user_type: UserRole.NORMAL,
-    phone: null,
-    cpf: null,
-    email: requiredBody.email,
-    is_active: true,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  };
+
 const updatedBody = {
     name,
     user_type,
@@ -109,20 +91,6 @@ describe('POST /users/register', function () {
       .end(done);
   });
 
-  it('Should created a user with only the required input fields and return {user}. ', function (done) {
-    request(API)
-      .post(createEndPoint)
-      .send(requiredBody)
-      .expect('Content-Type', /json/)
-      .expect(User)
-      .expect(201)
-      .expect((res) => {
-        expect(res.body).toEqual(
-          expect.objectContaining(requiredCreatedResponse)
-        );
-      })
-      .end(done);
-  });
   it('Should update a user and return {user}.', function (done) {
     request(API)
       .put(deleteOrUpdateEndPoint)
