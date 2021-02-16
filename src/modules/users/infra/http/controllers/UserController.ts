@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import CreateUserService from '@modules/users/services/user/CreateUserService';
 import UpdateUserService from '@modules/users/services/user/UpdateUserService';
 import DeleteUserService from '@modules/users/services/user/DeleteUserService';
+import GetUserService from '@modules/users/services/user/GetUserService';
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -33,6 +34,17 @@ export default class UserController {
     try {
       const deleteUser = container.resolve(DeleteUserService);
       const user = await deleteUser.execute({ user_id });
+
+      return response.status(200).json(user);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  public async get(request: Request, response: Response): Promise<Response> {
+    const { user_id } = request.params;
+    try {
+      const getUser = container.resolve(GetUserService);
+      const user = await getUser.execute({ user_id });
 
       return response.status(200).json(user);
     } catch (error) {

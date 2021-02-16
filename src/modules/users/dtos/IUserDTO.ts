@@ -25,3 +25,7 @@ export interface IUpdateUserDTO {
 export interface IDeleteUserDTO {
   user_id: string;
 }
+
+export interface IGetUserDTO {
+  user_id: string;
+}

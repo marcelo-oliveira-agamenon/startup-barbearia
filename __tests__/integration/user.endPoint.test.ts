@@ -26,7 +26,7 @@ const body = {
     email,
     is_active
   },
-  createdResponse = {
+  createResponse = {
     user_id: expect.anything(),
     name,
     user_type,
@@ -39,7 +39,7 @@ const body = {
     deleted_at: null
   };
 
-const updatedBody = {
+const updateBody = {
     name,
     user_type,
     phone,
@@ -49,7 +49,7 @@ const updatedBody = {
     email,
     is_active: false
   },
-  updatedResponse = {
+  updateResponse = {
     user_id: expect.anything(),
     name,
     user_type,
@@ -61,7 +61,7 @@ const updatedBody = {
     updated_at: expect.anything(),
     deleted_at: null
   };
-const deletedResponse = {
+const deleteResponse = {
   user_id: expect.anything(),
   name,
   user_type,
@@ -74,7 +74,7 @@ const deletedResponse = {
   deleted_at: expect.anything()
 };
 const createEndPoint = '/users/signup';
-let deleteOrUpdateEndPoint = '/users/';
+let endPoint = '/users/';
 
 describe('POST /users/register', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
@@ -85,32 +85,43 @@ describe('POST /users/register', function () {
       .expect(User)
       .expect(201)
       .expect((res) => {
-        deleteOrUpdateEndPoint = deleteOrUpdateEndPoint + res.body.user_id;
-        expect(res.body).toEqual(expect.objectContaining(createdResponse));
+        endPoint += res.body.user_id;
+        expect(res.body).toEqual(expect.objectContaining(createResponse));
       })
       .end(done);
   });
 
-  it('Should update a user and return {user}.', function (done) {
+  it('Should get a user and return {user}.', function (done) {
     request(API)
-      .put(deleteOrUpdateEndPoint)
-      .send(updatedBody)
+      .get(endPoint)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(updatedResponse));
+        expect(res.body).toEqual(expect.objectContaining(createResponse));
+      })
+      .end(done);
+  });
+  it('Should update a user and return {user}.', function (done) {
+    request(API)
+      .put(endPoint)
+      .send(updateBody)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(updateResponse));
       })
       .end(done);
   });
   it('Should delete a user softly and return {user}.', function (done) {
     request(API)
-      .delete(deleteOrUpdateEndPoint)
+      .delete(endPoint)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(deletedResponse));
+        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
       })
       .end(done);
   });
