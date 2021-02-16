@@ -39,6 +39,11 @@ const body = {
     deleted_at: null
   };
 
+const listQuery = {
+  limit: faker.random.number(),
+  offset: 1
+};
+
 const updateBody = {
     name,
     user_type,
@@ -95,13 +100,18 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should list users and return [{user}].', function (done) {
     request(API)
       .get(listEndPoint)
+      .query(listQuery)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(
-          expect.arrayContaining([expect.objectContaining(commonResponse)])
-        );
+        if (res.body.length) {
+          expect(res.body).toEqual(
+            expect.arrayContaining([expect.objectContaining(commonResponse)])
+          );
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
       })
       .end(done);
   });
