@@ -5,6 +5,7 @@ import CreateUserService from '@modules/users/services/user/CreateUserService';
 import UpdateUserService from '@modules/users/services/user/UpdateUserService';
 import DeleteUserService from '@modules/users/services/user/DeleteUserService';
 import GetUserService from '@modules/users/services/user/GetUserService';
+import GetUsersListService from '@modules/users/services/user/GetUsersListService';
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -47,6 +48,18 @@ export default class UserController {
       const user = await getUser.execute({ user_id });
 
       return response.status(200).json(user);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  public async list(request: Request, response: Response): Promise<Response> {
+    const query = request.query;
+    try {
+      const getUsersList = container.resolve(GetUsersListService);
+      const users = await getUsersList.execute(query);
+
+      return response.status(200).json(users);
     } catch (error) {
       throw new Error(error);
     }

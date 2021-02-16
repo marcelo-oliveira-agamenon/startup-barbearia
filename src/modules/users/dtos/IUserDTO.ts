@@ -29,3 +29,8 @@ export interface IDeleteUserDTO {
 export interface IGetUserDTO {
   user_id: string;
 }
+
+export interface IListUsersDTO {
+  limit?: number;
+  offset?: number;
+}

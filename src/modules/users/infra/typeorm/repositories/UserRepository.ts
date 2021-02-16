@@ -4,7 +4,8 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 import {
   ICreateUserDTO,
   IUpdateUserDTO,
-  IDeleteUserDTO
+  IDeleteUserDTO,
+  IListUsersDTO
 } from '@modules/users/dtos/IUserDTO';
 
 export default class UserRepository implements IUserRepository {
@@ -26,6 +27,15 @@ export default class UserRepository implements IUserRepository {
   ): Promise<number | undefined> {
     const isUserUpdated = await this.ormRepository.update(user_id, data);
     const isUserAffected = isUserUpdated.affected;
+    return isUserAffected;
+  }
+
+  public async delete({
+    user_id
+  }: IDeleteUserDTO): Promise<number | undefined> {
+    const isUserDeleted = await this.ormRepository.softDelete(user_id);
+    const isUserAffected = isUserDeleted.affected;
+
     return isUserAffected;
   }
 
@@ -53,12 +63,19 @@ export default class UserRepository implements IUserRepository {
     return user;
   }
 
-  public async delete({
-    user_id
-  }: IDeleteUserDTO): Promise<number | undefined> {
-    const isUserDeleted = await this.ormRepository.softDelete(user_id);
-    const isUserAffected = isUserDeleted.affected;
+  public async findAll(query: IListUsersDTO): Promise<User[]> {
+    const { limit, offset } = query;
+    let take = 0,
+      skip = 0;
+    if (limit) {
+      take = limit;
+    }
+    if (offset) {
+      skip = offset;
+    }
 
-    return isUserAffected;
+    const users = await this.ormRepository.find({ take, skip });
+
+    return users;
   }
 }

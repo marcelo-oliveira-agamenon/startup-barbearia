@@ -2,7 +2,8 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 import {
   ICreateUserDTO,
   IUpdateUserDTO,
-  IDeleteUserDTO
+  IDeleteUserDTO,
+  IListUsersDTO
 } from '@modules/users/dtos/IUserDTO';
 
 export default interface IUserRepository {
@@ -13,4 +14,5 @@ export default interface IUserRepository {
   findByCpf(cpf: string): Promise<User | undefined>;
   findByEmail(email: string): Promise<User | undefined>;
   findDeletedEntity(id: string): Promise<User | undefined>;
+  findAll(query: IListUsersDTO): Promise<User[]>;
 }

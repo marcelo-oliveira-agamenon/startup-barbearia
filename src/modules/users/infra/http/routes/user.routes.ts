@@ -72,4 +72,15 @@ userRouter.get(
   userController.get
 );
 
+userRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number(),
+      offset: Joi.number()
+    }
+  }),
+  userController.list
+);
+
 export default userRouter;
