@@ -26,7 +26,7 @@ const body = {
     email,
     is_active
   },
-  createResponse = {
+  commonResponse = {
     user_id: expect.anything(),
     name,
     user_type,
@@ -74,9 +74,10 @@ const deleteResponse = {
   deleted_at: expect.anything()
 };
 const createEndPoint = '/users/signup';
-let endPoint = '/users/';
+const listEndPoint = '/users/';
+let commonEndPoint = '/users/';
 
-describe('POST /users/register', function () {
+describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
       .post(createEndPoint)
@@ -85,26 +86,39 @@ describe('POST /users/register', function () {
       .expect(User)
       .expect(201)
       .expect((res) => {
-        endPoint += res.body.user_id;
-        expect(res.body).toEqual(expect.objectContaining(createResponse));
+        commonEndPoint += res.body.user_id;
+        expect(res.body).toEqual(expect.objectContaining(commonResponse));
       })
       .end(done);
   });
 
-  it('Should get a user and return {user}.', function (done) {
+  it('Should list users and return [{user}].', function (done) {
     request(API)
-      .get(endPoint)
+      .get(listEndPoint)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(createResponse));
+        expect(res.body).toEqual(
+          expect.arrayContaining([expect.objectContaining(commonResponse)])
+        );
+      })
+      .end(done);
+  });
+  it('Should get a user and return {user}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(commonResponse));
       })
       .end(done);
   });
   it('Should update a user and return {user}.', function (done) {
     request(API)
-      .put(endPoint)
+      .put(commonEndPoint)
       .send(updateBody)
       .expect('Content-Type', /json/)
       .expect(User)
@@ -116,7 +130,7 @@ describe('POST /users/register', function () {
   });
   it('Should delete a user softly and return {user}.', function (done) {
     request(API)
-      .delete(endPoint)
+      .delete(commonEndPoint)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
