@@ -21,3 +21,7 @@ export interface IUpdateUserDTO {
   confirmPassword?: string;
   is_active?: boolean;
 }
+
+export interface IDeleteUserDTO {
+  user_id: string;
+}

@@ -17,24 +17,82 @@ const name = faker.name.findName(),
   is_active = faker.random.boolean();
 
 const body = {
+    name,
+    user_type,
+    phone,
+    cpf,
+    password,
+    confirmPassword,
+    email,
+    is_active
+  },
+  createdResponse = {
+    user_id: expect.anything(),
+    name,
+    user_type,
+    phone,
+    cpf,
+    email,
+    is_active,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
+  };
+const requiredBody = {
+    name,
+    user_type: UserRole.NORMAL,
+    password,
+    confirmPassword,
+    email: faker.internet.email()
+  },
+  requiredCreatedResponse = {
+    user_id: expect.anything(),
+    name,
+    user_type: UserRole.NORMAL,
+    phone: null,
+    cpf: null,
+    email: requiredBody.email,
+    is_active: true,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
+  };
+const updatedBody = {
+    name,
+    user_type,
+    phone,
+    cpf,
+    password,
+    confirmPassword,
+    email,
+    is_active: false
+  },
+  updatedResponse = {
+    user_id: expect.anything(),
+    name,
+    user_type,
+    phone,
+    cpf,
+    email,
+    is_active: false,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
+  };
+const deletedResponse = {
+  user_id: expect.anything(),
   name,
   user_type,
   phone,
   cpf,
-  password,
-  confirmPassword,
   email,
-  is_active
-};
-const requiredBody = {
-  name,
-  user_type: UserRole.NORMAL,
-  password,
-  confirmPassword,
-  email: faker.internet.email()
+  is_active: false,
+  created_at: expect.anything(),
+  updated_at: expect.anything(),
+  deleted_at: expect.anything()
 };
 const createEndPoint = '/users/signup';
-let updateEndPoint = '/users/';
+let deleteOrUpdateEndPoint = '/users/';
 
 describe('POST /users/register', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
@@ -45,18 +103,8 @@ describe('POST /users/register', function () {
       .expect(User)
       .expect(201)
       .expect((res) => {
-        updateEndPoint = updateEndPoint + res.body.user_id;
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            name,
-            user_type,
-            phone,
-            cpf,
-            email,
-            is_active,
-            deleted_at: null
-          })
-        );
+        deleteOrUpdateEndPoint = deleteOrUpdateEndPoint + res.body.user_id;
+        expect(res.body).toEqual(expect.objectContaining(createdResponse));
       })
       .end(done);
   });
@@ -70,38 +118,31 @@ describe('POST /users/register', function () {
       .expect(201)
       .expect((res) => {
         expect(res.body).toEqual(
-          expect.objectContaining({
-            name,
-            user_type: UserRole.NORMAL,
-            phone: null,
-            cpf: null,
-            email: requiredBody.email,
-            is_active: true,
-            deleted_at: null
-          })
+          expect.objectContaining(requiredCreatedResponse)
         );
       })
       .end(done);
   });
   it('Should update a user and return {user}.', function (done) {
     request(API)
-      .put(updateEndPoint)
-      .send(body)
+      .put(deleteOrUpdateEndPoint)
+      .send(updatedBody)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            name,
-            user_type,
-            phone,
-            cpf,
-            email,
-            is_active,
-            deleted_at: null
-          })
-        );
+        expect(res.body).toEqual(expect.objectContaining(updatedResponse));
+      })
+      .end(done);
+  });
+  it('Should update a user and return {user}.', function (done) {
+    request(API)
+      .delete(deleteOrUpdateEndPoint)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(deletedResponse));
       })
       .end(done);
   });
