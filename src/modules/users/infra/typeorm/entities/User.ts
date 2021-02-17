@@ -1,9 +1,6 @@
-export enum UserRole {
-  ADMIN = 'admin',
-  NORMAL = 'normal'
-}
-
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -11,6 +8,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
+import bcrypt from 'bcryptjs';
+import { Exclude } from 'class-transformer';
+
+export enum UserRole {
+  ADMIN = 'admin',
+  NORMAL = 'normal'
+}
 
 @Entity('user')
 export class User {
@@ -39,10 +43,16 @@ export class User {
   email: string;
 
   @Column({
-    select: false,
-    length: 12
+    select: false
   })
+  @Exclude()
   password: string;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  hashPassword() {
+    this.password = bcrypt.hashSync(this.password, 8);
+  }
 
   @Column({ default: true })
   is_active: boolean;

@@ -7,8 +7,8 @@ import {
 } from '@modules/users/dtos/IUserDTO';
 
 export default interface IUserRepository {
-  create(data: ICreateUserDTO): Promise<string>;
-  update(user_id: string, data: IUpdateUserDTO): Promise<number | undefined>;
+  create(data: ICreateUserDTO): Promise<User>;
+  update(user_id: string, data: IUpdateUserDTO): Promise<User>;
   delete({ user_id }: IDeleteUserDTO): Promise<number | undefined>;
   findOne(id: string): Promise<User | undefined>;
   findByCpf(cpf: string): Promise<User | undefined>;

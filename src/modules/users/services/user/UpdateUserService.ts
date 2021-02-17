@@ -13,10 +13,7 @@ export default class UpdateUserService {
     private userRepository: IUserRepository
   ) {}
 
-  public async execute(
-    data: IUpdateUserDTO,
-    user_id: string
-  ): Promise<User | undefined> {
+  public async execute(data: IUpdateUserDTO, user_id: string): Promise<User> {
     const userExists = await this.userRepository.findOne(user_id);
     if (!userExists) throw new Error('User does not exist!');
 
@@ -35,13 +32,7 @@ export default class UpdateUserService {
       }
     }
     delete data.confirmPassword;
-    const isUserUpdated = await this.userRepository.update(
-      userExists.user_id,
-      data
-    );
-    if (!isUserUpdated) throw new Error('User has not been updated!');
-
-    const user = await this.userRepository.findOne(user_id);
+    const user = await this.userRepository.update(userExists.user_id, data);
 
     return user;
   }

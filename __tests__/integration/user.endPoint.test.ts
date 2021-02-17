@@ -37,14 +37,12 @@ const body = {
     created_at: expect.anything(),
     updated_at: expect.anything(),
     deleted_at: null
-  };
-
-const listQuery = {
-  limit: faker.random.number(),
-  offset: 1
-};
-
-const updateBody = {
+  },
+  listQuery = {
+    limit: faker.random.number(),
+    offset: 1
+  },
+  updateBody = {
     name,
     user_type,
     phone,
@@ -65,21 +63,21 @@ const updateBody = {
     created_at: expect.anything(),
     updated_at: expect.anything(),
     deleted_at: null
+  },
+  deleteResponse = {
+    user_id: expect.anything(),
+    name,
+    user_type,
+    phone,
+    cpf,
+    email,
+    is_active: false,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: expect.anything()
   };
-const deleteResponse = {
-  user_id: expect.anything(),
-  name,
-  user_type,
-  phone,
-  cpf,
-  email,
-  is_active: false,
-  created_at: expect.anything(),
-  updated_at: expect.anything(),
-  deleted_at: expect.anything()
-};
-const createEndPoint = '/users/signup';
-const listEndPoint = '/users/';
+const createEndPoint = '/users/signup',
+  listEndPoint = '/users/';
 let commonEndPoint = '/users/';
 
 describe('POST/GET/PUT/DELETE /users/', function () {

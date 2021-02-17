@@ -6,6 +6,7 @@ import UpdateUserService from '@modules/users/services/user/UpdateUserService';
 import DeleteUserService from '@modules/users/services/user/DeleteUserService';
 import GetUserService from '@modules/users/services/user/GetUserService';
 import GetUsersListService from '@modules/users/services/user/GetUsersListService';
+import { classToClass } from 'class-transformer';
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -13,7 +14,7 @@ export default class UserController {
     try {
       const createUser = container.resolve(CreateUserService);
       const user = await createUser.execute(data);
-      return response.status(201).json(user);
+      return response.status(201).json(classToClass(user));
     } catch (error) {
       throw new Error(error);
     }
@@ -25,7 +26,7 @@ export default class UserController {
       const updateUser = container.resolve(UpdateUserService);
       const user = await updateUser.execute(data, user_id);
 
-      return response.status(200).json(user);
+      return response.status(200).json(classToClass(user));
     } catch (error) {
       throw new Error(error);
     }

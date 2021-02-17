@@ -15,19 +15,18 @@ export default class UserRepository implements IUserRepository {
     this.ormRepository = getRepository(User);
   }
 
-  public async create(data: ICreateUserDTO): Promise<string> {
-    const userInserted = await this.ormRepository.insert(data);
-    const user_id = userInserted.identifiers[0].user_id;
-    return user_id;
+  public async create(data: ICreateUserDTO): Promise<User> {
+    const userInstance = this.ormRepository.create(data);
+    const user = await this.ormRepository.save(userInstance);
+    return user;
   }
 
-  public async update(
-    user_id: string,
-    data: IUpdateUserDTO
-  ): Promise<number | undefined> {
-    const isUserUpdated = await this.ormRepository.update(user_id, data);
-    const isUserAffected = isUserUpdated.affected;
-    return isUserAffected;
+  public async update(user_id: string, data: IUpdateUserDTO): Promise<User> {
+    const userExists = await this.ormRepository.findOne(user_id);
+    const isUserUpdated = await this.ormRepository.save(
+      Object.assign(userExists, data)
+    );
+    return isUserUpdated;
   }
 
   public async delete({
@@ -65,14 +64,8 @@ export default class UserRepository implements IUserRepository {
 
   public async findAll(query: IListUsersDTO): Promise<User[]> {
     const { limit, offset } = query;
-    let take = 0,
-      skip = 0;
-    if (limit) {
-      take = limit;
-    }
-    if (offset) {
-      skip = offset;
-    }
+    const take = limit ? limit : 0,
+      skip = offset ? offset : 0;
 
     const users = await this.ormRepository.find({ take, skip });
 

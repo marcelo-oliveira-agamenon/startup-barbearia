@@ -25,10 +25,7 @@ export default class CreateUserService {
         throw new Error('This cpf already belongs to another user!');
     }
 
-    const user_id = await this.userRepository.create(data);
-    if (!user_id) throw new Error('User has not been created!');
-
-    const user = await this.userRepository.findOne(user_id);
+    const user = await this.userRepository.create(data);
 
     return user;
   }
