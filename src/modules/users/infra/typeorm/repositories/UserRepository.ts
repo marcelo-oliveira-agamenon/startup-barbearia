@@ -9,9 +9,6 @@ import {
 } from '@modules/users/dtos/IUserDTO';
 
 import { AppError } from '@shared/errors/AppError';
-
-import { AppError } from '@shared/errors/AppError';
-
 export default class UserRepository implements IUserRepository {
   private ormRepository: Repository<User>;
 
