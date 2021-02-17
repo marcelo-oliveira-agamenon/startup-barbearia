@@ -13,8 +13,11 @@ export default class CreateClientService {
     private clientRepository: IClientRepository
   ) {}
 
-  public async execute(data: ICreateClientDTO): Promise<Client> {
-    const client = await this.clientRepository.create(data);
+  public async execute(data: ICreateClientDTO): Promise<Client | undefined> {
+    const client_id = await this.clientRepository.create(data);
+    console.log(client_id);
+     if (!client_id) throw new Error('Client has not been created!');
+      const client = await this.clientRepository.findOne(client_id);
 
     return client;
   }
