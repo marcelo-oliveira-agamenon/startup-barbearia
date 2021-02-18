@@ -7,7 +7,7 @@ const serviceRouter = Router();
 const serviceController = new ServicesController();
 
 serviceRouter.post(
-  '/register',
+  '/signup',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),

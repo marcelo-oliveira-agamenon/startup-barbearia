@@ -46,7 +46,7 @@ const body = {
     updated_at: expect.anything(),
     deleted_at: null
   };
-const createEndPoint = '/services/register',
+const createEndPoint = '/services/signup',
   listEndPoint = '/services/';
 let commonEndPoint = '/services/';
 
