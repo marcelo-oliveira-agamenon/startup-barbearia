@@ -17,26 +17,70 @@ const name = faker.name.findName(),
   is_active = faker.random.boolean();
 
 const body = {
-  name,
-  user_type,
-  phone,
-  cpf,
-  password,
-  confirmPassword,
-  email,
-  is_active
-};
-const requiredBody = {
-  name,
-  user_type: UserRole.NORMAL,
-  password,
-  confirmPassword,
-  email: faker.internet.email()
-};
-const createEndPoint = '/users/signup';
-let updateEndPoint = '/users/';
+    name,
+    user_type,
+    phone,
+    cpf,
+    password,
+    confirmPassword,
+    email,
+    is_active
+  },
+  commonResponse = {
+    user_id: expect.anything(),
+    name,
+    user_type,
+    phone,
+    cpf,
+    email,
+    is_active,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
+  },
+  listQuery = {
+    limit: faker.random.number(),
+    offset: 1
+  },
+  updateBody = {
+    name,
+    user_type,
+    phone,
+    cpf,
+    password,
+    confirmPassword,
+    email,
+    is_active: false
+  },
+  updateResponse = {
+    user_id: expect.anything(),
+    name,
+    user_type,
+    phone,
+    cpf,
+    email,
+    is_active: false,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
+  },
+  deleteResponse = {
+    user_id: expect.anything(),
+    name,
+    user_type,
+    phone,
+    cpf,
+    email,
+    is_active: false,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: expect.anything()
+  };
+const createEndPoint = '/users/signup',
+  listEndPoint = '/users/';
+let commonEndPoint = '/users/';
 
-describe('POST /users/register', function () {
+describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
       .post(createEndPoint)
@@ -45,63 +89,61 @@ describe('POST /users/register', function () {
       .expect(User)
       .expect(201)
       .expect((res) => {
-        updateEndPoint = updateEndPoint + res.body.user_id;
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            name,
-            user_type,
-            phone,
-            cpf,
-            email,
-            is_active,
-            deleted_at: null
-          })
-        );
+        commonEndPoint += res.body.user_id;
+        expect(res.body).toEqual(expect.objectContaining(commonResponse));
       })
       .end(done);
   });
 
-  it('Should created a user with only the required input fields and return {user}. ', function (done) {
+  it('Should list users and return [{user}].', function (done) {
     request(API)
-      .post(createEndPoint)
-      .send(requiredBody)
+      .get(listEndPoint)
+      .query(listQuery)
       .expect('Content-Type', /json/)
       .expect(User)
-      .expect(201)
+      .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            name,
-            user_type: UserRole.NORMAL,
-            phone: null,
-            cpf: null,
-            email: requiredBody.email,
-            is_active: true,
-            deleted_at: null
-          })
-        );
+        if (res.body.length) {
+          expect(res.body).toEqual(
+            expect.arrayContaining([expect.objectContaining(commonResponse)])
+          );
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
+  it('Should get a user and return {user}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(commonResponse));
       })
       .end(done);
   });
   it('Should update a user and return {user}.', function (done) {
     request(API)
-      .put(updateEndPoint)
-      .send(body)
+      .put(commonEndPoint)
+      .send(updateBody)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            name,
-            user_type,
-            phone,
-            cpf,
-            email,
-            is_active,
-            deleted_at: null
-          })
-        );
+        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+      })
+      .end(done);
+  });
+  it('Should delete a user softly and return {user}.', function (done) {
+    request(API)
+      .delete(commonEndPoint)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
       })
       .end(done);
   });

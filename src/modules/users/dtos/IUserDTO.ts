@@ -21,3 +21,16 @@ export interface IUpdateUserDTO {
   confirmPassword?: string;
   is_active?: boolean;
 }
+
+export interface IDeleteUserDTO {
+  user_id: string;
+}
+
+export interface IGetUserDTO {
+  user_id: string;
+}
+
+export interface IListUsersDTO {
+  limit?: number;
+  offset?: number;
+}

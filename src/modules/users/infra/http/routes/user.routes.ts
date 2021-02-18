@@ -52,4 +52,35 @@ userRouter.put(
   userController.update
 );
 
+userRouter.delete(
+  '/:user_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      user_id: Joi.string().required()
+    }
+  }),
+  userController.delete
+);
+
+userRouter.get(
+  '/:user_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      user_id: Joi.string().required()
+    }
+  }),
+  userController.get
+);
+
+userRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number(),
+      offset: Joi.number()
+    }
+  }),
+  userController.list
+);
+
 export default userRouter;
