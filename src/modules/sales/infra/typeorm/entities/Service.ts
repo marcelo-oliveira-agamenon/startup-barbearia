@@ -24,6 +24,6 @@ export default class Service {
   @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ type: 'timestamptz' })
   deleted_at: Date;
 }

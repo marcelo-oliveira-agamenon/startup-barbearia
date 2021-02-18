@@ -20,7 +20,7 @@ export default class CreateServicesService {
     if (!service_id) {
       throw new AppError(500, 'Service has not been created!');
     }
-    const service = await this.serviceRepository.findOne(service_id);
+    const service = await this.serviceRepository.findOne(service_id.toString());
 
     return service;
   }
