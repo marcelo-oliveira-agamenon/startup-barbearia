@@ -1,6 +1,27 @@
 export interface ICreateClientDTO {
-  client_name: string;
-  client_cpf: string;
-  client_phone?: string;
-  client_email?: string;
+  name: string;
+  cpf: string;
+  phone?: string;
+  email?: string;
+}
+
+export interface IUpdateClientDTO {
+  name?: string;
+  cpf?: string;
+  phone?: string;
+  email?: string;
+}
+
+export interface IDeleteClientDTO {
+  client_id: string;
+}
+
+export interface IGetClientDTO {
+  client_id: string;
+
+}
+
+export interface IListClientsDTO {
+  limit?: number;
+  offset?: number;
 }

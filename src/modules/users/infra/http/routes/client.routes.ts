@@ -7,13 +7,13 @@ const clientRouter = Router();
 const clientController = new ClientController();
 
 clientRouter.post(
-  '/register',
+  '/signup',
   celebrate({
     [Segments.BODY]: {
-        client_name: Joi.string().required(),
-        client_cpf: Joi.string(),
-        client_phone: Joi.string(),
-        client_email: Joi.string()
+        name: Joi.string().required(),
+        cpf: Joi.string(),
+        phone: Joi.string(),
+        email: Joi.string()
     }
   }),
   clientController.create

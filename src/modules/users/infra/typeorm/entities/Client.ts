@@ -13,24 +13,23 @@ export class Client {
   client_id: string;
 
   @Column()
-  client_name: string;
-
-  @Column({
-    length: '12',
-    nullable: true
-  })
-  client_phone: string;
+  name: string;
 
   @Column({
     nullable: true
   })
-  client_mail: string;
+  phone: string;
+
+  @Column({
+    nullable: true
+  })
+  email: string;
 
   @Column({
     length: '14',
     nullable: true
   })
-  client_cpf: string;
+  cpf: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
@@ -38,6 +37,6 @@ export class Client {
   @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ type: 'timestamptz' })
   deleted_at: Date;
 }

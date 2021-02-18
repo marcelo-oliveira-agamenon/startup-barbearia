@@ -9,7 +9,6 @@ export default class ClientController {
     
     try {
       const createClient = container.resolve(CreateClientService);
-      console.log('client');
       const client = await createClient.execute(data);
       return response.status(201).json(client);
     } catch (error) {

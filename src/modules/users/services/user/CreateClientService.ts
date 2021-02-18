@@ -14,10 +14,20 @@ export default class CreateClientService {
   ) {}
 
   public async execute(data: ICreateClientDTO): Promise<Client | undefined> {
-    const client_id = await this.clientRepository.create(data);
-    console.log(client_id);
-     if (!client_id) throw new Error('Client has not been created!');
-      const client = await this.clientRepository.findOne(client_id);
+    if(data.email){
+      const emailExists = await this.clientRepository.findByEmail(data.email);
+      if (emailExists) {
+        throw new Error('This email already belongs to another client!');
+      }
+    }
+
+    if (data.cpf) {
+      const cpfExists = await this.clientRepository.findByCpf(data.cpf);
+      if (cpfExists)
+        throw new Error('This cpf already belongs to another client!');
+    }
+
+    const client = await this.clientRepository.create(data);
 
     return client;
   }
