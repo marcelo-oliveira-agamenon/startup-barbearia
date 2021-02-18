@@ -14,6 +14,10 @@
   ],
   "rules": {
     "no-console": "warn",
-    "camelcase": "off"
+    "camelcase": "off",
+    "@typescript-eslint/explicit-function-return-type": {
+      "allowExpressions": true
+    }
+
   }
 }
