@@ -29,35 +29,35 @@ commonResponse = {
   updated_at: expect.anything(),
   deleted_at: null
 };
+let commonEndPoint = '/clients/';
 
 
-describe('POST /clients/signup', function () {
-  it('responds with json', function (done) {
+
+describe('POST/GET/PUT/DELETE /clients/signup', function () {
+  it('Should create a client with all input fields and return {client}.', function (done) {
     request(API)
       .post('/clients/signup')
       .send(body)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect((res) => {
+        commonEndPoint += res.body.client_id;
         expect(res.body).toEqual(expect.objectContaining(commonResponse));
       })
       .end(done);
   });
-});
+  
+  it('Should get a client and return {client}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .send(body)
+      .expect('Content-Type', /json/)
+      .expect(Client)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+      })
+      .end(done);
+  });
 
-// describe('POST /clients/delete', function () {
-//   it('responds with json', function (done) {
-//     request(API)
-//       .post('/clients/delete')
-//       .send(body)
-//       .expect('Content-Type', /json/)
-//       .expect(Client)
-//       .expect((res) => {
-//         expect(res.body).toHaveProperty('client_name', body.client_name);
-//         expect(res.body).toHaveProperty('client_cpf', body.client_cpf);
-//         expect(res.body).toHaveProperty('client_phone', body.client_phone);
-//         expect(res.body).toHaveProperty('client_email', body.client_email);
-//       })
-//       .end(done);
-//   });
-// });
+});

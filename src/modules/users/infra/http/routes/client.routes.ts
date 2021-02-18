@@ -19,4 +19,14 @@ clientRouter.post(
   clientController.create
 );
 
+clientRouter.get(
+  '/:client_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      client_id: Joi.string().required()
+    }
+  }),
+  clientController.get
+);
+
 export default clientRouter;
