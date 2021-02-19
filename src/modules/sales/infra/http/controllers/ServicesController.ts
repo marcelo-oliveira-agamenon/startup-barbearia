@@ -22,18 +22,12 @@ export default class ServicesController {
     }
   }
 
-  public async listOne(
-    request: Request,
-    response: Response
-  ): Promise<Response> {
+  public async get(request: Request, response: Response): Promise<Response> {
     const { service_id } = request.params;
-    const id: IGetServiceDTO = {
-      service_id: Number(service_id)
-    };
 
     try {
       const createService = container.resolve(GetServicesService);
-      const service = await createService.execute(id);
+      const service = await createService.execute({ service_id: +service_id });
 
       return response.status(200).json(service);
     } catch (error) {
