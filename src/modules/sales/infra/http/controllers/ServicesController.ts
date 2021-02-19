@@ -6,6 +6,7 @@ import GetServicesListServices from '@modules/sales/services/service/GetServices
 import UpdateServicesService from '@modules/sales/services/service/UpdateServicesService';
 import GetServicesService from '@modules/sales/services/service/GetServicesService';
 import DeleteServicesService from '@modules/sales/services/service/DeleteServicesService';
+import { IGetServiceDTO } from '@modules/sales/dtos/IServicesDTO';
 
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -25,11 +26,14 @@ export default class ServicesController {
     request: Request,
     response: Response
   ): Promise<Response> {
-    const { service_id } = request.body;
+    const { service_id } = request.params;
+    const id: IGetServiceDTO = {
+      service_id: Number(service_id)
+    };
 
     try {
       const createService = container.resolve(GetServicesService);
-      const service = await createService.execute(service_id);
+      const service = await createService.execute(id);
 
       return response.status(200).json(service);
     } catch (error) {
@@ -38,11 +42,11 @@ export default class ServicesController {
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
-    const { service_id } = request.body;
+    const query = request.query;
 
     try {
       const listService = container.resolve(GetServicesListServices);
-      const service = await listService.execute(service_id);
+      const service = await listService.execute(query);
 
       return response.status(200).json(service);
     } catch (error) {
@@ -51,11 +55,14 @@ export default class ServicesController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    const { service_id } = request.body;
+    const { service_id } = request.params;
+    const id: IGetServiceDTO = {
+      service_id: Number(service_id)
+    };
 
     try {
       const deleteService = container.resolve(DeleteServicesService);
-      const service = await deleteService.execute(service_id);
+      const service = await deleteService.execute(id);
 
       return response.status(200).json(service);
     } catch (error) {

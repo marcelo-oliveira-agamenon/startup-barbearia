@@ -22,7 +22,7 @@ export default class ServiceRepository implements IServiceRepository {
     return service_id;
   }
 
-  public async findOne(id: string): Promise<Service | undefined> {
+  public async findOne(id: number): Promise<Service | undefined> {
     const service = await this.ormRepository.findOne(id);
 
     return service;
@@ -47,13 +47,13 @@ export default class ServiceRepository implements IServiceRepository {
     return isServiceAffected;
   }
 
-  public async findDeletedEntity(id: string): Promise<Service | undefined> {
+  public async findDeletedEntity(id: number): Promise<Service | undefined> {
     const service = await this.ormRepository.findOne(id, { withDeleted: true });
 
     return service;
   }
 
-  public async update(id: string, data: IUpdateServicesDTO): Promise<Service> {
+  public async update(id: number, data: IUpdateServicesDTO): Promise<Service> {
     const serviceExists = await this.ormRepository.findOne(id);
     const isServiceUpdated = await this.ormRepository.save(
       Object.assign(serviceExists, data)

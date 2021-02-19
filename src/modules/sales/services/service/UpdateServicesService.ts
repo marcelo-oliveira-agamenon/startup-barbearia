@@ -15,7 +15,7 @@ export default class UpdateServicesService {
 
   public async execute(
     data: IUpdateServicesDTO,
-    service_id: string
+    service_id: number
   ): Promise<Service> {
     const serviceExists = await this.serviceRepository.findOne(service_id);
     if (!serviceExists) throw new Error('Service does not exist!');

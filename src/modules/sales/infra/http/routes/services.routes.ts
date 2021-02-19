@@ -56,7 +56,7 @@ serviceRouter.put(
     },
     [Segments.BODY]: {
       name: Joi.string().required(),
-      value: Joi.string().required()
+      value: Joi.number().required()
     }
   }),
   serviceController.update

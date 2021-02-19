@@ -17,7 +17,7 @@ const body = {
   commonResponse = {
     service_id: expect.anything(),
     name,
-    value,
+    value: expect.anything(),
     created_at: expect.anything(),
     updated_at: expect.anything(),
     deleted_at: null
@@ -33,7 +33,7 @@ const body = {
   updateResponse = {
     service_id: expect.anything(),
     name,
-    value,
+    value: expect.anything(),
     created_at: expect.anything(),
     updated_at: expect.anything(),
     deleted_at: null
@@ -41,10 +41,10 @@ const body = {
   deleteResponse = {
     service_id: expect.anything(),
     name,
-    value,
+    value: expect.anything(),
     created_at: expect.anything(),
     updated_at: expect.anything(),
-    deleted_at: null
+    deleted_at: expect.anything()
   };
 const createEndPoint = '/services/signup',
   listEndPoint = '/services/';
@@ -65,56 +65,59 @@ describe('POST/GET/PUT/DELETE /service/', function () {
       .end(done);
   });
 
-  // it('Should list users and return [{user}].', function (done) {
-  //   request(API)
-  //     .get(listEndPoint)
-  //     .query(listQuery)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       if (res.body.length) {
-  //         expect(res.body).toEqual(
-  //           expect.arrayContaining([expect.objectContaining(commonResponse)])
-  //         );
-  //       } else {
-  //         expect(res.body).toEqual(expect.arrayContaining([]));
-  //       }
-  //     })
-  //     .end(done);
-  // });
-  // it('Should get a user and return {user}.', function (done) {
-  //   request(API)
-  //     .get(commonEndPoint)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(expect.objectContaining(commonResponse));
-  //     })
-  //     .end(done);
-  // });
-  // it('Should update a user and return {user}.', function (done) {
-  //   request(API)
-  //     .put(commonEndPoint)
-  //     .send(updateBody)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(expect.objectContaining(updateResponse));
-  //     })
-  //     .end(done);
-  // });
-  // it('Should delete a user softly and return {user}.', function (done) {
-  //   request(API)
-  //     .delete(commonEndPoint)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(expect.objectContaining(deleteResponse));
-  //     })
-  //     .end(done);
-  // });
+  it('Should list services and return [{service}].', function (done) {
+    request(API)
+      .get(listEndPoint)
+      .query(listQuery)
+      .expect('Content-Type', /json/)
+      .expect(Service)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          expect(res.body).toEqual(
+            expect.arrayContaining([expect.objectContaining(commonResponse)])
+          );
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
+
+  it('Should get a service and return {service}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .expect('Content-Type', /json/)
+      .expect(Service)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+      })
+      .end(done);
+  });
+
+  it('Should update a service and return {service}.', function (done) {
+    request(API)
+      .put(commonEndPoint)
+      .send(updateBody)
+      .expect('Content-Type', /json/)
+      .expect(Service)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+      })
+      .end(done);
+  });
+
+  it('Should delete a service softly and return {service}.', function (done) {
+    request(API)
+      .delete(commonEndPoint)
+      .expect('Content-Type', /json/)
+      .expect(Service)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+      })
+      .end(done);
+  });
 });
