@@ -104,9 +104,17 @@ describe('POST/GET/PUT/DELETE /users/', function () {
       .expect(200)
       .expect((res) => {
         if (res.body.length) {
-          expect(res.body).toEqual(
-            expect.arrayContaining([expect.objectContaining(commonResponse)])
-          );
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('user_id');
+          expect(firstElement).toHaveProperty('name');
+          expect(firstElement).toHaveProperty('user_type');
+          expect(firstElement).toHaveProperty('phone');
+          expect(firstElement).toHaveProperty('cpf');
+          expect(firstElement).toHaveProperty('email');
+          expect(firstElement).toHaveProperty('is_active');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+          expect(firstElement).toHaveProperty('deleted_at');
         } else {
           expect(res.body).toEqual(expect.arrayContaining([]));
         }
