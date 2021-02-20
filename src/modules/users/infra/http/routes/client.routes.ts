@@ -29,4 +29,15 @@ clientRouter.get(
   clientController.get
 );
 
+clientRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number(),
+      offset: Joi.number()
+    }
+  }),
+  clientController.list
+);
+
 export default clientRouter;
