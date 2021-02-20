@@ -49,6 +49,16 @@ updateResponse = {
   created_at: expect.anything(),
   updated_at: expect.anything(),
   deleted_at: null
+},
+deleteResponse = {
+  client_id: expect.anything(),
+  name,
+  phone,
+  cpf,
+  email,
+  created_at: expect.anything(),
+  updated_at: expect.anything(),
+  deleted_at: expect.anything()
 };
 const createEndPoint = '/clients/signup', listEndPoint = '/clients/';
 let commonEndPoint = '/clients/';
@@ -113,11 +123,23 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
       .put(commonEndPoint)
       .send(updateBody)
       .expect('Content-Type', /json/)
-      // .expect(Client)
+      .expect(Client)
       .expect(200)
-      // .expect((res) => {
-      //   expect(res.body).toEqual(expect.objectContaining(updateResponse));
-      // })
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+      })
+      .end(done);
+  });
+
+  it('Should delete a client softly and return {client}.', function (done) {
+    request(API)
+      .delete(commonEndPoint)
+      .expect('Content-Type', /json/)
+      .expect(Client)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+      })
       .end(done);
   });
 

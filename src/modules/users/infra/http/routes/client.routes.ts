@@ -58,4 +58,14 @@ clientRouter.put(
   clientController.update
 );
 
+clientRouter.delete(
+  '/:client_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      client_id: Joi.string().required()
+    }
+  }),
+  clientController.delete
+);
+
 export default clientRouter;
