@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import CreateServicesService from '@modules/sales/services/service/CreateServicesService';
 import GetServicesListServices from '@modules/sales/services/service/GetServicesListServices';
 import UpdateServicesService from '@modules/sales/services/service/UpdateServicesService';
-import GetServicesService from '@modules/sales/services/service/GetServicesService';
+import GetServiceService from '@modules/sales/services/service/GetServiceService';
 import DeleteServicesService from '@modules/sales/services/service/DeleteServicesService';
 import { IGetServiceDTO } from '@modules/sales/dtos/IServicesDTO';
 
@@ -21,8 +21,8 @@ export default class ServicesController {
   public async get(request: Request, response: Response): Promise<Response> {
     const { service_id } = request.params;
 
-    const createService = container.resolve(GetServicesService);
-    const service = await createService.execute({ service_id: +service_id });
+    const getService = container.resolve(GetServiceService);
+    const service = await getService.execute({ service_id: +service_id });
 
     return response.status(200).json(service);
   }
@@ -30,8 +30,8 @@ export default class ServicesController {
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    const listService = container.resolve(GetServicesListServices);
-    const service = await listService.execute(query);
+    const getServicesList = container.resolve(GetServicesListServices);
+    const service = await getServicesList.execute(query);
 
     return response.status(200).json(service);
   }

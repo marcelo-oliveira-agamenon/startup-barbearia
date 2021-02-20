@@ -6,6 +6,8 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 
 import { IDeleteServicesDTO } from '@modules/sales/dtos/IServicesDTO';
 
+import AppError from '@shared/errors/AppError';
+
 @injectable()
 export default class DeleteServicesService {
   constructor(
@@ -17,10 +19,10 @@ export default class DeleteServicesService {
     service_id
   }: IDeleteServicesDTO): Promise<Service | undefined> {
     const serviceExists = await this.serviceRepository.findOne(service_id);
-    if (!serviceExists) throw new Error('Service does not exist!');
+    if (!serviceExists) throw new AppError('Service does not exist!');
 
     const serviceDelete = await this.serviceRepository.delete({ service_id });
-    if (!serviceDelete) throw new Error('Service has not been deleted!');
+    if (!serviceDelete) throw new AppError('Service has not been deleted!');
 
     const user = await this.serviceRepository.findDeletedEntity(service_id);
 
