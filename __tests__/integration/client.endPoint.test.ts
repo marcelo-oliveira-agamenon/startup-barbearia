@@ -28,21 +28,46 @@ commonResponse = {
   created_at: expect.anything(),
   updated_at: expect.anything(),
   deleted_at: null
+},
+listQuery = {
+  limit: faker.random.number(),
+  offset: 1
 };
+const createEndPoint = '/clients/signup', listEndPoint = '/clients/';
 let commonEndPoint = '/clients/';
+
 
 
 
 describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should create a client with all input fields and return {client}.', function (done) {
     request(API)
-      .post('/clients/signup')
+      .post(createEndPoint)
       .send(body)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect((res) => {
         commonEndPoint += res.body.client_id;
         expect(res.body).toEqual(expect.objectContaining(commonResponse));
+      })
+      .end(done);
+  });
+
+  it('Should list clientes and return [{client}].', function (done) {
+    request(API)
+      .get(listEndPoint)
+      .query(listQuery)
+      .expect('Content-Type', /json/)
+      .expect(Client)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          expect(res.body).toEqual(
+            expect.arrayContaining([expect.objectContaining(commonResponse)])
+          );
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
       })
       .end(done);
   });

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 
 import CreateClientService from '@modules/users/services/user/CreateClientService';
 import GetClientService from '@modules/users/services/user/GetClientService';
+import GetClientsListService from '@modules/users/services/user/GetClientsListService';
 
 export default class ClientController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -24,6 +25,18 @@ export default class ClientController {
       const client = await getClient.execute({ client_id });
 
       return response.status(200).json(client);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  public async list(request: Request, response: Response): Promise<Response> {
+    const query = request.query;
+    try {
+      const getClientsList = container.resolve(GetClientsListService);
+      const clients = await getClientsList.execute(query);
+
+      return response.status(200).json(clients);
     } catch (error) {
       throw new Error(error);
     }
