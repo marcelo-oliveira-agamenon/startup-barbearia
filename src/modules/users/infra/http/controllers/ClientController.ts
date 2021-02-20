@@ -4,6 +4,8 @@ import { Request, Response } from 'express';
 import CreateClientService from '@modules/users/services/user/CreateClientService';
 import GetClientService from '@modules/users/services/user/GetClientService';
 import GetClientsListService from '@modules/users/services/user/GetClientsListService';
+import UpdateClientService from '@modules/users/services/user/UpdateClientService';
+import { classToClass } from 'class-transformer';
 
 export default class ClientController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -37,6 +39,19 @@ export default class ClientController {
       const clients = await getClientsList.execute(query);
 
       return response.status(200).json(clients);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const data = request.body;
+    const { client_id } = request.params;
+    try {
+      const updateClient = container.resolve(UpdateClientService);
+      const client = await updateClient.execute(data, client_id);
+
+      return response.status(200).json(classToClass(client));
     } catch (error) {
       throw new Error(error);
     }

@@ -1,14 +1,15 @@
 import request from 'supertest';
 import { Client } from '@modules/users/infra/typeorm/entities/Client';
+import 'dotenv/config';
 
 import faker from 'faker';
 
 
-const API = 'http://127.0.0.1:4000';
+const API = process.env.TEST_URL;
 
 const 
   name= faker.name.findName(),
-  cpf= faker.internet.password(12),
+  cpf= faker.internet.password(14),
   phone= faker.phone.phoneNumber(),
   email= faker.internet.email()
 ;
@@ -32,6 +33,22 @@ commonResponse = {
 listQuery = {
   limit: faker.random.number(),
   offset: 1
+},
+updateBody = {
+  name,
+  phone,
+  cpf,
+  email,
+},
+updateResponse = {
+  client_id: expect.anything(),
+  name,
+  phone,
+  cpf,
+  email,
+  created_at: expect.anything(),
+  updated_at: expect.anything(),
+  deleted_at: null
 };
 const createEndPoint = '/clients/signup', listEndPoint = '/clients/';
 let commonEndPoint = '/clients/';
@@ -88,6 +105,19 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
       .expect((res) => {
         expect(res.body).toEqual(expect.objectContaining(commonResponse));
       })
+      .end(done);
+  });
+
+  it('Should update a client and return {client}.', function (done) {
+    request(API)
+      .put(commonEndPoint)
+      .send(updateBody)
+      .expect('Content-Type', /json/)
+      // .expect(Client)
+      .expect(200)
+      // .expect((res) => {
+      //   expect(res.body).toEqual(expect.objectContaining(updateResponse));
+      // })
       .end(done);
   });
 

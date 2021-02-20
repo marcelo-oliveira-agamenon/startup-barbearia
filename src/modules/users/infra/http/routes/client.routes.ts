@@ -40,4 +40,22 @@ clientRouter.get(
   clientController.list
 );
 
+clientRouter.put(
+  '/:client_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      client_id: Joi.string().required()
+    },
+    [Segments.BODY]: Joi.object()
+      .keys({
+        name: Joi.string(),
+        phone: Joi.string(),
+        cpf: Joi.string().length(14),
+        email: Joi.string(),
+      })
+      .min(1)
+  }),
+  clientController.update
+);
+
 export default clientRouter;
