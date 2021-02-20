@@ -35,7 +35,7 @@ serviceRouter.get(
       service_id: Joi.string().required()
     }
   }),
-  serviceController.listOne
+  serviceController.get
 );
 
 serviceRouter.delete(

@@ -74,9 +74,13 @@ describe('POST/GET/PUT/DELETE /service/', function () {
       .expect(200)
       .expect((res) => {
         if (res.body.length) {
-          expect(res.body).toEqual(
-            expect.arrayContaining([expect.objectContaining(commonResponse)])
-          );
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('service_id');
+          expect(firstElement).toHaveProperty('name');
+          expect(firstElement).toHaveProperty('value');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+          expect(firstElement).toHaveProperty('deleted_at');
         } else {
           expect(res.body).toEqual(expect.arrayContaining([]));
         }
