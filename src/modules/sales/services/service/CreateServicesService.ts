@@ -6,7 +6,7 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 
 import { ICreateServicesDTO } from '@modules/sales/dtos/IServicesDTO';
 
-import { AppError } from '@shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 
 @injectable()
 export default class CreateServicesService {
@@ -18,7 +18,7 @@ export default class CreateServicesService {
   public async execute(data: ICreateServicesDTO): Promise<Service | undefined> {
     const service_id = await this.serviceRepository.create(data);
     if (!service_id) {
-      throw new AppError(500, 'Service has not been created!');
+      throw new AppError('Service has not been created!');
     }
     const service = await this.serviceRepository.findOne(service_id);
 

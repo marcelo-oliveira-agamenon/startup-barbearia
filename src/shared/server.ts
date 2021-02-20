@@ -1,12 +1,14 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import 'shared/container';
-import express from 'express';
+import 'express-async-errors';
+import express, { Request, Response, NextFunction } from 'express';
 import Routes from '@shared/infra/routes/index';
 import config from '@shared/infra/typeorm/ormconfig';
 import { createConnection } from 'typeorm';
 import { errors } from 'celebrate';
 import cors from 'cors';
+import AppError from '@shared/errors/AppError';
 
 (async () => {
   try {
@@ -18,6 +20,26 @@ import cors from 'cors';
 
   const app = express();
   app.use(cors(), express.json(), Routes, errors());
+
+  app.use(
+    (
+      error: Error,
+      request: Request,
+      response: Response,
+      next: NextFunction
+    ) => {
+      if (error instanceof AppError) {
+        return response
+          .status(error.status)
+          .json({ status: 'Client error', message: error.description });
+      }
+      console.error(error);
+      return response.status(500).json({
+        status: 'Server error',
+        message: 'Internal server error'
+      });
+    }
+  );
 
   app.listen(process.env.PORT, () => {
     console.log('Server listening on PORT:', process.env.PORT);

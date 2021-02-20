@@ -6,6 +6,8 @@ import { Client } from '@modules/users/infra/typeorm/entities/Client';
 
 import { ICreateClientDTO } from '@modules/users/dtos/IClientDTO';
 
+import AppError from '@shared/errors/AppError';
+
 @injectable()
 export default class CreateClientService {
   constructor(
@@ -14,17 +16,17 @@ export default class CreateClientService {
   ) {}
 
   public async execute(data: ICreateClientDTO): Promise<Client | undefined> {
-    if(data.email){
+    if (data.email) {
       const emailExists = await this.clientRepository.findByEmail(data.email);
       if (emailExists) {
-        throw new Error('This email already belongs to another client!');
+        throw new AppError('This email already belongs to another client!');
       }
     }
 
     if (data.cpf) {
       const cpfExists = await this.clientRepository.findByCpf(data.cpf);
       if (cpfExists)
-        throw new Error('This cpf already belongs to another client!');
+        throw new AppError('This cpf already belongs to another client!');
     }
 
     const client = await this.clientRepository.create(data);

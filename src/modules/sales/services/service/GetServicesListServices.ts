@@ -6,8 +6,6 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 
 import { IListServicesDTO } from '@modules/sales/dtos/IServicesDTO';
 
-import { AppError } from '@shared/errors/AppError';
-
 @injectable()
 export default class GetServicesListService {
   constructor(

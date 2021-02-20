@@ -12,40 +12,28 @@ export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
-    try {
-      const createService = container.resolve(CreateServicesService);
-      const service = await createService.execute(data);
+    const createService = container.resolve(CreateServicesService);
+    const service = await createService.execute(data);
 
-      return response.status(201).json(service);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return response.status(201).json(service);
   }
 
   public async get(request: Request, response: Response): Promise<Response> {
     const { service_id } = request.params;
 
-    try {
-      const createService = container.resolve(GetServicesService);
-      const service = await createService.execute({ service_id: +service_id });
+    const createService = container.resolve(GetServicesService);
+    const service = await createService.execute({ service_id: +service_id });
 
-      return response.status(200).json(service);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return response.status(200).json(service);
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    try {
-      const listService = container.resolve(GetServicesListServices);
-      const service = await listService.execute(query);
+    const listService = container.resolve(GetServicesListServices);
+    const service = await listService.execute(query);
 
-      return response.status(200).json(service);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return response.status(200).json(service);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
@@ -54,27 +42,19 @@ export default class ServicesController {
       service_id: Number(service_id)
     };
 
-    try {
-      const deleteService = container.resolve(DeleteServicesService);
-      const service = await deleteService.execute(id);
+    const deleteService = container.resolve(DeleteServicesService);
+    const service = await deleteService.execute(id);
 
-      return response.status(200).json(service);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return response.status(200).json(service);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { service_id } = request.body;
     const data = request.body;
 
-    try {
-      const updateService = container.resolve(UpdateServicesService);
-      const service = await updateService.execute(data, service_id);
+    const updateService = container.resolve(UpdateServicesService);
+    const service = await updateService.execute(data, service_id);
 
-      return response.status(200).json(service);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return response.status(200).json(service);
   }
 }
