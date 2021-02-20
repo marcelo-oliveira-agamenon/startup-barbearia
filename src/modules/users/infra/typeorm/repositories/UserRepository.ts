@@ -8,7 +8,6 @@ import {
   IListUsersDTO
 } from '@modules/users/dtos/IUserDTO';
 
-import { AppError } from '@shared/errors/AppError';
 export default class UserRepository implements IUserRepository {
   private ormRepository: Repository<User>;
 
@@ -59,6 +58,15 @@ export default class UserRepository implements IUserRepository {
 
   public async findDeletedEntity(id: string): Promise<User | undefined> {
     const user = await this.ormRepository.findOne(id, { withDeleted: true });
+
+    return user;
+  }
+
+  public async isEmailRegistered(email: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { email },
+      select: ['user_id', 'password', 'user_type']
+    });
 
     return user;
   }

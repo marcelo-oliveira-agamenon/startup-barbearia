@@ -64,6 +64,10 @@ const body = {
     updated_at: expect.anything(),
     deleted_at: null
   },
+  loginBody = {
+    email,
+    password
+  },
   deleteResponse = {
     user_id: expect.anything(),
     name,
@@ -77,7 +81,8 @@ const body = {
     deleted_at: expect.anything()
   };
 const createEndPoint = '/users/signup',
-  listEndPoint = '/users/';
+  listEndPoint = '/users/',
+  loginEndPoint = '/users';
 let commonEndPoint = '/users/';
 
 describe('POST/GET/PUT/DELETE /users/', function () {
@@ -141,6 +146,18 @@ describe('POST/GET/PUT/DELETE /users/', function () {
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual(expect.objectContaining(updateResponse));
+      })
+      .end(done);
+  });
+  it('Should login and return {auth, token}.', function (done) {
+    request(API)
+      .post(loginEndPoint)
+      .send(loginBody)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toHaveProperty('auth');
+        expect(res.body).toHaveProperty('token');
       })
       .end(done);
   });

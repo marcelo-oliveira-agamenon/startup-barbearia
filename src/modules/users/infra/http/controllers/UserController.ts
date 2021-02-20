@@ -6,6 +6,7 @@ import UpdateUserService from '@modules/users/services/user/UpdateUserService';
 import DeleteUserService from '@modules/users/services/user/DeleteUserService';
 import GetUserService from '@modules/users/services/user/GetUserService';
 import GetUsersListService from '@modules/users/services/user/GetUsersListService';
+import SignInUserService from '@modules/users/services/user/SignInUserService';
 import { classToClass } from 'class-transformer';
 
 export default class UserController {
@@ -61,6 +62,18 @@ export default class UserController {
       const users = await getUsersList.execute(query);
 
       return response.status(200).json(users);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  public async signIn(request: Request, response: Response): Promise<Response> {
+    const data = request.body;
+    try {
+      const signInUser = container.resolve(SignInUserService);
+      const authentication = await signInUser.execute(data);
+
+      return response.status(200).json(authentication);
     } catch (error) {
       throw new Error(error);
     }

@@ -83,4 +83,15 @@ userRouter.get(
   userController.list
 );
 
+userRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      email: Joi.string(),
+      password: Joi.string().min(5).max(12)
+    }
+  }),
+  userController.signIn
+);
+
 export default userRouter;
