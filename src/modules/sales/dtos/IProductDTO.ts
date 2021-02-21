@@ -14,7 +14,7 @@ export interface ICreateProductDTO {
     product_id: number;
   }
   
-  export interface IListProductDTO {
+  export interface IListProductsDTO {
     limit?: number;
     offset?: number;
   }

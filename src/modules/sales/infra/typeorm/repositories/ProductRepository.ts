@@ -3,7 +3,7 @@ import IProductRepository from '@modules/sales/repositories/IProductRepository';
 import Product from '@modules/sales/infra/typeorm/entities/Product';
 import {
   ICreateProductDTO,
-  IListProductDTO,
+  IListProductsDTO,
   IDeleteProductDTO,
   IUpdateProductDTO
 } from '@modules/sales/dtos/IProductDTO';
@@ -43,8 +43,15 @@ export default class ProductRepository implements IProductRepository {
     findByDescription(description: string): Promise<Product[]> {
         throw new Error('Method not implemented.');
     }
-    findAll(query: IListProductDTO): Promise<undefined[]> {
-        throw new Error('Method not implemented.');
+
+    public async findAll(query: IListProductsDTO): Promise<Product[]> {
+        const { limit, offset } = query;
+        const take = limit ? limit : 0,
+        skip = offset ? offset : 0;
+
+        const products = await this.ormRepository.find({ take, skip });
+
+        return products;
     }
 
   }

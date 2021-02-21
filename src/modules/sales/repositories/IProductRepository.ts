@@ -1,5 +1,5 @@
 import Product from '@modules/sales/infra/typeorm/entities/Product';
-import { ICreateProductDTO, IListProductDTO, IDeleteProductDTO, IUpdateProductDTO } from '@modules/sales/dtos/IProductDTO';
+import { ICreateProductDTO, IListProductsDTO, IDeleteProductDTO, IUpdateProductDTO } from '@modules/sales/dtos/IProductDTO';
 
 export default interface IProductRepository {
   create(data: ICreateProductDTO): Promise<Product>;
@@ -9,5 +9,5 @@ export default interface IProductRepository {
   findDeletedEntity(product_id: string): Promise<Product | undefined>;
   findByName(name: string): Promise<Product | undefined>;
   findByDescription(description: string): Promise<Product[]>;
-  findAll(query: IListProductDTO): Promise<undefined[]>;
+  findAll(query: IListProductsDTO): Promise<Product[]>;
 }

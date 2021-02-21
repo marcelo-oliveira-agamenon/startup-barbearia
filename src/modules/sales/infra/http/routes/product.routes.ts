@@ -20,4 +20,15 @@ productRouter.post(
     productController.create
   );
 
+  productRouter.get(
+    '/',
+    celebrate({
+      [Segments.QUERY]: {
+        limit: Joi.number(),
+        offset: Joi.number()
+      }
+    }),
+    productController.list
+  );
+
 export default productRouter;

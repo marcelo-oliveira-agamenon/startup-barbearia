@@ -32,6 +32,10 @@ const body = {
     created_at: expect.anything(),
     updated_at: expect.anything(),
     deleted_at: null
+  },
+  listQuery = {
+    limit: faker.random.number(),
+    offset: 1
   };
 
 const createEndPoint = '/products/signup', listEndPoint = '/products/';
@@ -47,6 +51,32 @@ describe('POST/GET/PUT/DELETE /products', function () {
           .expect((res) => {
             commonEndPoint += res.body.product_id;
             expect(res.body).toEqual(expect.objectContaining(commonResponse));
+          })
+          .end(done);
+      });
+
+      it('Should list products and return [{product}].', function (done) {
+        request(API)
+          .get(listEndPoint)
+          .query(listQuery)
+          .expect('Content-Type', /json/)
+          .expect(Product)
+          .expect(200)
+          .expect((res) => {
+            if (res.body.length) {
+              const firstElement = res.body[0];
+              expect(firstElement).toHaveProperty('product_id');
+              expect(firstElement).toHaveProperty('name');
+              expect(firstElement).toHaveProperty('cost');
+              expect(firstElement).toHaveProperty('value');
+              expect(firstElement).toHaveProperty('description');
+              expect(firstElement).toHaveProperty('discount');
+              expect(firstElement).toHaveProperty('created_at');
+              expect(firstElement).toHaveProperty('updated_at');
+              expect(firstElement).toHaveProperty('deleted_at');
+            } else {
+              expect(res.body).toEqual(expect.arrayContaining([]));
+            }
           })
           .end(done);
       });
