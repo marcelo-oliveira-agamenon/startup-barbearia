@@ -14,7 +14,6 @@ export default function verifyToken(
   const secret = `${process.env.JWT_SECRET}`;
 
   const token = bearerToken.replace('Bearer ', '');
-  console.log(secret);
 
   const isValidToken = verify(token, secret);
 
