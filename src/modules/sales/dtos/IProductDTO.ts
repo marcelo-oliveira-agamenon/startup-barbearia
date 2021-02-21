@@ -7,11 +7,11 @@ export interface ICreateProductDTO {
   }
   
   export interface IDeleteProductDTO {
-    product_id: number;
+    product_id: string;
   }
   
   export interface IGetProductDTO {
-    product_id: number;
+    product_id: string;
   }
   
   export interface IListProductsDTO {

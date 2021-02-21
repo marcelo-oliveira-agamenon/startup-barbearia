@@ -80,4 +80,17 @@ describe('POST/GET/PUT/DELETE /products', function () {
           })
           .end(done);
       });
+
+      it('Should get a product and return {product}.', function (done) {
+        request(API)
+          .get(commonEndPoint)
+          .send(body)
+          .expect('Content-Type', /json/)
+          .expect(Product)
+          .expect(200)
+          .expect((res) => {
+            expect(res.body).toEqual(expect.objectContaining(commonResponse));
+          })
+          .end(done);
+      });
 });

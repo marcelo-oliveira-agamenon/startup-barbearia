@@ -31,4 +31,14 @@ productRouter.post(
     productController.list
   );
 
+  productRouter.get(
+    '/:product_id',
+    celebrate({
+      [Segments.PARAMS]: {
+        product_id: Joi.string().required()
+      }
+    }),
+    productController.get
+  );
+
 export default productRouter;

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 
 import CreateProductService from '@modules/sales/services/product/CreateProduct';
 import GetProductsListService from '@modules/sales/services/product/GetProductsList';
+import GetProductService from '@modules/sales/services/product/GetProductService';
 
 export default class ProductController {
     public async create(request: Request, response: Response): Promise<Response> {
@@ -17,8 +18,17 @@ export default class ProductController {
         const query = request.query;
     
         const getProductsList = container.resolve(GetProductsListService);
-        const clients = await getProductsList.execute(query);
+        const products = await getProductsList.execute(query);
     
-        return response.status(200).json(clients);
+        return response.status(200).json(products);
+      }
+
+      public async get(request: Request, response: Response): Promise<Response> {
+        const { product_id } = request.params;
+    
+        const getProduct = container.resolve(GetProductService);
+        const product = await getProduct.execute({ product_id });
+    
+        return response.status(200).json(product);
       }
 }
