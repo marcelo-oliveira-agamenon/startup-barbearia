@@ -20,15 +20,13 @@ import authentication from '@shared/infra/middlewares/authentication';
   }
 
   const app = express();
-  app.use(cors(), express.json(), Routes, errors(), maybe(authentication));
+  app.use(cors(), express.json(), maybe(authentication), Routes, errors());
 
   function maybe(auth: Function) {
     return function (request: Request, response: Response, next: NextFunction) {
-      const resetPasswordEndPoint =
-        request.path === '/users/me/reset-password' &&
-        request.method === 'POST';
-      console.log('chegou');
-      if (resetPasswordEndPoint) {
+      const signInEndPoint =
+        request.path === '/users/' && request.method === 'POST';
+      if (signInEndPoint) {
         next();
       } else {
         auth(request, response, next);
