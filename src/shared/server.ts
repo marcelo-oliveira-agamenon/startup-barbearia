@@ -9,6 +9,7 @@ import { createConnection } from 'typeorm';
 import { errors } from 'celebrate';
 import cors from 'cors';
 import AppError from '@shared/errors/AppError';
+import authentication from '@shared/infra/middlewares/authentication';
 
 (async () => {
   try {
@@ -19,7 +20,21 @@ import AppError from '@shared/errors/AppError';
   }
 
   const app = express();
-  app.use(cors(), express.json(), Routes, errors());
+  app.use(cors(), express.json(), Routes, errors(), maybe(authentication));
+
+  function maybe(auth: Function) {
+    return function (request: Request, response: Response, next: NextFunction) {
+      const resetPasswordEndPoint =
+        request.path === '/users/me/reset-password' &&
+        request.method === 'POST';
+      console.log('chegou');
+      if (resetPasswordEndPoint) {
+        next();
+      } else {
+        auth(request, response, next);
+      }
+    };
+  }
 
   app.use(
     (

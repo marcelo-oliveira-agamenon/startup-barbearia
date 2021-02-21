@@ -23,7 +23,7 @@ export default function verifyToken(
 
     if (obj) {
       req.user = {
-        type: obj['type'],
+        role: obj['role'],
         user_id: obj['user_id']
       };
     }
