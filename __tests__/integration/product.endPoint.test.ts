@@ -36,6 +36,24 @@ const body = {
   listQuery = {
     limit: faker.random.number(),
     offset: 1
+  },
+  updateBody = {
+    name,
+    cost,
+    value,
+    description,
+    discount
+  },
+  updateResponse = {
+    product_id: expect.anything(),
+    name,
+    cost,
+    value: expect.anything(),
+    description,
+    discount,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
   };
 
 const createEndPoint = '/products/signup', listEndPoint = '/products/';
@@ -90,6 +108,19 @@ describe('POST/GET/PUT/DELETE /products', function () {
           .expect(200)
           .expect((res) => {
             expect(res.body).toEqual(expect.objectContaining(commonResponse));
+          })
+          .end(done);
+      });
+
+      it('Should update a product and return {product}.', function (done) {
+        request(API)
+          .put(commonEndPoint)
+          .send(updateBody)
+          .expect('Content-Type', /json/)
+          .expect(Product)
+          .expect(200)
+          .expect((res) => {
+            expect(res.body).toEqual(expect.objectContaining(updateResponse));
           })
           .end(done);
       });
