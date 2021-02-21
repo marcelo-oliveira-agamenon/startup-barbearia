@@ -20,7 +20,7 @@ import authentication from '@shared/infra/middlewares/authentication';
   }
 
   const app = express();
-  app.use(cors(), express.json(), maybe(authentication), Routes, errors());
+  app.use(cors(), express.json(), /*maybe(authentication),*/ Routes, errors());
 
   function maybe(auth: Function) {
     return function (request: Request, response: Response, next: NextFunction) {
