@@ -10,5 +10,6 @@ const router = Router();
 router.use('/users', userRouter);
 router.use('/clients', clientRouter);
 router.use('/services', serviceRouter);
+router.use('/products', serviceRouter);
 
 export default router;

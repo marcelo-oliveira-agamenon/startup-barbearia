@@ -12,7 +12,7 @@ export default class ClientRepository implements IClientRepository {
 
   public async create(data: ICreateClientDTO): Promise<Client> {
     const clientInstance =  this.ormRepository.create(data);
-    const client = await this.ormRepository.save(clientInstance)
+    const client = await this.ormRepository.save(clientInstance);
     return client;
   }
 
