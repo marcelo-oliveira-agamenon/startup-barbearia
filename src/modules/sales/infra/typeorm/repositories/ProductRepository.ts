@@ -35,8 +35,10 @@ export default class ProductRepository implements IProductRepository {
     findDeletedEntity(product_id: string): Promise<Product | undefined> {
         throw new Error('Method not implemented.');
     }
-    findByName(name: string): Promise<Product | undefined> {
-        throw new Error('Method not implemented.');
+    public async findByName(name: string): Promise<Product | undefined> {
+        const product = await this.ormRepository.findOne({name});
+
+        return product;
     }
     findByDescription(description: string): Promise<Product[]> {
         throw new Error('Method not implemented.');

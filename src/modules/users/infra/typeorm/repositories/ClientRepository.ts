@@ -1,6 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
 import IClientRepository from '@modules/users/repositories/IClientRepository';
-import { Client } from '@modules/users/infra/typeorm/entities/Client';
+import Client from '@modules/users/infra/typeorm/entities/Client';
 import { ICreateClientDTO, IDeleteClientDTO, IListClientsDTO, IUpdateClientDTO } from '@modules/users/dtos/IClientDTO';
 
 export default class ClientRepository implements IClientRepository {

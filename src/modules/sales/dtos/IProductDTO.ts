@@ -1,7 +1,7 @@
 export interface ICreateProductDTO {
     name: string;
     cost: number;
-    price: number;
+    value: number;
     description?: string;
     discount?: number;
   }

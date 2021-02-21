@@ -9,16 +9,16 @@ const API = process.env.TEST_URL;
 
 const 
   name= faker.name.findName(),
-  cost= faker.phone.phoneNumber(),
-  price= faker.phone.phoneNumber(),
+  cost= faker.random.number(),
+  value= faker.random.number(),
   description= faker.internet.email(),
-  discount= faker.phone.phoneNumber()
+  discount= faker.random.number()
 ;
 
 const body = {
     name,
     cost,
-    price,
+    value,
     description,
     discount
   },
@@ -26,7 +26,7 @@ const body = {
     product_id: expect.anything(),
     name,
     cost,
-    price: expect.anything(),
+    value: expect.anything(),
     description,
     discount,
     created_at: expect.anything(),

@@ -21,7 +21,7 @@ export default class Product {
     cost: number;
 
     @Column()
-    price: number;
+    value: number;
 
     @Column({
     nullable: true

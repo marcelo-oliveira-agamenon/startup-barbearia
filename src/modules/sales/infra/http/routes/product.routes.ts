@@ -12,10 +12,12 @@ productRouter.post(
       [Segments.BODY]: {
           name: Joi.string().required(),
           cost: Joi.number(),
-          price: Joi.number().required(),
+          value: Joi.number().required(),
           description: Joi.string(),
           discount: Joi.number()
       }
     }),
     productController.create
   );
+
+export default productRouter;
