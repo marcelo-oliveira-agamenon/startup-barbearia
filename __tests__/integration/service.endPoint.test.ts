@@ -54,6 +54,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   it('Should create a service with all input fields and return {service}.', function (done) {
     request(API)
       .post(createEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(body)
       .expect('Content-Type', /json/)
       .expect(Service)
@@ -68,6 +69,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   it('Should list services and return [{service}].', function (done) {
     request(API)
       .get(listEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .query(listQuery)
       .expect('Content-Type', /json/)
       .expect(Service)
@@ -91,6 +93,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   it('Should get a service and return {service}.', function (done) {
     request(API)
       .get(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .expect('Content-Type', /json/)
       .expect(Service)
       .expect(200)
@@ -103,6 +106,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   it('Should update a service and return {service}.', function (done) {
     request(API)
       .put(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(updateBody)
       .expect('Content-Type', /json/)
       .expect(Service)
@@ -116,6 +120,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   it('Should delete a service softly and return {service}.', function (done) {
     request(API)
       .delete(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .expect('Content-Type', /json/)
       .expect(Service)
       .expect(200)

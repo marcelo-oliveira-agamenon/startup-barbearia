@@ -11,6 +11,17 @@ import cors from 'cors';
 import AppError from '@shared/errors/AppError';
 import authentication from '@shared/infra/middlewares/authentication';
 
+function maybe(auth: Function) {
+  return function (request: Request, response: Response, next: NextFunction) {
+    const signInEndPoint =
+      request.path === '/users/' && request.method === 'POST';
+    if (signInEndPoint) {
+      next();
+    } else {
+      auth(request, response, next);
+    }
+  };
+}
 (async () => {
   try {
     await createConnection(config);
@@ -20,19 +31,7 @@ import authentication from '@shared/infra/middlewares/authentication';
   }
 
   const app = express();
-  app.use(cors(), express.json(), /*maybe(authentication),*/ Routes, errors());
-
-  function maybe(auth: Function) {
-    return function (request: Request, response: Response, next: NextFunction) {
-      const signInEndPoint =
-        request.path === '/users/' && request.method === 'POST';
-      if (signInEndPoint) {
-        next();
-      } else {
-        auth(request, response, next);
-      }
-    };
-  }
+  app.use(cors(), express.json(), maybe(authentication), Routes, errors());
 
   app.use(
     (
