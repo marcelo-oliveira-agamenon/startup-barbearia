@@ -12,13 +12,8 @@ import authentication from '@shared/infra/middlewares/authentication';
 import authExceptions from '@shared/infra/middlewares/authExceptions';
 import errorHandling from '@shared/infra/middlewares/errorHandling';
 
-(async () => {
-  try {
-    await createConnection(config);
-  } catch (error) {
-    console.log('Error while connecting to the database', error);
-    return error;
-  }
+(() => {
+  createConnection(config);
 
   const app = express();
   app.use(
