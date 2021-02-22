@@ -15,4 +15,5 @@ export default interface IUserRepository {
   findByEmail(email: string): Promise<User | undefined>;
   findDeletedEntity(id: string): Promise<User | undefined>;
   findAll(query: IListUsersDTO): Promise<User[]>;
+  isEmailRegistered(email: string): Promise<User | undefined>;
 }

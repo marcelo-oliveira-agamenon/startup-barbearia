@@ -7,16 +7,29 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 
-@Entity('service')
-export default class Service {
-  @PrimaryGeneratedColumn('increment')
-  service_id: number;
+@Entity('client')
+export class Client {
+  @PrimaryGeneratedColumn('uuid')
+  client_id: string;
 
   @Column()
   name: string;
 
-  @Column()
-  value: number;
+  @Column({
+    nullable: true
+  })
+  phone: string;
+
+  @Column({
+    nullable: true
+  })
+  email: string;
+
+  @Column({
+    length: '14',
+    nullable: true
+  })
+  cpf: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

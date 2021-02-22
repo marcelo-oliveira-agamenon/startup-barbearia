@@ -62,6 +62,15 @@ export default class UserRepository implements IUserRepository {
     return user;
   }
 
+  public async isEmailRegistered(email: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { email },
+      select: ['user_id', 'password', 'user_type']
+    });
+
+    return user;
+  }
+
   public async findAll(query: IListUsersDTO): Promise<User[]> {
     const { limit, offset } = query;
     const take = limit ? limit : 0,
