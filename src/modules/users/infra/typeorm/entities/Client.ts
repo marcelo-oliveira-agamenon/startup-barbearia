@@ -3,14 +3,21 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
+import { Schedule } from '../../../../schedules/infra/typeorm/entities/Schedule';
 
 @Entity('client')
 export class Client {
   @PrimaryGeneratedColumn('uuid')
   client_id: string;
+
+  @ManyToOne(() => Schedule, (schedule: Schedule) => schedule.client_id)
+  @JoinColumn()
+  schedule: Schedule;
 
   @Column()
   name: string;
