@@ -34,3 +34,8 @@ export interface IListUsersDTO {
   limit?: number;
   offset?: number;
 }
+
+export interface ISignInUserDTO {
+  email: string;
+  password: string;
+}

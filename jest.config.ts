@@ -17,10 +17,10 @@ export default {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  //collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ['<rootDir>/src/modules/**/infra/typeorm/entities/*.ts'],
+  //collectCoverageFrom: ['<rootDir>/src/modules/**/infra/typeorm/entities/*.ts'],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: 'coverage',

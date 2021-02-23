@@ -6,7 +6,7 @@
   "author": "Guilherme <guilherme_ecb@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon eslint . --ext .ts ts-node-dev --respawn --transpile-only --ignore-watch",
+    "dev": "nodemon",
     "test": "jest",
     "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f src/shared/infra/typeorm/ormconfig.ts"
   },
@@ -41,6 +41,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "faker": "^5.4.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.5.1",

@@ -6,6 +6,8 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 
 import { IGetUserDTO } from '@modules/users/dtos/IUserDTO';
 
+import AppError from '@shared/errors/AppError';
+
 @injectable()
 export default class GetUserService {
   constructor(
@@ -15,7 +17,7 @@ export default class GetUserService {
 
   public async execute({ user_id }: IGetUserDTO): Promise<User | undefined> {
     const user = await this.userRepository.findOne(user_id);
-    if (!user) throw new Error('User does not exist!');
+    if (!user) throw new AppError('User does not exist!');
 
     return user;
   }

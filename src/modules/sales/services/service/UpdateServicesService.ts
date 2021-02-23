@@ -6,6 +6,8 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 
 import { IUpdateServicesDTO } from '@modules/sales/dtos/IServicesDTO';
 
+import AppError from '@shared/errors/AppError';
+
 @injectable()
 export default class UpdateServicesService {
   constructor(
@@ -18,7 +20,7 @@ export default class UpdateServicesService {
     service_id: number
   ): Promise<Service> {
     const serviceExists = await this.serviceRepository.findOne(service_id);
-    if (!serviceExists) throw new Error('Service does not exist!');
+    if (!serviceExists) throw new AppError('Service does not exist!');
 
     const service = await this.serviceRepository.update(service_id, data);
 

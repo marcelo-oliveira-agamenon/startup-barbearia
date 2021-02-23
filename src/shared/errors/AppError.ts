@@ -1,25 +1,11 @@
-import { Request, Response, Errback, NextFunction } from 'express';
-
-export class AppError extends Error {
+class AppError {
   status: number;
-  message: string;
+  description: string;
 
-  constructor(status: number, message: string) {
-    super(message);
+  constructor(description: string, status: number = 400) {
     this.status = status;
-    this.message = message;
+    this.description = description;
   }
 }
 
-export function errorHandler(
-  err: Errback,
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Response | void {
-  if (err !== undefined) {
-    return res.status(500).json('error');
-  }
-
-  next();
-}
+export default AppError;

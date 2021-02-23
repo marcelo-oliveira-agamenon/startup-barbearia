@@ -1,35 +1,32 @@
 import { verify, decode } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
+import AppError from '@shared/errors/AppError';
 
 export default function verifyToken(
-  req: Request,
-  res: Response,
+  request: Request,
+  response: Response,
   next: NextFunction
-): NextFunction | Response | undefined {
-  const bearerToken = req.header('Authorization');
+): void {
+  const bearerToken = request.header('Authorization');
   if (!bearerToken)
-    return res.status(401).json('Access Denied! You must have a token!');
+    throw new AppError('Access denied! It is required to have a token!');
 
-  try {
-    const secret: string =
-      process.env.JWTSECRET === undefined ? '' : process.env.JWTSECRET;
-    const token = bearerToken.replace('Bearer ', '');
+  const secret = `${process.env.JWT_SECRET}`;
 
-    const isValidToken = verify(token, secret);
+  const token = bearerToken.replace('Bearer ', '');
 
-    if (!isValidToken) return res.status(401).json('Invalid Token');
+  const isValidToken = verify(token, secret);
 
-    const obj = decode(token);
+  if (!isValidToken) throw new AppError('Invalid token!');
 
-    if (obj) {
-      req.user = {
-        type: obj['type'],
-        user_id: obj['user_id']
-      };
-    }
+  const obj = decode(token);
 
-    next();
-  } catch {
-    return res.status(401).json('Something went wrong!');
+  if (obj) {
+    request.user = {
+      role: obj['role'],
+      user_id: obj['user_id']
+    };
   }
+
+  next();
 }

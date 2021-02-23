@@ -6,63 +6,55 @@ import UpdateUserService from '@modules/users/services/user/UpdateUserService';
 import DeleteUserService from '@modules/users/services/user/DeleteUserService';
 import GetUserService from '@modules/users/services/user/GetUserService';
 import GetUsersListService from '@modules/users/services/user/GetUsersListService';
+import SignInUserService from '@modules/users/services/user/SignInUserService';
 import { classToClass } from 'class-transformer';
 
 export default class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
-    try {
-      const createUser = container.resolve(CreateUserService);
-      const user = await createUser.execute(data);
-      return response.status(201).json(classToClass(user));
-    } catch (error) {
-      throw new Error(error);
-    }
+    const createUser = container.resolve(CreateUserService);
+    const user = await createUser.execute(data);
+    return response.status(201).json(classToClass(user));
   }
   public async update(request: Request, response: Response): Promise<Response> {
     const data = request.body;
     const { user_id } = request.params;
-    try {
-      const updateUser = container.resolve(UpdateUserService);
-      const user = await updateUser.execute(data, user_id);
+    const updateUser = container.resolve(UpdateUserService);
+    const user = await updateUser.execute(data, user_id);
 
-      return response.status(200).json(classToClass(user));
-    } catch (error) {
-      throw new Error(error);
-    }
+    return response.status(200).json(classToClass(user));
   }
   public async delete(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
-    try {
-      const deleteUser = container.resolve(DeleteUserService);
-      const user = await deleteUser.execute({ user_id });
+    const deleteUser = container.resolve(DeleteUserService);
+    const user = await deleteUser.execute({ user_id });
 
-      return response.status(200).json(user);
-    } catch (error) {
-      throw new Error(error);
-    }
+    return response.status(200).json(user);
   }
   public async get(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
-    try {
-      const getUser = container.resolve(GetUserService);
-      const user = await getUser.execute({ user_id });
 
-      return response.status(200).json(user);
-    } catch (error) {
-      throw new Error(error);
-    }
+    const getUser = container.resolve(GetUserService);
+    const user = await getUser.execute({ user_id });
+
+    return response.status(200).json(user);
   }
 
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
-    try {
-      const getUsersList = container.resolve(GetUsersListService);
-      const users = await getUsersList.execute(query);
 
-      return response.status(200).json(users);
-    } catch (error) {
-      throw new Error(error);
-    }
+    const getUsersList = container.resolve(GetUsersListService);
+    const users = await getUsersList.execute(query);
+
+    return response.status(200).json(users);
+  }
+
+  public async signIn(request: Request, response: Response): Promise<Response> {
+    const data = request.body;
+
+    const signInUser = container.resolve(SignInUserService);
+    const authentication = await signInUser.execute(data);
+
+    return response.status(200).json(authentication);
   }
 }
