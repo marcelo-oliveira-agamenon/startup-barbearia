@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { Router } from 'express';
 import userRouter from '@modules/users/infra/http/routes/user.routes';
 import clientRouter from '@modules/users/infra/http/routes/client.routes';
-import serviceRouter from '@modules/sales/infra/http/routes/services.routes';
+import serviceRouter from '@modules/sales/infra/http/routes/service.routes';
 
 const router = Router();
 
