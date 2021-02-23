@@ -29,16 +29,25 @@ export default class ProductRepository implements IProductRepository {
         return product;
     }
 
-    public async update(product_id: string, data: IUpdateProductDTO): Promise<undefined> {
-        throw new Error('Method not implemented.');
+    public async update(product_id: string, data: IUpdateProductDTO): Promise<Product> {
+      const productExists = await this.ormRepository.findOne(product_id);
+      const isProductUpdated = await this.ormRepository.save(
+        Object.assign(productExists, data)
+      );
+      return isProductUpdated;
     }
 
     public async delete({ product_id }: IDeleteProductDTO): Promise<number | undefined> {
-        throw new Error('Method not implemented.');
+      const isProductDeleted = await this.ormRepository.softDelete(product_id);
+      const isProductAffected = isProductDeleted.affected;
+  
+      return isProductAffected;
     }
 
     public async findDeletedEntity(product_id: string): Promise<Product | undefined> {
-        throw new Error('Method not implemented.');
+      const product = await this.ormRepository.findOne(product_id, { withDeleted: true });
+
+      return product;
     }
     
     public async findByName(name: string): Promise<Product | undefined> {

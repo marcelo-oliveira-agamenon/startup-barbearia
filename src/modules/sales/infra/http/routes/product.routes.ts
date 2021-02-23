@@ -41,4 +41,33 @@ productRouter.post(
     productController.get
   );
 
+  productRouter.put(
+    '/:product_id',
+    celebrate({
+      [Segments.PARAMS]: {
+        product_id: Joi.string().required()
+      },
+      [Segments.BODY]: Joi.object()
+        .keys({
+          name: Joi.string(),
+          cost: Joi.number(),
+          value: Joi.number(),
+          description: Joi.string(),
+          discount: Joi.number(),
+        })
+        .min(1)
+    }),
+    productController.update
+  );
+
+  productRouter.delete(
+    '/:product_id',
+    celebrate({
+      [Segments.PARAMS]: {
+        product_id: Joi.string().required()
+      }
+    }),
+    productController.delete
+  );
+
 export default productRouter;

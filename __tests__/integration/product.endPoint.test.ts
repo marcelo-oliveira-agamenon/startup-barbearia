@@ -54,6 +54,17 @@ const body = {
     created_at: expect.anything(),
     updated_at: expect.anything(),
     deleted_at: null
+  },
+  deleteResponse = {
+    product_id: expect.anything(),
+    name,
+    cost,
+    value,
+    description,
+    discount,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: expect.anything()
   };
 
 const createEndPoint = '/products/signup', listEndPoint = '/products/';
@@ -121,6 +132,18 @@ describe('POST/GET/PUT/DELETE /products', function () {
           .expect(200)
           .expect((res) => {
             expect(res.body).toEqual(expect.objectContaining(updateResponse));
+          })
+          .end(done);
+      });
+
+      it('Should delete a client softly and return {client}.', function (done) {
+        request(API)
+          .delete(commonEndPoint)
+          .expect('Content-Type', /json/)
+          .expect(Product)
+          .expect(200)
+          .expect((res) => {
+            expect(res.body).toEqual(expect.objectContaining(deleteResponse));
           })
           .end(done);
       });
