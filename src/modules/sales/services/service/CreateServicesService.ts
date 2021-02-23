@@ -4,7 +4,7 @@ import IServiceRepository from '@modules/sales/repositories/IServiceRepository';
 
 import Service from '@modules/sales/infra/typeorm/entities/Service';
 
-import { ICreateServicesDTO } from '@modules/sales/dtos/IServicesDTO';
+import { ICreateServicesDTO } from '@modules/sales/dtos/IServiceDTO';
 
 import AppError from '@shared/errors/AppError';
 

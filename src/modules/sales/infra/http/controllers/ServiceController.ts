@@ -6,7 +6,7 @@ import GetServicesListServices from '@modules/sales/services/service/GetServices
 import UpdateServicesService from '@modules/sales/services/service/UpdateServicesService';
 import GetServiceService from '@modules/sales/services/service/GetServiceService';
 import DeleteServicesService from '@modules/sales/services/service/DeleteServicesService';
-import { IGetServiceDTO } from '@modules/sales/dtos/IServicesDTO';
+import { IGetServiceDTO } from '@modules/sales/dtos/IServiceDTO';
 
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
