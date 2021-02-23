@@ -19,10 +19,10 @@ export class Client {
   phone: string | null;
 
   @Column({ nullable: true, type: 'varchar' })
-  email: string;
+  email: string | null;
 
   @Column({ length: '14', nullable: true, type: 'varchar' })
-  cpf: string;
+  cpf: string | null;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
