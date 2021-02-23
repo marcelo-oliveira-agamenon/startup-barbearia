@@ -15,20 +15,13 @@ export class Client {
   @Column()
   name: string;
 
-  @Column({
-    nullable: true
-  })
-  phone: string;
+  @Column({ nullable: true, type: 'varchar' })
+  phone: string | null;
 
-  @Column({
-    nullable: true
-  })
+  @Column({ nullable: true, type: 'varchar' })
   email: string;
 
-  @Column({
-    length: '14',
-    nullable: true
-  })
+  @Column({ length: '14', nullable: true, type: 'varchar' })
   cpf: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
@@ -38,5 +31,5 @@ export class Client {
   updated_at: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date;
+  deleted_at: Date | null;
 }
