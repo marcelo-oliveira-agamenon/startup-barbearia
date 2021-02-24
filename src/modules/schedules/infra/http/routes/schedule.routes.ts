@@ -19,3 +19,5 @@ scheduleRouter.post(
   }),
   scheduleController.create
 );
+
+export default scheduleRouter;

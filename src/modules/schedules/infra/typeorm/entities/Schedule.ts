@@ -19,14 +19,17 @@ export class Schedule {
   id: number;
 
   @OneToMany(() => User, (user) => user.user_id)
-  user_id: User;
+  @Column()
+  user_id: string;
 
   @OneToMany(() => Client, (client) => client.client_id)
-  client_id: Client;
+  @Column()
+  client_id: string;
 
   @ManyToMany(() => Service)
   @JoinTable()
-  service_id: Service;
+  @Column()
+  service_id: string;
 
   @Column()
   start_date: Date;
