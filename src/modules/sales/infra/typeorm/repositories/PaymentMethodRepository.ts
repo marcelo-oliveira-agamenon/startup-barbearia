@@ -18,7 +18,7 @@ export default class ServiceRepository implements IPaymentMethodRepository {
   }
 
   public async findByName(name: string): Promise<PaymentMethod | undefined> {
-    const paymentMethod = this.ormRepository.findOne(name);
+    const paymentMethod = this.ormRepository.findOne({ name });
 
     return paymentMethod;
   }

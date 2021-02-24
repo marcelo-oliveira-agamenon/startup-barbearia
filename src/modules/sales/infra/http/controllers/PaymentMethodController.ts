@@ -7,7 +7,7 @@ export default class PaymentMethodController {
     const data = request.body;
 
     const createPaymentMethod = container.resolve(CreatePaymentMethodService);
-    const paymentMethod = createPaymentMethod.execute(data);
+    const paymentMethod = await createPaymentMethod.execute(data);
 
     return response.status(201).json(paymentMethod);
   }

@@ -11,10 +11,10 @@ export default class Service {
   @PrimaryGeneratedColumn('increment')
   payment_method_id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ default: false })
   is_active: boolean;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })

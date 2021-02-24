@@ -23,6 +23,7 @@ export default class CreatePaymentMethodService {
     );
     if (paymentMethodExists)
       throw new AppError('This payment method already exists!');
+
     const paymentMethod = await this.paymentMethodRepository.create(data);
 
     return paymentMethod;

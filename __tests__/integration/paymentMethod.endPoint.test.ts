@@ -14,8 +14,11 @@ const body = {
     name
   },
   commonResponse = {
-    id: expect.anything(),
-    name
+    payment_method_id: expect.anything(),
+    name,
+    is_active,
+    created_at: expect.anything(),
+    updated_at: expect.anything()
   },
   listQuery = {
     limit: faker.random.number(),
@@ -60,7 +63,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
       .expect(201)
       .expect((res) => {
         commonEndPoint += res.body.user_id;
-        // expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(expect.objectContaining(commonResponse));
       })
       .end(done);
   });
