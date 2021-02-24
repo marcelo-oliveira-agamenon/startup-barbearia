@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { Client } from '@modules/users/infra/typeorm/entities/Client';
+import Client from '@modules/users/infra/typeorm/entities/Client';
 import 'dotenv/config';
 
 import faker from 'faker';
