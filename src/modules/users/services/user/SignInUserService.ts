@@ -37,7 +37,7 @@ export default class AuthenticateUserService {
 
     const token = sign(
       { id: user.user_id, role: user.user_type },
-      `${process.env.SECRET}`,
+      `${process.env.JWT_SECRET}`,
       {
         expiresIn: 86400
       }

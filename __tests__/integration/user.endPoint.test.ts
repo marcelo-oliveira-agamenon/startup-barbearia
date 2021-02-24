@@ -89,6 +89,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
       .post(createEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(body)
       .expect('Content-Type', /json/)
       .expect(User)
@@ -103,6 +104,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should list users and return [{user}].', function (done) {
     request(API)
       .get(listEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .query(listQuery)
       .expect('Content-Type', /json/)
       .expect(User)
@@ -129,6 +131,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should get a user and return {user}.', function (done) {
     request(API)
       .get(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
@@ -140,6 +143,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should update a user and return {user}.', function (done) {
     request(API)
       .put(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(updateBody)
       .expect('Content-Type', /json/)
       .expect(User)
@@ -152,6 +156,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should login and return {auth, token}.', function (done) {
     request(API)
       .post(loginEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(loginBody)
       .expect('Content-Type', /json/)
       .expect(200)
@@ -164,6 +169,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should delete a user softly and return {user}.', function (done) {
     request(API)
       .delete(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)

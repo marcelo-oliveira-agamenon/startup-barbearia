@@ -4,72 +4,67 @@ import 'dotenv/config';
 
 import faker from 'faker';
 
-
 const API = process.env.TEST_URL;
 
-const 
-  name= faker.name.findName(),
-  cpf= faker.internet.password(14),
-  phone= faker.phone.phoneNumber(),
-  email= faker.internet.email()
-;
-
+const name = faker.name.findName(),
+  cpf = faker.internet.password(14),
+  phone = faker.phone.phoneNumber(),
+  email = faker.internet.email();
 const body = {
-  name,
-  phone,
-  cpf,
-  email,
-},
-commonResponse = {
-  client_id: expect.anything(),
-  name,
-  phone,
-  cpf,
-  email,
-  created_at: expect.anything(),
-  updated_at: expect.anything(),
-  deleted_at: null
-},
-listQuery = {
-  limit: faker.random.number(),
-  offset: 1
-},
-updateBody = {
-  name,
-  phone,
-  cpf,
-  email,
-},
-updateResponse = {
-  client_id: expect.anything(),
-  name,
-  phone,
-  cpf,
-  email,
-  created_at: expect.anything(),
-  updated_at: expect.anything(),
-  deleted_at: null
-},
-deleteResponse = {
-  client_id: expect.anything(),
-  name,
-  phone,
-  cpf,
-  email,
-  created_at: expect.anything(),
-  updated_at: expect.anything(),
-  deleted_at: expect.anything()
-};
-const createEndPoint = '/clients/signup', listEndPoint = '/clients/';
+    name,
+    phone,
+    cpf,
+    email
+  },
+  commonResponse = {
+    client_id: expect.anything(),
+    name,
+    phone,
+    cpf,
+    email,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
+  },
+  listQuery = {
+    limit: faker.random.number(),
+    offset: 1
+  },
+  updateBody = {
+    name,
+    phone,
+    cpf,
+    email
+  },
+  updateResponse = {
+    client_id: expect.anything(),
+    name,
+    phone,
+    cpf,
+    email,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: null
+  },
+  deleteResponse = {
+    client_id: expect.anything(),
+    name,
+    phone,
+    cpf,
+    email,
+    created_at: expect.anything(),
+    updated_at: expect.anything(),
+    deleted_at: expect.anything()
+  };
+const createEndPoint = '/clients/signup',
+  listEndPoint = '/clients/';
 let commonEndPoint = '/clients/';
-
-
-
 
 describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should create a client with all input fields and return {client}.', function (done) {
     request(API)
       .post(createEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(body)
       .expect('Content-Type', /json/)
       .expect(Client)
@@ -83,6 +78,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should list clientes and return [{client}].', function (done) {
     request(API)
       .get(listEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .query(listQuery)
       .expect('Content-Type', /json/)
       .expect(Client)
@@ -104,10 +100,11 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
       })
       .end(done);
   });
-  
+
   it('Should get a client and return {client}.', function (done) {
     request(API)
       .get(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(body)
       .expect('Content-Type', /json/)
       .expect(Client)
@@ -121,6 +118,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should update a client and return {client}.', function (done) {
     request(API)
       .put(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(updateBody)
       .expect('Content-Type', /json/)
       .expect(Client)
@@ -134,6 +132,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should delete a client softly and return {client}.', function (done) {
     request(API)
       .delete(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect(200)
@@ -142,5 +141,4 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
       })
       .end(done);
   });
-
 });

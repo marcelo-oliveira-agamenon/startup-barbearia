@@ -6,9 +6,9 @@
   "author": "Guilherme <guilherme_ecb@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon eslint . --ext .ts ts-node-dev --respawn --transpile-only --ignore-watch",
+    "dev": "nodemon",
     "test": "jest",
-    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f src/shared/infra/typeorm/ormconfig.ts"
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f src/shared/infra/typeorm/ormconfig.ts"
   },
   "jest": {
     "moduleFileExtensions": [
