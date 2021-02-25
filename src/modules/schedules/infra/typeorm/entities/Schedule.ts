@@ -5,7 +5,8 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  OneToMany,
+  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -18,11 +19,11 @@ export class Schedule {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @OneToMany(() => User, (user) => user.user_id)
+  @OneToOne(() => User, (user) => user.user_id)
   @Column()
   user_id: string;
 
-  @OneToMany(() => Client, (client) => client.client_id)
+  @OneToOne(() => Client, (client) => client.client_id)
   @Column()
   client_id: string;
 
@@ -36,6 +37,12 @@ export class Schedule {
 
   @Column()
   end_date: Date;
+
+  @Column()
+  status: boolean;
+
+  @Column()
+  description: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

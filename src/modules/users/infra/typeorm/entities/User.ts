@@ -6,7 +6,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -24,7 +24,7 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   user_id: string;
 
-  @ManyToOne(() => Schedule, (schedule: Schedule) => schedule.user_id)
+  @OneToMany(() => Schedule, (schedule: Schedule) => schedule.user_id)
   @JoinColumn()
   schedule: Schedule;
 
