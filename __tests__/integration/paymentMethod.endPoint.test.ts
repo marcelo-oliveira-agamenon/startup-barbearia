@@ -11,9 +11,17 @@ const name = faker.name.findName(),
   is_active = faker.random.boolean();
 
 const body = {
-    name
+    name,
+    is_active
   },
-  commonResponse = {
+  bodyResponse = {
+    payment_method_id: expect.anything(),
+    name,
+    is_active,
+    created_at: expect.anything(),
+    updated_at: expect.anything()
+  },
+  getResponse = {
     payment_method_id: expect.anything(),
     name,
     is_active,
@@ -48,8 +56,7 @@ const body = {
     deleted_at: expect.anything()
   };
 const createEndPoint = '/payment-methods/signup',
-  listEndPoint = '/payment-methods/',
-  loginEndPoint = '/payment-methods';
+  listEndPoint = '/payment-methods/';
 let commonEndPoint = '/payment-methods/';
 
 describe('POST/GET/PUT/DELETE /users/', function () {
@@ -62,51 +69,46 @@ describe('POST/GET/PUT/DELETE /users/', function () {
       .expect(PaymentMethod)
       .expect(201)
       .expect((res) => {
-        commonEndPoint += res.body.user_id;
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        commonEndPoint += res.body.payment_method_id;
+        expect(res.body).toEqual(expect.objectContaining(bodyResponse));
       })
       .end(done);
   });
 
-  // it('Should list users and return [{user}].', function (done) {
-  //   request(API)
-  //     .get(listEndPoint)
-  //     .set('Authorization', `Bearer ${process.env.TOKEN}`)
-  //     .query(listQuery)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       if (res.body.length) {
-  //         const firstElement = res.body[0];
-  //         expect(firstElement).toHaveProperty('user_id');
-  //         expect(firstElement).toHaveProperty('name');
-  //         expect(firstElement).toHaveProperty('user_type');
-  //         expect(firstElement).toHaveProperty('phone');
-  //         expect(firstElement).toHaveProperty('cpf');
-  //         expect(firstElement).toHaveProperty('email');
-  //         expect(firstElement).toHaveProperty('is_active');
-  //         expect(firstElement).toHaveProperty('created_at');
-  //         expect(firstElement).toHaveProperty('updated_at');
-  //         expect(firstElement).toHaveProperty('deleted_at');
-  //       } else {
-  //         expect(res.body).toEqual(expect.arrayContaining([]));
-  //       }
-  //     })
-  //     .end(done);
-  // });
-  // it('Should get a user and return {user}.', function (done) {
-  //   request(API)
-  //     .get(commonEndPoint)
-  //     .set('Authorization', `Bearer ${process.env.TOKEN}`)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(expect.objectContaining(commonResponse));
-  //     })
-  //     .end(done);
-  // });
+  it('Should list users and return [{user}].', function (done) {
+    request(API)
+      .get(listEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .query(listQuery)
+      .expect('Content-Type', /json/)
+      .expect(PaymentMethod)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('payment_method_id');
+          expect(firstElement).toHaveProperty('name');
+          expect(firstElement).toHaveProperty('is_active');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
+  it('Should get a user and return {user}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .expect('Content-Type', /json/)
+      .expect(PaymentMethod)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(expect.objectContaining(getResponse));
+      })
+      .end(done);
+  });
   // it('Should update a user and return {user}.', function (done) {
   //   request(API)
   //     .put(commonEndPoint)
