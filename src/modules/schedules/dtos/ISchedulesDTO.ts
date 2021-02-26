@@ -16,3 +16,15 @@ export interface IListScheduleDTO {
   limit?: number;
   offset?: number;
 }
+
+export interface IDeleteScheduleDTO {
+  schedule_id: string;
+}
+
+export interface IGetScheduleByClientIdDTO {
+  client_id: string;
+}
+
+export interface IGetScheduleByUserIdDTO {
+  user_id: string;
+}

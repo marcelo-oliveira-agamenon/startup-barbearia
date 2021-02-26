@@ -4,6 +4,9 @@ import { Request, Response } from 'express';
 import CreateScheduleService from '@modules/schedules/services/schedule/CreateScheduleService';
 import GetScheduleService from '@modules/schedules/services/schedule/GetScheduleService';
 import GetSchedulesListService from '@modules/schedules/services/schedule/GetSchedulesListService';
+import GetScheduleByClientIdService from '@modules/schedules/services/schedule/GetScheduleByClientIdService';
+import GetScheduleByUserId from '@modules/schedules/services/schedule/GetScheduleByUserId';
+import DeleteScheduleService from '@modules/schedules/services/schedule/DeleteScheduleService';
 import { classToClass } from 'class-transformer';
 export default class ScheduleController {
   public async create(
@@ -33,5 +36,37 @@ export default class ScheduleController {
     const schedules = await getScheduleList.execute(query);
 
     return response.status(200).json(schedules);
+  }
+
+  public async getByClient(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { client_id } = request.params;
+
+    const getSchedule = container.resolve(GetScheduleByClientIdService);
+    const schedule = await getSchedule.execute({ client_id });
+
+    return response.status(200).json(schedule);
+  }
+
+  public async getByUser(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { user_id } = request.params;
+
+    const getSchedule = container.resolve(GetScheduleByUserId);
+    const schedule = await getSchedule.execute({ user_id });
+
+    return response.status(200).json(schedule);
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { schedule_id } = request.params;
+    const deleteSchedule = container.resolve(DeleteScheduleService);
+    const schedule = await deleteSchedule.execute({ schedule_id });
+
+    return response.status(200).json(schedule);
   }
 }

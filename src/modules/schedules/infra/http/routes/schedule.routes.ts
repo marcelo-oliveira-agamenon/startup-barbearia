@@ -17,6 +17,26 @@ scheduleRouter.get(
 );
 
 scheduleRouter.get(
+  '/client/:client_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      client_id: Joi.string().required()
+    }
+  }),
+  scheduleController.getByClient
+);
+
+scheduleRouter.get(
+  '/user/:user_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      user_id: Joi.string().required()
+    }
+  }),
+  scheduleController.getByUser
+);
+
+scheduleRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
@@ -41,6 +61,16 @@ scheduleRouter.post(
     }
   }),
   scheduleController.create
+);
+
+scheduleRouter.delete(
+  '/:schedule_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      schedule_id: Joi.string().required()
+    }
+  }),
+  scheduleController.delete
 );
 
 export default scheduleRouter;
