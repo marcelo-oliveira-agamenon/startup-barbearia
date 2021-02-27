@@ -4,7 +4,9 @@ import {
   IListScheduleDTO,
   IDeleteScheduleDTO,
   IGetScheduleByClientIdDTO,
-  IGetScheduleByUserIdDTO
+  IGetScheduleByUserIdDTO,
+  IGetScheduleByDateDTO,
+  IUpdateScheduleDTO
 } from '@modules/schedules/dtos/ISchedulesDTO';
 
 export default interface IScheduleRepository {
@@ -17,4 +19,9 @@ export default interface IScheduleRepository {
     client_id
   }: IGetScheduleByClientIdDTO): Promise<Schedule[]>;
   findAllByUserId({ user_id }: IGetScheduleByUserIdDTO): Promise<Schedule[]>;
+  findAllByDate({
+    start_date,
+    end_date
+  }: IGetScheduleByDateDTO): Promise<Schedule[]>;
+  update(id: string, data: IUpdateScheduleDTO): Promise<Schedule>;
 }

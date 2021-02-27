@@ -37,6 +37,17 @@ scheduleRouter.get(
 );
 
 scheduleRouter.get(
+  '/date/filter',
+  celebrate({
+    [Segments.BODY]: {
+      start_date: Joi.date().required(),
+      end_date: Joi.date().required()
+    }
+  }),
+  scheduleController.getByDate
+);
+
+scheduleRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
@@ -61,6 +72,22 @@ scheduleRouter.post(
     }
   }),
   scheduleController.create
+);
+
+scheduleRouter.put(
+  '/:id',
+  celebrate({
+    [Segments.BODY]: {
+      user_id: Joi.string().required(),
+      client_id: Joi.string().required(),
+      service_id: Joi.string().required(),
+      start_date: Joi.date().required(),
+      end_date: Joi.date().required(),
+      status: Joi.boolean().required(),
+      description: Joi.string().required()
+    }
+  }),
+  scheduleController.update
 );
 
 scheduleRouter.delete(

@@ -6,6 +6,8 @@ import GetScheduleService from '@modules/schedules/services/schedule/GetSchedule
 import GetSchedulesListService from '@modules/schedules/services/schedule/GetSchedulesListService';
 import GetScheduleByClientIdService from '@modules/schedules/services/schedule/GetScheduleByClientIdService';
 import GetScheduleByUserId from '@modules/schedules/services/schedule/GetScheduleByUserId';
+import GetScheduleByDateService from '@modules/schedules/services/schedule/GetScheduleByDateService';
+import UpdateScheduleService from '@modules/schedules/services/schedule/UpdateScheduleService';
 import DeleteScheduleService from '@modules/schedules/services/schedule/DeleteScheduleService';
 import { classToClass } from 'class-transformer';
 export default class ScheduleController {
@@ -62,11 +64,32 @@ export default class ScheduleController {
     return response.status(200).json(schedule);
   }
 
+  public async getByDate(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { start_date, end_date } = request.body;
+
+    const getSchedule = container.resolve(GetScheduleByDateService);
+    const schedule = await getSchedule.execute({ start_date, end_date });
+
+    return response.status(200).json(schedule);
+  }
+
   public async delete(request: Request, response: Response): Promise<Response> {
     const { schedule_id } = request.params;
     const deleteSchedule = container.resolve(DeleteScheduleService);
     const schedule = await deleteSchedule.execute({ schedule_id });
 
     return response.status(200).json(schedule);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const data = request.body;
+    const { id } = request.params;
+    const updateSchedule = container.resolve(UpdateScheduleService);
+    const schedule = await updateSchedule.execute(id, data);
+
+    return response.status(200).json(classToClass(schedule));
   }
 }

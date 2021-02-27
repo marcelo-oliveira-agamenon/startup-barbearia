@@ -5,9 +5,12 @@ import {
   ICreateScheduleDTO,
   IDeleteScheduleDTO,
   IGetScheduleByClientIdDTO,
+  IGetScheduleByDateDTO,
   IGetScheduleByUserIdDTO,
-  IListScheduleDTO
+  IListScheduleDTO,
+  IUpdateScheduleDTO
 } from '@modules/schedules/dtos/ISchedulesDTO';
+import { Between } from 'typeorm';
 
 export default class ScheduleRepository implements IScheduleRepository {
   private ormRepository: Repository<Schedule>;
@@ -78,5 +81,27 @@ export default class ScheduleRepository implements IScheduleRepository {
     });
 
     return schedules;
+  }
+
+  public async findAllByDate({
+    start_date,
+    end_date
+  }: IGetScheduleByDateDTO): Promise<Schedule[]> {
+    const schedules = await this.ormRepository.find({
+      where: {
+        start_date: Between(start_date, end_date),
+        end_date: Between(start_date, end_date)
+      }
+    });
+
+    return schedules;
+  }
+
+  public async update(id: string, data: IUpdateScheduleDTO): Promise<Schedule> {
+    const scheduleExist = await this.ormRepository.findOne(id);
+    const isScheduleUpdated = await this.ormRepository.save(
+      Object.assign(scheduleExist, data)
+    );
+    return isScheduleUpdated;
   }
 }

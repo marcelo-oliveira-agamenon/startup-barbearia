@@ -8,6 +8,16 @@ export interface ICreateScheduleDTO {
   description: string;
 }
 
+export interface IUpdateScheduleDTO {
+  user_id: string;
+  client_id: string;
+  service_id: string;
+  start_date: Date;
+  end_date: Date;
+  status: boolean;
+  description: string;
+}
+
 export interface IGetScheduleDTO {
   schedule_id: string;
 }
@@ -27,4 +37,9 @@ export interface IGetScheduleByClientIdDTO {
 
 export interface IGetScheduleByUserIdDTO {
   user_id: string;
+}
+
+export interface IGetScheduleByDateDTO {
+  start_date: Date;
+  end_date: Date;
 }
