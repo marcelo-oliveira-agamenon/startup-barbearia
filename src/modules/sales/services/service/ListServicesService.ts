@@ -7,7 +7,7 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 import { IListServicesDTO } from '@modules/sales/dtos/IServiceDTO';
 
 @injectable()
-export default class GetServicesListService {
+export default class ListServicesService {
   constructor(
     @inject('ServiceRepository')
     private serviceRepository: IServiceRepository
