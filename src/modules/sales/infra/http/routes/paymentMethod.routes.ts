@@ -49,15 +49,17 @@ paymentMethodRouter.delete(
 );
 
 paymentMethodRouter.put(
-  '/:service_id',
+  '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().required()
+      payment_method_id: Joi.string().required()
     },
-    [Segments.BODY]: {
-      name: Joi.string().required(),
-      value: Joi.number().required()
-    }
+    [Segments.BODY]: Joi.object()
+      .keys({
+        name: Joi.string(),
+        is_active: Joi.boolean()
+      })
+      .min(1)
   }),
   paymentMethodController.update
 );

@@ -60,7 +60,7 @@ const createEndPoint = '/payment-methods/signup',
 let commonEndPoint = '/payment-methods/';
 
 describe('POST/GET/PUT/DELETE /users/', function () {
-  it('Should create a user with all input fields and return {user}.', function (done) {
+  it('Should create a payment method with all input fields and return {user}.', function (done) {
     request(API)
       .post(createEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
@@ -75,7 +75,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
       .end(done);
   });
 
-  it('Should list users and return [{user}].', function (done) {
+  it('Should list payment methods and return [{payment methods}].', function (done) {
     request(API)
       .get(listEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
@@ -97,7 +97,7 @@ describe('POST/GET/PUT/DELETE /users/', function () {
       })
       .end(done);
   });
-  it('Should get a user and return {user}.', function (done) {
+  it('Should get a payment method and return {user}.', function (done) {
     request(API)
       .get(commonEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
@@ -119,19 +119,6 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   //     .expect(200)
   //     .expect((res) => {
   //       expect(res.body).toEqual(expect.objectContaining(updateResponse));
-  //     })
-  //     .end(done);
-  // });
-  // it('Should login and return {auth, token}.', function (done) {
-  //   request(API)
-  //     .post(loginEndPoint)
-  //     .set('Authorization', `Bearer ${process.env.TOKEN}`)
-  //     .send(loginBody)
-  //     .expect('Content-Type', /json/)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toHaveProperty('auth');
-  //       expect(res.body).toHaveProperty('token');
   //     })
   //     .end(done);
   // });
