@@ -20,6 +20,20 @@ export default class ServiceRepository implements IPaymentMethodRepository {
 
     return paymentMethod;
   }
+  public async update(entity: PaymentMethod): Promise<PaymentMethod> {
+    const paymentMethod = await this.ormRepository.save(entity);
+
+    return paymentMethod;
+  }
+
+  public async deleteById(
+    payment_method_id: number
+  ): Promise<number | null | undefined> {
+    const paymentMethod = await this.ormRepository.delete(payment_method_id);
+    const isAffected = paymentMethod.affected;
+
+    return isAffected;
+  }
 
   public async findByName(name: string): Promise<PaymentMethod | undefined> {
     const paymentMethod = this.ormRepository.findOne({ name });
@@ -40,9 +54,8 @@ export default class ServiceRepository implements IPaymentMethodRepository {
   }
 
   public async findById(
-    query: IGetPaymentMethodDTO
+    payment_method_id: number
   ): Promise<PaymentMethod | undefined> {
-    const { payment_method_id } = query;
     const paymentMethod = this.ormRepository.findOne(payment_method_id);
 
     return paymentMethod;

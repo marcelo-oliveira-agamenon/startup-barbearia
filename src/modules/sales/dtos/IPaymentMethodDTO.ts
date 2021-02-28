@@ -11,3 +11,13 @@ export interface IListPaymentMethodsDTO {
 export interface IGetPaymentMethodDTO {
   payment_method_id: number;
 }
+
+export interface IUpdatePaymentMethodDTO {
+  payment_method_id: number;
+  name?: string;
+  is_active?: boolean;
+}
+
+export interface IDeletePaymentMethodDTO {
+  payment_method_id: number;
+}

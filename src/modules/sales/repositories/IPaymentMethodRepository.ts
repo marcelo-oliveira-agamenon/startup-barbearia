@@ -7,10 +7,9 @@ import {
 
 export default interface IServiceRepository {
   create(data: ICreatePaymentMethodDTO): Promise<PaymentMethod>;
+  update(entity: PaymentMethod): Promise<PaymentMethod>;
+  deleteById(payment_method_id: number): Promise<number | null | undefined>;
   findByName(name: string): Promise<PaymentMethod | undefined>;
   findAll(query: IListPaymentMethodsDTO): Promise<PaymentMethod[]>;
-  findById(query: IGetPaymentMethodDTO): Promise<PaymentMethod | undefined>;
-
-  // delete({ service_id }: IDeleteServicesDTO): Promise<number | undefined>;
-  // update(id: number, data: IUpdateServicesDTO): Promise<PaymentMethod>;
+  findById(payment_method_id: number): Promise<PaymentMethod | undefined>;
 }

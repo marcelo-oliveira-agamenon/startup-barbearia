@@ -39,10 +39,10 @@ paymentMethodRouter.get(
 );
 
 paymentMethodRouter.delete(
-  '/:service_id',
+  '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().required()
+      payment_method_id: Joi.string().required()
     }
   }),
   paymentMethodController.delete

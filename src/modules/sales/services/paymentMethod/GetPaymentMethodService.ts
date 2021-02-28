@@ -15,7 +15,10 @@ export default class ListPaymentMethodsService {
   ) {}
 
   public async execute(params: IGetPaymentMethodDTO): Promise<PaymentMethod> {
-    const paymentMethod = await this.serviceRepository.findById(params);
+    const { payment_method_id } = params;
+    const paymentMethod = await this.serviceRepository.findById(
+      payment_method_id
+    );
 
     if (!paymentMethod)
       throw new AppError('This payment method does not exist!');

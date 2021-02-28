@@ -3,6 +3,8 @@ import { container } from 'tsyringe';
 import CreatePaymentMethodService from '@modules/sales/services/paymentMethod/CreatePaymentMethodService';
 import ListPaymentMethodsService from '@modules/sales/services/paymentMethod/ListPaymentMethodsService';
 import GetPaymentMethodService from '@modules/sales/services/paymentMethod/GetPaymentMethodService';
+import UpdatePaymentMethodService from '@modules/sales/services/paymentMethod/UpdatePaymentMethodService';
+import DeletePaymentMethodService from '@modules/sales/services/paymentMethod/DeletePaymentMethodService';
 
 export default class PaymentMethodController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -35,12 +37,22 @@ export default class PaymentMethodController {
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    const { service_id } = request.params;
+    const { payment_method_id } = request.params;
 
-    return response.status(200).json();
+    const deletePaymentMethod = container.resolve(DeletePaymentMethodService);
+    const paymentMethod = await deletePaymentMethod.execute({
+      payment_method_id: +payment_method_id
+    });
+
+    return response.status(200).json(paymentMethod);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    return response.status(200).json();
+    const { payment_method_id } = request.params;
+    const params = { ...request.body, payment_method_id };
+
+    const updatePaymentMethod = container.resolve(UpdatePaymentMethodService);
+    const paymentMethod = await updatePaymentMethod.execute(params);
+    return response.status(200).json(paymentMethod);
   }
 }
