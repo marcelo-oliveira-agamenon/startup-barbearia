@@ -1,29 +1,25 @@
 import {
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 
-@Entity('service')
+@Entity('payment_method')
 export default class Service {
   @PrimaryGeneratedColumn('increment')
-  service_id: number;
+  payment_method_id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
-  @Column()
-  value: number;
+  @Column({ default: false })
+  is_active: boolean;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
-
-  @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date | null;
 }

@@ -6,7 +6,7 @@ import {
   IListServicesDTO,
   IDeleteServicesDTO,
   IUpdateServicesDTO
-} from '@modules/sales/dtos/IServicesDTO';
+} from '@modules/sales/dtos/IServiceDTO';
 
 export default class ServiceRepository implements IServiceRepository {
   private ormRepository: Repository<Service>;

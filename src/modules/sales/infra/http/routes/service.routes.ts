@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import ServicesController from '@modules/sales/infra/http/controllers/ServicesController';
+import ServiceController from '@modules/sales/infra/http/controllers/ServiceController';
 
 const serviceRouter = Router();
-const serviceController = new ServicesController();
+const serviceController = new ServiceController();
 
 serviceRouter.post(
   '/signup',
@@ -54,10 +54,12 @@ serviceRouter.put(
     [Segments.PARAMS]: {
       service_id: Joi.string().required()
     },
-    [Segments.BODY]: {
-      name: Joi.string().required(),
-      value: Joi.number().required()
-    }
+    [Segments.BODY]: Joi.object()
+      .keys({
+        name: Joi.string(),
+        value: Joi.number()
+      })
+      .min(1)
   }),
   serviceController.update
 );

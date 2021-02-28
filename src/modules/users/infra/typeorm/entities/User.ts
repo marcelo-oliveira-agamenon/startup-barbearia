@@ -31,20 +31,16 @@ export class User {
   })
   user_type: UserRole;
 
-  @Column({
-    nullable: true
-  })
-  phone: string;
+  @Column({ nullable: true, type: 'varchar' })
+  phone: string | null;
 
-  @Column({ length: 14, nullable: true })
-  cpf: string;
+  @Column({ length: 14, nullable: true, type: 'varchar' })
+  cpf: string | null;
 
   @Column()
   email: string;
 
-  @Column({
-    select: false
-  })
+  @Column({ select: false })
   @Exclude()
   password: string;
 
@@ -64,5 +60,5 @@ export class User {
   updated_at: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date;
+  deleted_at: Date | null;
 }
