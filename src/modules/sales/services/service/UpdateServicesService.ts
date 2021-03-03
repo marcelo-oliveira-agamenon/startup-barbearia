@@ -8,8 +8,6 @@ import { IUpdateServicesDTO } from '@modules/sales/dtos/IServiceDTO';
 
 import AppError from '@shared/errors/AppError';
 
-import AppError from '@shared/errors/AppError';
-
 @injectable()
 export default class UpdateServicesService {
   constructor(

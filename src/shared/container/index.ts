@@ -12,18 +12,23 @@ import IPaymentMethodRepository from '@modules/sales/repositories/IPaymentMethod
 import ScheduleRepository from '@modules/schedules/infra/typeorm/repositories/ScheduleRepository';
 import IScheduleRepository from '@modules/schedules/repositories/IScheduleRepository';
 
+
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
+
 container.registerSingleton<IClientRepository>(
   'ClientRepository',
   ClientRepository
 );
+
 container.registerSingleton<IServiceRepository>(
   'ServiceRepository',
   ServiceRepository
 );
+
 container.registerSingleton<IScheduleRepository>(
   'ScheduleRepository',
   ScheduleRepository
+);
 
 container.registerSingleton<IPaymentMethodRepository>(
   'PaymentMethodRepository',
