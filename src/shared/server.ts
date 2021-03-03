@@ -19,7 +19,7 @@ import errorHandling from '@shared/infra/middlewares/errorHandling';
   app.use(
     cors(),
     express.json(),
-    //authExceptions(authentication),
+    authExceptions(authentication),
     Routes,
     errors(),
     errorHandling

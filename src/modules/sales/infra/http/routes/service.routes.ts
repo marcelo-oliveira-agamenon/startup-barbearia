@@ -54,10 +54,12 @@ serviceRouter.put(
     [Segments.PARAMS]: {
       service_id: Joi.string().required()
     },
-    [Segments.BODY]: {
-      name: Joi.string().required(),
-      value: Joi.number().required()
-    }
+    [Segments.BODY]: Joi.object()
+      .keys({
+        name: Joi.string(),
+        value: Joi.number()
+      })
+      .min(1)
   }),
   serviceController.update
 );
