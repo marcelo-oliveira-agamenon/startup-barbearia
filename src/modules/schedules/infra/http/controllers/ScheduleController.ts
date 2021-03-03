@@ -16,6 +16,7 @@ export default class ScheduleController {
     response: Response
   ): Promise<Response | void> {
     const data = request.body;
+
     const createSchedule = container.resolve(CreateScheduleService);
     const schedule = await createSchedule.execute(data);
 

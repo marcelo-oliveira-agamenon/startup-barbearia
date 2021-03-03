@@ -29,7 +29,7 @@ export class Schedule {
   @ManyToMany(() => Service)
   @JoinTable()
   @Column()
-  service_id: string;
+  service_id: number;
 
   @Column()
   start_date: Date;
