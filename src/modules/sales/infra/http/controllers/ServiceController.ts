@@ -2,11 +2,11 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import CreateServicesService from '@modules/sales/services/service/CreateServicesService';
-import GetServicesListServices from '@modules/sales/services/service/GetServicesListServices';
+import ListServicesService from '@modules/sales/services/service/ListServicesService';
 import UpdateServicesService from '@modules/sales/services/service/UpdateServicesService';
 import GetServiceService from '@modules/sales/services/service/GetServiceService';
 import DeleteServicesService from '@modules/sales/services/service/DeleteServicesService';
-import { IGetServiceDTO } from '@modules/sales/dtos/IServicesDTO';
+import { IGetServiceDTO } from '@modules/sales/dtos/IServiceDTO';
 
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -30,8 +30,8 @@ export default class ServicesController {
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    const getServicesList = container.resolve(GetServicesListServices);
-    const service = await getServicesList.execute(query);
+    const listServices = container.resolve(ListServicesService);
+    const service = await listServices.execute(query);
 
     return response.status(200).json(service);
   }

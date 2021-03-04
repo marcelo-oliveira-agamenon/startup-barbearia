@@ -4,7 +4,7 @@ import {
   IListServicesDTO,
   IDeleteServicesDTO,
   IUpdateServicesDTO
-} from '@modules/sales/dtos/IServicesDTO';
+} from '@modules/sales/dtos/IServiceDTO';
 
 export default interface IServiceRepository {
   create(data: ICreateServicesDTO): Promise<number>;
