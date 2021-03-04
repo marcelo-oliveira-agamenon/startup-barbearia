@@ -32,7 +32,7 @@ paymentMethodRouter.get(
   '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      payment_method_id: Joi.string().required()
+      payment_method_id: Joi.number().required()
     }
   }),
   paymentMethodController.get
@@ -42,7 +42,7 @@ paymentMethodRouter.delete(
   '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      payment_method_id: Joi.string().required()
+      payment_method_id: Joi.number().required()
     }
   }),
   paymentMethodController.delete
@@ -52,7 +52,7 @@ paymentMethodRouter.put(
   '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      payment_method_id: Joi.string().required()
+      payment_method_id: Joi.number().required()
     },
     [Segments.BODY]: Joi.object()
       .keys({
