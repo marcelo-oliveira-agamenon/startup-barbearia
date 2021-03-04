@@ -20,8 +20,8 @@ export class Stock {
         })
     quantity: number;
 
-    @OneToMany(() => Product, product => product.product_id)
-    products: Product[];
+    @OneToMany(() => Product, (product) => product.product_id)
+    products: string;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
