@@ -7,7 +7,7 @@ import Client from '@modules/users/infra/typeorm/entities/Client';
 import { IListClientsDTO } from '@modules/users/dtos/IClientDTO';
 
 @injectable()
-export default class GetClientsListService {
+export default class ListProductsService {
   constructor(
     @inject('ClientRepository')
     private clientRepository: IClientRepository

@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import CreateClientService from '@modules/users/services/client/CreateClientService';
 import GetClientService from '@modules/users/services/client/GetClientService';
-import GetClientsListService from '@modules/users/services/client/GetClientsListService';
+import ListProductsService from '@modules/users/services/client/ListProductsService';
 import UpdateClientService from '@modules/users/services/client/UpdateClientService';
 import { classToClass } from 'class-transformer';
 import DeleteClientService from '@modules/users/services/client/DeleteClientService';
@@ -29,7 +29,7 @@ export default class ClientController {
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    const getClientsList = container.resolve(GetClientsListService);
+    const getClientsList = container.resolve(ListProductsService);
     const clients = await getClientsList.execute(query);
 
     return response.status(200).json(clients);
