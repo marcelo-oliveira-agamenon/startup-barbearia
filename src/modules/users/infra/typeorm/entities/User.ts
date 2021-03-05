@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
-import { Schedule } from '../../../../schedules/infra/typeorm/entities/Schedule';
+import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 
 export enum UserRole {
   ADMIN = 'admin',

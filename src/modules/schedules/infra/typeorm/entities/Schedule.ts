@@ -9,9 +9,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { Client } from '../../../../users/infra/typeorm/entities/Client';
-import { User } from '../../../../users/infra/typeorm/entities/User';
-import Service from '../../../../sales/infra/typeorm/entities/Service';
+import Client from '@modules/users/infra/typeorm/entities/Client';
+import { User } from '@modules/users/infra/typeorm/entities/User';
+import Service from '@modules/sales/infra/typeorm/entities/Service';
 
 @Entity('schedule')
 export class Schedule {

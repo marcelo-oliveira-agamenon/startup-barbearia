@@ -8,7 +8,7 @@ import {
   ManyToMany,
   JoinColumn
 } from 'typeorm';
-import { Schedule } from '../../../../schedules/infra/typeorm/entities/Schedule';
+import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 
 @Entity('service')
 export default class Service {
