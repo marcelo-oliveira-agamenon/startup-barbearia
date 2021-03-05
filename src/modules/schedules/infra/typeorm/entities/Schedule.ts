@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import Client from '@modules/users/infra/typeorm/entities/Client';
+import { Client } from '@modules/users/infra/typeorm/entities/Client';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import Service from '@modules/sales/infra/typeorm/entities/Service';
 
