@@ -6,13 +6,14 @@ import {
     OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
-    JoinColumn
+    JoinColumn,
+    Index
   } from 'typeorm';
 import Product from './Product';
 
 @Entity('stock')
-export class Stock {
-    @PrimaryGeneratedColumn('uuid')
+export default class Stock {
+    @PrimaryGeneratedColumn('increment')
     stock_id: string;
 
     @Column({
@@ -22,7 +23,8 @@ export class Stock {
 
     @OneToOne(() => Product)
     @JoinColumn()
-    products: string;
+    @Index({unique: true})
+    product: string;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
