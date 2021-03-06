@@ -1,44 +1,43 @@
 import {
-    Column,
-    CreateDateColumn,
-    DeleteDateColumn,
-    Entity,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
-  } from 'typeorm';
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 @Entity('product')
 export default class Product {
-    @PrimaryGeneratedColumn('uuid')
-    product_id: string;
+  @PrimaryGeneratedColumn('uuid')
+  product_id: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column({
-        nullable: true
-        })
-    cost: number;
-
-    @Column()
-    value: number;
-
-    @Column({
+  @Column({
     nullable: true
-    })
-    description: string;
+  })
+  cost: number;
 
-    @Column({
+  @Column()
+  value: number;
+
+  @Column({
     nullable: true
-    })
-    discount: number;
+  })
+  description: string;
 
-    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date;
+  @Column({
+    nullable: true
+  })
+  discount: number;
 
-    @UpdateDateColumn({ type: 'timestamptz' })
-    updated_at: Date;
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
 
-    @DeleteDateColumn({ type: 'timestamptz' })
-    deleted_at: Date;
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updated_at: Date;
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deleted_at: Date;
 }
