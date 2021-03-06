@@ -75,7 +75,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
       .end(done);
   });
 
-  it('Should list clientes and return [{client}].', function (done) {
+  it('Should list clients and return [{client}].', function (done) {
     request(API)
       .get(listEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
