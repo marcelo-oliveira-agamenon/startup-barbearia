@@ -3,7 +3,7 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
     JoinColumn
@@ -20,7 +20,8 @@ export class Stock {
         })
     quantity: number;
 
-    @OneToMany(() => Product, (product) => product.product_id)
+    @OneToOne(() => Product)
+    @JoinColumn()
     products: string;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
