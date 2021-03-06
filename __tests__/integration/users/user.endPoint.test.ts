@@ -1,85 +1,13 @@
 import request from 'supertest';
 import 'dotenv/config';
 
-import { User, UserRole } from '@modules/users/infra/typeorm/entities/User';
-
-import faker from 'faker';
+import { User } from '@modules/users/infra/typeorm/entities/User';
+import UserClass from './user-class';
+const userClass = new UserClass();
 
 const API = process.env.TEST_URL;
+const TOKEN = `Bearer ${process.env.TOKEN}`;
 
-const name = faker.name.findName(),
-  user_type = UserRole.ADMIN,
-  phone = faker.phone.phoneNumber(),
-  cpf = faker.internet.password(14),
-  password = faker.internet.password(6),
-  confirmPassword = password,
-  email = faker.internet.email(),
-  is_active = faker.random.boolean();
-
-const body = {
-    name,
-    user_type,
-    phone,
-    cpf,
-    password,
-    confirmPassword,
-    email,
-    is_active
-  },
-  commonResponse = {
-    user_id: expect.anything(),
-    name,
-    user_type,
-    phone,
-    cpf,
-    email,
-    is_active,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  listQuery = {
-    limit: faker.random.number(),
-    offset: 1
-  },
-  updateBody = {
-    name,
-    user_type,
-    phone,
-    cpf,
-    password,
-    confirmPassword,
-    email,
-    is_active: false
-  },
-  updateResponse = {
-    user_id: expect.anything(),
-    name,
-    user_type,
-    phone,
-    cpf,
-    email,
-    is_active: false,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  loginBody = {
-    email,
-    password
-  },
-  deleteResponse = {
-    user_id: expect.anything(),
-    name,
-    user_type,
-    phone,
-    cpf,
-    email,
-    is_active: false,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: expect.anything()
-  };
 const createEndPoint = '/users/signup',
   listEndPoint = '/users/',
   loginEndPoint = '/users';
@@ -89,14 +17,16 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
       .post(createEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(body)
+      .set('Authorization', TOKEN)
+      .send(userClass.createRequest)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(201)
       .expect((res) => {
         commonEndPoint += res.body.user_id;
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(userClass.createResponse)
+        );
       })
       .end(done);
   });
@@ -104,8 +34,8 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should list users and return [{user}].', function (done) {
     request(API)
       .get(listEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .query(listQuery)
+      .set('Authorization', TOKEN)
+      .query(userClass.listRequest)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
@@ -131,33 +61,37 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should get a user and return {user}.', function (done) {
     request(API)
       .get(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(userClass.getResponse)
+        );
       })
       .end(done);
   });
   it('Should update a user and return {user}.', function (done) {
     request(API)
       .put(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(updateBody)
+      .set('Authorization', TOKEN)
+      .send(userClass.updateRequest)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(userClass.updateResponse)
+        );
       })
       .end(done);
   });
   it('Should login and return {auth, token}.', function (done) {
     request(API)
       .post(loginEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(loginBody)
+      .set('Authorization', TOKEN)
+      .send(userClass.login)
       .expect('Content-Type', /json/)
       .expect(200)
       .expect((res) => {
@@ -169,12 +103,14 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should delete a user softly and return {user}.', function (done) {
     request(API)
       .delete(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(User)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(userClass.deleteResponse)
+        );
       })
       .end(done);
   });
