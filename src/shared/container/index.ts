@@ -6,10 +6,14 @@ import ClientRepository from '@modules/users/infra/typeorm/repositories/ClientRe
 import IClientRepository from '@modules/users/repositories/IClientRepository';
 import ServiceRepository from '@modules/sales/infra/typeorm/repositories/ServiceRepository';
 import IServiceRepository from '@modules/sales/repositories/IServiceRepository';
+import IProductRepository from '@modules/sales/repositories/IProductRepository';
+import ProductRepository from '@modules/sales/infra/typeorm/repositories/ProductRepository';
 import PaymentMethodRepository from '@modules/sales/infra/typeorm/repositories/PaymentMethodRepository';
 import IPaymentMethodRepository from '@modules/sales/repositories/IPaymentMethodRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
+container.registerSingleton<IClientRepository>('ClientRepository', ClientRepository);
+container.registerSingleton<IProductRepository>('ProductRepository', ProductRepository);
 
 container.registerSingleton<IClientRepository>(
   'ClientRepository',
