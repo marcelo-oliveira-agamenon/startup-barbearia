@@ -1,4 +1,3 @@
-import { UserRole } from '@modules/users/infra/typeorm/entities/User';
 import faker from 'faker';
 
 class ClientClass {
