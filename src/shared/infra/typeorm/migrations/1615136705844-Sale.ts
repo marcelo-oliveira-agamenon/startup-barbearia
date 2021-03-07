@@ -22,9 +22,6 @@ export class Sale1615136705844 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "sale" DROP CONSTRAINT "FK_30a80b84da4bd5c6fa4131035ff"`
     );
-    await queryRunner.query(
-      `COMMENT ON COLUMN "payment_method"."created_at" IS NULL`
-    );
     await queryRunner.query(`DROP TABLE "sale"`);
   }
 }
