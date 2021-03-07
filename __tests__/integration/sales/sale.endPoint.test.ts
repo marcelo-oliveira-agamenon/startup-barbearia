@@ -1,9 +1,14 @@
-import request from 'supertest';
+import 'reflect-metadata';
+import 'shared/container';
 import 'dotenv/config';
 
 import { container } from 'tsyringe';
+import { Connection, createConnection } from 'typeorm';
 
-import SaleClass from '../sales/sale-class';
+import config from '@shared/infra/typeorm/ormconfig';
+import request from 'supertest';
+
+import SaleClass from './sale-class';
 import UserClass from '../users/user-class';
 import ClientClass from '../users/client-class';
 
@@ -16,14 +21,17 @@ const clientClass = new ClientClass();
 
 const API = process.env.TEST_URL;
 const TOKEN = `Bearer ${process.env.TOKEN}`;
+let connection: Connection;
 
 const createEndPoint = '/sales/signup',
   listEndPoint = '/sales/',
   loginEndPoint = '/sales';
 let commonEndPoint = '/sales/';
 
-describe('POST/GET/PUT/DELETE /sales/', function () {
+describe('POST/GET/DELETE /sales/', function () {
   beforeAll(async () => {
+    connection = await createConnection(config);
+
     const createUser = container.resolve(CreateUserService);
     const createClient = container.resolve(CreateClientService);
 
@@ -33,21 +41,24 @@ describe('POST/GET/PUT/DELETE /sales/', function () {
     if (user) saleClass.user_id = user.user_id;
     if (client) saleClass.client_id = client.client_id;
   });
+  afterAll(async () => {
+    await connection.close();
+  });
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
-      .send(userClass.createRequest)
+      .send(saleClass.createRequest)
       .expect('Content-Type', /json/)
       // .expect(User)
-      .expect(201)
-      .expect((res) => {
-        commonEndPoint += res.body.user_id;
-        expect(res.body).toEqual(
-          expect.objectContaining(userClass.createResponse)
-        );
-      })
-      .end(done);
+      .expect(201, done);
+    //     .expect((res) => {
+    //       commonEndPoint += res.body.user_id;
+    //       expect(res.body).toEqual(
+    //         expect.objectContaining(userClass.createResponse)
+    //       );
+    //     })
+    //     .end(done);
   });
 
   // it('Should list users and return [{user}].', function (done) {
