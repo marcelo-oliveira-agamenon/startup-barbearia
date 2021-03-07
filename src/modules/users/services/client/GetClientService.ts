@@ -9,7 +9,7 @@ import { IGetClientDTO } from '@modules/users/dtos/IClientDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class GetClientService {
+export class GetClientService {
   constructor(
     @inject('ClientRepository')
     private clientRepository: IClientRepository
