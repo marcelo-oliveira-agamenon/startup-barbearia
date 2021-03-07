@@ -11,9 +11,13 @@ saleRouter.post(
   celebrate({
     [Segments.BODY]: {
       client_id: Joi.string(),
-      user_id: Joi.string(),
-      valor_total: Joi.number().positive(),
-      discount: Joi.number().positive()
+      user_id: Joi.string().required(),
+      value: Joi.number().positive().required(),
+      discount: Joi.number().positive(),
+      is_discount_fixed: Joi.boolean().when('discount', {
+        is: Joi.exist(),
+        then: Joi.required()
+      })
     }
   }),
   saleController.create
