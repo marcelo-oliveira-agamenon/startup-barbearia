@@ -13,7 +13,7 @@ const createEndPoint = '/users/signup',
   loginEndPoint = '/users';
 let commonEndPoint = '/users/';
 
-describe('POST/GET/PUT/DELETE /users/', function () {
+describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
       .post(createEndPoint)

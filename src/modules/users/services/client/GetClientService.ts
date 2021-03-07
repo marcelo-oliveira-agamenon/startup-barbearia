@@ -15,9 +15,7 @@ export default class GetClientService {
     private clientRepository: IClientRepository
   ) {}
 
-  public async execute({
-    client_id
-  }: IGetClientDTO): Promise<Client | undefined> {
+  public async execute({ client_id }: IGetClientDTO): Promise<Client> {
     const client = await this.clientRepository.findOne(client_id);
     if (!client) throw new AppError('Client does not exist!');
 

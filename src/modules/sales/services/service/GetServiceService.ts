@@ -15,9 +15,7 @@ export default class GetServiceService {
     private serviceRepository: IServiceRepository
   ) {}
 
-  public async execute({
-    service_id
-  }: IGetServiceDTO): Promise<Service | undefined> {
+  public async execute({ service_id }: IGetServiceDTO): Promise<Service> {
     const service = await this.serviceRepository.findOne(service_id);
     if (!service) throw new AppError('Service does not found!');
 

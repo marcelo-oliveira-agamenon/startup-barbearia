@@ -2,18 +2,31 @@ import { container } from 'tsyringe';
 
 import UserRepository from '@modules/users/infra/typeorm/repositories/UserRepository';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
+
 import ClientRepository from '@modules/users/infra/typeorm/repositories/ClientRepository';
 import IClientRepository from '@modules/users/repositories/IClientRepository';
+
 import ServiceRepository from '@modules/sales/infra/typeorm/repositories/ServiceRepository';
 import IServiceRepository from '@modules/sales/repositories/IServiceRepository';
+
 import IProductRepository from '@modules/sales/repositories/IProductRepository';
 import ProductRepository from '@modules/sales/infra/typeorm/repositories/ProductRepository';
+
 import PaymentMethodRepository from '@modules/sales/infra/typeorm/repositories/PaymentMethodRepository';
 import IPaymentMethodRepository from '@modules/sales/repositories/IPaymentMethodRepository';
 
+import SaleRepository from '@modules/sales/infra/typeorm/repositories/SaleRepository';
+import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
+
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
-container.registerSingleton<IClientRepository>('ClientRepository', ClientRepository);
-container.registerSingleton<IProductRepository>('ProductRepository', ProductRepository);
+container.registerSingleton<IClientRepository>(
+  'ClientRepository',
+  ClientRepository
+);
+container.registerSingleton<IProductRepository>(
+  'ProductRepository',
+  ProductRepository
+);
 
 container.registerSingleton<IClientRepository>(
   'ClientRepository',
@@ -29,3 +42,5 @@ container.registerSingleton<IPaymentMethodRepository>(
   'PaymentMethodRepository',
   PaymentMethodRepository
 );
+
+container.registerSingleton<ISaleRepository>('SaleRepository', SaleRepository);

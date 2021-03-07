@@ -15,7 +15,7 @@ export default class GetUserService {
     private userRepository: IUserRepository
   ) {}
 
-  public async execute({ user_id }: IGetUserDTO): Promise<User | undefined> {
+  public async execute({ user_id }: IGetUserDTO): Promise<User> {
     const user = await this.userRepository.findOne(user_id);
     if (!user) throw new AppError('User does not exist!');
 
