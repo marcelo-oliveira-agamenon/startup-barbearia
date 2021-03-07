@@ -9,7 +9,7 @@ import { IDeleteClientDTO } from '@modules/users/dtos/IClientDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class DeleteClientService {
+export class DeleteClientService {
   constructor(
     @inject('ClientRepository')
     private clientRepository: IClientRepository

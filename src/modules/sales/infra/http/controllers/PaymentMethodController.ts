@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import CreatePaymentMethodService from '@modules/sales/services/paymentMethod/CreatePaymentMethodService';
-import ListPaymentMethodsService from '@modules/sales/services/paymentMethod/ListPaymentMethodsService';
-import GetPaymentMethodService from '@modules/sales/services/paymentMethod/GetPaymentMethodService';
-import UpdatePaymentMethodService from '@modules/sales/services/paymentMethod/UpdatePaymentMethodService';
-import DeletePaymentMethodService from '@modules/sales/services/paymentMethod/DeletePaymentMethodService';
+import {
+  CreatePaymentMethodService,
+  ListPaymentMethodsService,
+  GetPaymentMethodService,
+  UpdatePaymentMethodService,
+  DeletePaymentMethodService
+} from '@modules/sales/services/paymentMethod';
 
 export default class PaymentMethodController {
   public async create(request: Request, response: Response): Promise<Response> {

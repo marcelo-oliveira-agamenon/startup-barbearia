@@ -9,7 +9,7 @@ import { IGetProductDTO } from '@modules/sales/dtos/IProductDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class GetProductsService {
+export class GetProductService {
   constructor(
     @inject('ProductRepository')
     private productRepository: IProductRepository

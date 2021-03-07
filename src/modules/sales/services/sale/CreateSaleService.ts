@@ -7,12 +7,11 @@ import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 import AppError from '@shared/errors/AppError';
 
-import GetUserService from '@modules/users/services/user/GetUserService';
-import GetClientService from '@modules/users/services/client/GetClientService';
-import Client from '@modules/users/infra/typeorm/entities/Client';
+import { GetUserService } from '@modules/users/services/user';
+import { GetClientService } from '@modules/users/services/client';
 
 @injectable()
-export default class CreateSaleService {
+export class CreateSaleService {
   constructor(
     @inject('SaleRepository')
     private saleRepository: ISaleRepository

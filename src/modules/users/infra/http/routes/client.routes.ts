@@ -10,10 +10,10 @@ clientRouter.post(
   '/signup',
   celebrate({
     [Segments.BODY]: {
-        name: Joi.string().required(),
-        cpf: Joi.string(),
-        phone: Joi.string(),
-        email: Joi.string()
+      name: Joi.string().required(),
+      cpf: Joi.string(),
+      phone: Joi.string(),
+      email: Joi.string()
     }
   }),
   clientController.create
@@ -33,8 +33,8 @@ clientRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
-      limit: Joi.number(),
-      offset: Joi.number()
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
     }
   }),
   clientController.list
@@ -51,7 +51,7 @@ clientRouter.put(
         name: Joi.string(),
         phone: Joi.string(),
         cpf: Joi.string().length(14),
-        email: Joi.string(),
+        email: Joi.string()
       })
       .min(1)
   }),

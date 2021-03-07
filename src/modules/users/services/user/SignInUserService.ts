@@ -12,11 +12,11 @@ import AppError from '@shared/errors/AppError';
 
 interface IResponse {
   auth: boolean;
-  token: any;
+  token: string;
 }
 
 @injectable()
-export default class AuthenticateUserService {
+export class SignInUserService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository

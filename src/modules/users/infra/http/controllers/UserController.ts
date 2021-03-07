@@ -1,12 +1,15 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import CreateUserService from '@modules/users/services/user/CreateUserService';
-import UpdateUserService from '@modules/users/services/user/UpdateUserService';
-import DeleteUserService from '@modules/users/services/user/DeleteUserService';
-import GetUserService from '@modules/users/services/user/GetUserService';
-import GetUsersListService from '@modules/users/services/user/GetUsersListService';
-import SignInUserService from '@modules/users/services/user/SignInUserService';
+import {
+  CreateUserService,
+  UpdateUserService,
+  DeleteUserService,
+  GetUserService,
+  ListUsersService,
+  SignInUserService
+} from '@modules/users/services/user';
+
 import { classToClass } from 'class-transformer';
 
 export default class UserController {
@@ -43,8 +46,8 @@ export default class UserController {
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    const getUsersList = container.resolve(GetUsersListService);
-    const users = await getUsersList.execute(query);
+    const listUsers = container.resolve(ListUsersService);
+    const users = await listUsers.execute(query);
 
     return response.status(200).json(users);
   }
