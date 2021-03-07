@@ -30,7 +30,7 @@ export default class Sale {
   })
   discount: number;
 
-  @Column()
+  @Column({ default: true })
   is_discount_fixed: boolean;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
