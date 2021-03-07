@@ -11,7 +11,7 @@ import GetUserService from '@modules/users/services/user/GetUserService';
 import { GetClientService } from '@modules/users/services/client';
 
 @injectable()
-export default class CreateSaleService {
+export class CreateSaleService {
   constructor(
     @inject('SaleRepository')
     private saleRepository: ISaleRepository
