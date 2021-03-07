@@ -77,8 +77,8 @@ userRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
-      limit: Joi.number(),
-      offset: Joi.number()
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
     }
   }),
   userController.list
