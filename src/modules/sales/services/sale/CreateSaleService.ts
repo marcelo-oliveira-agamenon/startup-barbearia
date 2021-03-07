@@ -7,7 +7,7 @@ import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 import AppError from '@shared/errors/AppError';
 
-import GetUserService from '@modules/users/services/user/GetUserService';
+import { GetUserService } from '@modules/users/services/user';
 import { GetClientService } from '@modules/users/services/client';
 
 @injectable()

@@ -9,7 +9,7 @@ import { ICreateUserDTO } from '@modules/users/dtos/IUserDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class CreateUserService {
+export class CreateUserService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository

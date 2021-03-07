@@ -16,7 +16,7 @@ interface IResponse {
 }
 
 @injectable()
-export default class AuthenticateUserService {
+export class SignInUserService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository
