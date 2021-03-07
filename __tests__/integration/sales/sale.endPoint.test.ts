@@ -13,7 +13,7 @@ import UserClass from '../users/user-class';
 import ClientClass from '../users/client-class';
 
 import CreateUserService from '@modules/users/services/user/CreateUserService';
-import CreateClientService from '@modules/users/services/client/CreateClientService';
+import { CreateClientService } from '@modules/users/services/client';
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 const saleClass = new SaleClass();
