@@ -12,7 +12,7 @@ import AppError from '@shared/errors/AppError';
 
 interface IResponse {
   auth: boolean;
-  token: any;
+  token: string;
 }
 
 @injectable()
