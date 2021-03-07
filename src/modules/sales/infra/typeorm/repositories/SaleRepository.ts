@@ -2,8 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 import { ICreateSaleDTO } from '@modules/sales/dtos/ISaleDTO';
 
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
-import Service from '@modules/sales/infra/typeorm/entities/Service';
-import Sale from '../entities/Sale';
+import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 export default class SaleRepository implements ISaleRepository {
   private ormRepository: Repository<Sale>;
