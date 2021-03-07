@@ -1,12 +1,18 @@
 import request from 'supertest';
 import 'dotenv/config';
 
-import { User } from '@modules/users/infra/typeorm/entities/User';
-import UserClass from '../users/user-class';
-import CreateUserService from '@modules/users/services/user/CreateUserService';
 import { container } from 'tsyringe';
 
+import SaleClass from '../sales/sale-class';
+import UserClass from '../users/user-class';
+import ClientClass from '../users/client-class';
+
+import CreateUserService from '@modules/users/services/user/CreateUserService';
+import CreateClientService from '@modules/users/services/client/CreateClientService';
+
+const saleClass = new SaleClass();
 const userClass = new UserClass();
+const clientClass = new ClientClass();
 
 const API = process.env.TEST_URL;
 const TOKEN = `Bearer ${process.env.TOKEN}`;
@@ -19,7 +25,13 @@ let commonEndPoint = '/sales/';
 describe('POST/GET/PUT/DELETE /sales/', function () {
   beforeAll(async () => {
     const createUser = container.resolve(CreateUserService);
-    createUser.execute(userClass);
+    const createClient = container.resolve(CreateClientService);
+
+    const user = await createUser.execute(userClass);
+    const client = await createClient.execute(clientClass);
+
+    if (user) saleClass.user_id = user.user_id;
+    if (client) saleClass.client_id = client.client_id;
   });
   it('Should create a user with all input fields and return {user}.', function (done) {
     request(API)
@@ -27,7 +39,7 @@ describe('POST/GET/PUT/DELETE /sales/', function () {
       .set('Authorization', TOKEN)
       .send(userClass.createRequest)
       .expect('Content-Type', /json/)
-      .expect(User)
+      // .expect(User)
       .expect(201)
       .expect((res) => {
         commonEndPoint += res.body.user_id;

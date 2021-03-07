@@ -1,18 +1,22 @@
 import { UserRole } from '@modules/users/infra/typeorm/entities/User';
 import faker from 'faker';
 
-class UserClass {
+class SaleClass {
   sale_id: string;
-  client_id: UserRole;
+  client_id: string;
   user_id: string;
   valor_total: number;
   discount: number;
+  limit: number;
+  offset: number;
   created_at: Date;
   deleted_at: Date;
 
   constructor() {
     this.valor_total = faker.random.number();
     this.discount = faker.random.number(10);
+    this.limit = 3;
+    this.offset = 1;
   }
 
   get createRequest() {
@@ -43,16 +47,6 @@ class UserClass {
 
     return {};
   }
-  get updateRequest() {
-    return {};
-  }
-  get updateResponse() {
-    const user_id = expect.anything(),
-      created_at = expect.anything(),
-      updated_at = expect.anything(),
-      deleted_at = null;
-    return {};
-  }
 
   get deleteResponse() {
     const user_id = expect.anything(),
@@ -64,4 +58,4 @@ class UserClass {
     return {};
   }
 }
-export default UserClass;
+export default SaleClass;
