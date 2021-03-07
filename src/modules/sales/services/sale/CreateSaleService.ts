@@ -24,22 +24,22 @@ export default class CreateSaleService {
     const getUser = container.resolve(GetUserService);
     const user = await getUser.execute({ user_id });
 
-    const result = { user, value, discount, is_discount_fixed };
+    const saleInstance = { user, value, discount, is_discount_fixed };
 
     if (client_id) {
       const getClient = container.resolve(GetClientService);
       const client = await getClient.execute({ client_id });
-
-      Object.defineProperties(result, {
+      Object.defineProperties(saleInstance, {
         client: { value: client }
       });
     }
 
-    const sale_id = await this.saleRepository.create(result);
+    const sale_id = await this.saleRepository.create(saleInstance);
     if (!sale_id) throw new AppError('Sale has not been created!');
 
     const sale = await this.saleRepository.findOne(sale_id);
     if (!sale) throw new AppError('Something went wrong!');
+
     return sale;
   }
 }
