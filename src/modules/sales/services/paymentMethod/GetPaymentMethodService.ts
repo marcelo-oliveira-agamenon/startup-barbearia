@@ -8,7 +8,7 @@ import { IGetPaymentMethodDTO } from '@modules/sales/dtos/IPaymentMethodDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class ListPaymentMethodsService {
+export class GetPaymentMethodService {
   constructor(
     @inject('PaymentMethodRepository')
     private serviceRepository: IPaymentMethodRepository
