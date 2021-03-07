@@ -20,7 +20,9 @@ export default class SaleRepository implements ISaleRepository {
   }
 
   public async findOne(id: string): Promise<Sale | undefined> {
-    const sale = await this.ormRepository.findOne(id);
+    const sale = await this.ormRepository.findOne(id, {
+      loadRelationIds: true
+    });
 
     return sale;
   }
