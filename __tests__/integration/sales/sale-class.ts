@@ -5,16 +5,18 @@ class SaleClass {
   sale_id: string;
   client_id: string;
   user_id: string;
-  valor_total: number;
+  value: number;
   discount: number;
+  is_discount_fixed: boolean;
   limit: number;
   offset: number;
   created_at: Date;
   deleted_at: Date;
 
   constructor() {
-    this.valor_total = faker.random.number();
-    this.discount = faker.random.number(10);
+    this.value = faker.random.number();
+    this.discount = 1;
+    this.is_discount_fixed = faker.random.boolean();
     this.limit = 3;
     this.offset = 1;
   }
@@ -23,8 +25,9 @@ class SaleClass {
     return {
       client_id: this.client_id,
       user_id: this.user_id,
-      valor_total: this.valor_total,
-      discount: this.discount
+      value: this.value,
+      discount: this.discount,
+      is_discount_fixed: this.is_discount_fixed
     };
   }
   get createResponse() {
