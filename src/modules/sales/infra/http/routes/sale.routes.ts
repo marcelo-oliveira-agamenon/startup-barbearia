@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
-import ServiceController from '@modules/sales/infra/http/controllers/ServiceController';
+import SaleController from '@modules/sales/infra/http/controllers/SaleController';
 
-const serviceRouter = Router();
-const serviceController = new ServiceController();
+const saleRouter = Router();
+const saleController = new SaleController();
 
-serviceRouter.post(
+saleRouter.post(
   '/signup',
   celebrate({
     [Segments.BODY]: {
@@ -16,10 +16,10 @@ serviceRouter.post(
       discount: Joi.number().positive()
     }
   }),
-  serviceController.create
+  saleController.create
 );
 
-serviceRouter.get(
+saleRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
@@ -27,27 +27,27 @@ serviceRouter.get(
       offset: Joi.number().integer().positive()
     }
   }),
-  serviceController.list
+  saleController.list
 );
 
-serviceRouter.get(
+saleRouter.get(
   '/:sale_id',
   celebrate({
     [Segments.PARAMS]: {
       sale_id: Joi.string().required()
     }
   }),
-  serviceController.get
+  saleController.get
 );
 
-serviceRouter.delete(
+saleRouter.delete(
   '/:sale_id',
   celebrate({
     [Segments.PARAMS]: {
       sale_id: Joi.string().required()
     }
   }),
-  serviceController.delete
+  saleController.delete
 );
 
-export default serviceRouter;
+export default saleRouter;
