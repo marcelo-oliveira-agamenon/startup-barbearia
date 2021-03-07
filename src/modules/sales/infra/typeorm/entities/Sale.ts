@@ -14,7 +14,7 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 @Entity('sale')
 export default class Sale {
   @PrimaryGeneratedColumn('uuid')
-  sale_id: number;
+  sale_id: string;
 
   @ManyToOne(() => Client, (client) => client.sales)
   client: Client;
