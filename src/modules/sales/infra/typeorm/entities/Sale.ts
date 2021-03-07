@@ -22,6 +22,9 @@ export default class Sale {
   @ManyToOne(() => User, (user) => user.sales)
   user: User;
 
+  @Column({ default: 0, type: 'numeric', precision: 10, scale: 2 })
+  value: number;
+
   @Column({
     default: 0,
     type: 'numeric',
