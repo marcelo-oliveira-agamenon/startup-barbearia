@@ -14,8 +14,8 @@ class SaleClass {
   deleted_at: Date;
 
   constructor() {
-    this.value = faker.random.number();
-    this.discount = 1;
+    this.value = 10.0;
+    this.discount = 10.0;
     this.is_discount_fixed = faker.random.boolean();
     this.limit = 3;
     this.offset = 1;
@@ -31,12 +31,24 @@ class SaleClass {
     };
   }
   get createResponse() {
-    const user_id = expect.anything(),
+    const sale_id = expect.anything(),
       created_at = expect.anything(),
       updated_at = expect.anything(),
+      value = expect.anything(),
+      discount = expect.anything(),
       deleted_at = null;
 
-    return {};
+    return {
+      client: this.client_id,
+      user: this.user_id,
+      value,
+      discount,
+      is_discount_fixed: this.is_discount_fixed,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
   }
   get listRequest() {
     return {};

@@ -14,6 +14,7 @@ import ClientClass from '../users/client-class';
 
 import CreateUserService from '@modules/users/services/user/CreateUserService';
 import CreateClientService from '@modules/users/services/client/CreateClientService';
+import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 const saleClass = new SaleClass();
 const userClass = new UserClass();
@@ -44,21 +45,21 @@ describe('POST/GET/DELETE /sales/', function () {
   afterAll(async () => {
     await connection.close();
   });
-  it('Should create a user with all input fields and return {user}.', function (done) {
+  it('Should create a sale with all input fields and return {sale}.', function (done) {
     request(API)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
       .send(saleClass.createRequest)
       .expect('Content-Type', /json/)
-      // .expect(User)
-      .expect(201, done);
-    //     .expect((res) => {
-    //       commonEndPoint += res.body.user_id;
-    //       expect(res.body).toEqual(
-    //         expect.objectContaining(userClass.createResponse)
-    //       );
-    //     })
-    //     .end(done);
+      .expect(Sale)
+      .expect(201)
+      .expect((res) => {
+        commonEndPoint += res.body.sale_id;
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.createResponse)
+        );
+      })
+      .end(done);
   });
 
   // it('Should list users and return [{user}].', function (done) {
