@@ -1,12 +1,14 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
-
-import CreateClientService from '@modules/users/services/client/CreateClientService';
-import GetClientService from '@modules/users/services/client/GetClientService';
-import GetClientsListService from '@modules/users/services/client/GetClientsListService';
-import UpdateClientService from '@modules/users/services/client/UpdateClientService';
 import { classToClass } from 'class-transformer';
-import DeleteClientService from '@modules/users/services/client/DeleteClientService';
+
+import {
+  CreateClientService,
+  GetClientService,
+  ListClientsService,
+  UpdateClientService,
+  DeleteClientService
+} from '@modules/users/services/client';
 
 export default class ClientController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -29,8 +31,8 @@ export default class ClientController {
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    const getClientsList = container.resolve(GetClientsListService);
-    const clients = await getClientsList.execute(query);
+    const listClients = container.resolve(ListClientsService);
+    const clients = await listClients.execute(query);
 
     return response.status(200).json(clients);
   }

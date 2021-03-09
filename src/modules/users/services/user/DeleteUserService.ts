@@ -9,7 +9,7 @@ import { IDeleteUserDTO } from '@modules/users/dtos/IUserDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class DeleteUserService {
+export class DeleteUserService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository

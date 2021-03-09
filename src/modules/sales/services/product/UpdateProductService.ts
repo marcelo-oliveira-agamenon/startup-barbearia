@@ -4,12 +4,12 @@ import IProductRepository from '@modules/sales/repositories/IProductRepository';
 
 import Product from '@modules/sales/infra/typeorm/entities/Product';
 
-import { IGetProductDTO, IUpdateProductDTO } from '@modules/sales/dtos/IProductDTO';
+import { IUpdateProductDTO } from '@modules/sales/dtos/IProductDTO';
 
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class GetProductsService {
+export class UpdateProductService {
   constructor(
     @inject('ProductRepository')
     private productRepository: IProductRepository
@@ -22,9 +22,11 @@ export default class GetProductsService {
     const productExists = await this.productRepository.findOne(product_id);
     if (!productExists) throw new AppError('Product does not exist!');
 
-    const product = await this.productRepository.update(productExists.product_id, data);
+    const product = await this.productRepository.update(
+      productExists.product_id,
+      data
+    );
 
     return product;
   }
-
 }

@@ -7,10 +7,11 @@ import {
 } from '@modules/sales/dtos/IServiceDTO';
 
 export default interface IServiceRepository {
-  create(data: ICreateServicesDTO): Promise<number>;
+  create(data: ICreateServicesDTO): Promise<Service>;
+  delete({ service_id }: IDeleteServicesDTO): Promise<number | undefined>;
+  update(id: number, data: IUpdateServicesDTO): Promise<Service>;
   findOne(id: number): Promise<Service | undefined>;
   findAll(query: IListServicesDTO): Promise<Service[]>;
-  delete({ service_id }: IDeleteServicesDTO): Promise<number | undefined>;
+  findByName(name: string): Promise<Service | undefined>;
   findDeletedEntity(id: number): Promise<Service | undefined>;
-  update(id: number, data: IUpdateServicesDTO): Promise<Service>;
 }

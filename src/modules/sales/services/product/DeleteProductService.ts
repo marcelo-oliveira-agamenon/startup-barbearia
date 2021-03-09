@@ -9,7 +9,7 @@ import { IDeleteProductDTO } from '@modules/sales/dtos/IProductDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class CreateProductsService {
+export class DeleteProductService {
   constructor(
     @inject('ProductRepository')
     private productRepository: IProductRepository
@@ -21,7 +21,9 @@ export default class CreateProductsService {
     const productExist = await this.productRepository.findOne(product_id);
     if (!productExist) throw new AppError('Product does not exist!');
 
-    const isProductDeleted = await this.productRepository.delete({ product_id });
+    const isProductDeleted = await this.productRepository.delete({
+      product_id
+    });
     if (!isProductDeleted) throw new AppError('Product has not been deleted!');
 
     const product = await this.productRepository.findDeletedEntity(product_id);

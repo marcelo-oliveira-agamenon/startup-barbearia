@@ -15,11 +15,11 @@ export default class ServiceRepository implements IServiceRepository {
     this.ormRepository = getRepository(Service);
   }
 
-  public async create(data: ICreateServicesDTO): Promise<number> {
-    const serviceInserted = await this.ormRepository.insert(data);
-    const service_id = serviceInserted.identifiers[0].service_id;
+  public async create(data: ICreateServicesDTO): Promise<Service> {
+    const serviceInstance = this.ormRepository.create(data);
+    const service = await this.ormRepository.save(serviceInstance);
 
-    return service_id;
+    return service;
   }
 
   public async findOne(id: number): Promise<Service | undefined> {
@@ -60,5 +60,10 @@ export default class ServiceRepository implements IServiceRepository {
     );
 
     return isServiceUpdated;
+  }
+  public async findByName(name: string): Promise<Service | undefined> {
+    const service = await this.ormRepository.findOne({ name });
+
+    return service;
   }
 }

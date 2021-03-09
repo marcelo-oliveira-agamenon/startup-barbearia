@@ -1,18 +1,21 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import CreateServicesService from '@modules/sales/services/service/CreateServicesService';
-import ListServicesService from '@modules/sales/services/service/ListServicesService';
-import UpdateServicesService from '@modules/sales/services/service/UpdateServicesService';
-import GetServiceService from '@modules/sales/services/service/GetServiceService';
-import DeleteServicesService from '@modules/sales/services/service/DeleteServicesService';
+import {
+  CreateServiceService,
+  ListServicesService,
+  UpdateServiceService,
+  GetServiceService,
+  DeleteServiceService
+} from '@modules/sales/services/service';
+
 import { IGetServiceDTO } from '@modules/sales/dtos/IServiceDTO';
 
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
-    const createService = container.resolve(CreateServicesService);
+    const createService = container.resolve(CreateServiceService);
     const service = await createService.execute(data);
 
     return response.status(201).json(service);
@@ -42,7 +45,7 @@ export default class ServicesController {
       service_id: Number(service_id)
     };
 
-    const deleteService = container.resolve(DeleteServicesService);
+    const deleteService = container.resolve(DeleteServiceService);
     const service = await deleteService.execute(id);
 
     return response.status(200).json(service);
@@ -52,7 +55,7 @@ export default class ServicesController {
     const { service_id } = request.body;
     const data = request.body;
 
-    const updateService = container.resolve(UpdateServicesService);
+    const updateService = container.resolve(UpdateServiceService);
     const service = await updateService.execute(data, service_id);
 
     return response.status(200).json(service);

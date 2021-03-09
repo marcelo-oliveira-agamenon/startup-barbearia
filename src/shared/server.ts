@@ -26,6 +26,7 @@ import errorHandling from '@shared/infra/middlewares/errorHandling';
   );
 
   app.listen(process.env.PORT, () => {
+    // eslint-disable-next-line no-console
     console.log('Server listening on PORT:', process.env.PORT);
   });
 })();

@@ -4,12 +4,10 @@ import IProductRepository from '@modules/sales/repositories/IProductRepository';
 
 import Product from '@modules/sales/infra/typeorm/entities/Product';
 
-import { ICreateProductDTO, IListProductsDTO } from '@modules/sales/dtos/IProductDTO';
-
-import AppError from '@shared/errors/AppError';
+import { IListProductsDTO } from '@modules/sales/dtos/IProductDTO';
 
 @injectable()
-export default class CreateProductsService {
+export class ListProductsService {
   constructor(
     @inject('ProductRepository')
     private productRepository: IProductRepository
@@ -20,5 +18,4 @@ export default class CreateProductsService {
 
     return products;
   }
-
 }

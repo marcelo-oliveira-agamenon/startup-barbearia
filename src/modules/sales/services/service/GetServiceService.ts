@@ -9,15 +9,13 @@ import { IGetServiceDTO } from '@modules/sales/dtos/IServiceDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class GetServiceService {
+export class GetServiceService {
   constructor(
     @inject('ServiceRepository')
     private serviceRepository: IServiceRepository
   ) {}
 
-  public async execute({
-    service_id
-  }: IGetServiceDTO): Promise<Service | undefined> {
+  public async execute({ service_id }: IGetServiceDTO): Promise<Service> {
     const service = await this.serviceRepository.findOne(service_id);
     if (!service) throw new AppError('Service does not found!');
 

@@ -2,11 +2,13 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 import { classToClass } from 'class-transformer';
 
-import CreateProductService from '@modules/sales/services/product/CreateProductService';
-import GetProductsListService from '@modules/sales/services/product/GetProductsListService';
-import GetProductService from '@modules/sales/services/product/GetProductService';
-import UpdateProductService from '@modules/sales/services/product/UpdateProductService';
-import DeleteProdutaService from '@modules/sales/services/product/DeleteProductService';
+import {
+  CreateProductService,
+  ListProductsService,
+  GetProductService,
+  UpdateProductService,
+  DeleteProductService
+} from '@modules/sales/services/product';
 
 export default class ProductController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -20,8 +22,8 @@ export default class ProductController {
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    const getProductsList = container.resolve(GetProductsListService);
-    const products = await getProductsList.execute(query);
+    const listProducts = container.resolve(ListProductsService);
+    const products = await listProducts.execute(query);
 
     return response.status(200).json(products);
   }
@@ -48,7 +50,7 @@ export default class ProductController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const { product_id } = request.params;
 
-    const deleteProduct = container.resolve(DeleteProdutaService);
+    const deleteProduct = container.resolve(DeleteProductService);
     const product = await deleteProduct.execute({ product_id });
 
     return response.status(200).json(product);

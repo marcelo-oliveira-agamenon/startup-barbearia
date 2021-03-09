@@ -1,8 +1,7 @@
 import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
 import {
   ICreatePaymentMethodDTO,
-  IListPaymentMethodsDTO,
-  IGetPaymentMethodDTO
+  IListPaymentMethodsDTO
 } from '@modules/sales/dtos/IPaymentMethodDTO';
 
 export default interface IServiceRepository {

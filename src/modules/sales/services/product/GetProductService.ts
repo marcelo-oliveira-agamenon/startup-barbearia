@@ -9,13 +9,13 @@ import { IGetProductDTO } from '@modules/sales/dtos/IProductDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class GetProductsService {
+export class GetProductService {
   constructor(
     @inject('ProductRepository')
     private productRepository: IProductRepository
   ) {}
 
-  public async execute({ product_id }: IGetProductDTO): Promise<Product | undefined> {
+  public async execute({ product_id }: IGetProductDTO): Promise<Product> {
     const product = await this.productRepository.findOne(product_id);
     if (!product) throw new AppError('Product does not exist!');
 
