@@ -14,7 +14,6 @@ export default class SaleRepository implements ISaleRepository {
   public async create(data: ICreateSaleDTO): Promise<Sale> {
     const saleInstance = this.ormRepository.create(data);
     const sale = await this.ormRepository.save(saleInstance);
-    console.log(sale);
 
     return sale;
   }
