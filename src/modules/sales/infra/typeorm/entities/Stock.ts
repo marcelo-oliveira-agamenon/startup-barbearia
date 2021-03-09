@@ -1,11 +1,9 @@
 import {
     Column,
     CreateDateColumn,
-    DeleteDateColumn,
     Entity,
     OneToOne,
     PrimaryGeneratedColumn,
-    UpdateDateColumn,
     JoinColumn,
     Index
   } from 'typeorm';
@@ -14,7 +12,7 @@ import Product from './Product';
 @Entity('stock')
 export default class Stock {
     @PrimaryGeneratedColumn('increment')
-    stock_id: string;
+    stock_id: number;
 
     @Column({
         default: 0
