@@ -39,10 +39,10 @@ export class User {
   user_type: UserRole;
 
   @Column({ nullable: true, type: 'varchar' })
-  phone: string | null;
+  phone: string;
 
   @Column({ length: 14, nullable: true, type: 'varchar' })
-  cpf: string | null;
+  cpf: string;
 
   @Column()
   email: string;
@@ -67,5 +67,5 @@ export class User {
   updated_at: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date | null;
+  deleted_at: Date;
 }

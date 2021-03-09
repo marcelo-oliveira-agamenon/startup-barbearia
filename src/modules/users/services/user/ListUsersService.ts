@@ -7,7 +7,7 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IListUsersDTO } from '@modules/users/dtos/IUserDTO';
 
 @injectable()
-export default class GetUsersListService {
+export class ListUsersService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository

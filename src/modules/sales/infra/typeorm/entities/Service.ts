@@ -32,5 +32,5 @@ export default class Service {
   updated_at: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date | null;
+  deleted_at: Date;
 }

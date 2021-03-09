@@ -11,7 +11,7 @@ import {
 import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 
 @Entity('client')
-export class Client {
+export default class Client {
   @PrimaryGeneratedColumn('uuid')
   client_id: string;
 
@@ -23,13 +23,13 @@ export class Client {
   name: string;
 
   @Column({ nullable: true, type: 'varchar' })
-  phone: string | null;
+  phone: string;
 
   @Column({ nullable: true, type: 'varchar' })
-  email: string | null;
+  email: string;
 
   @Column({ length: '14', nullable: true, type: 'varchar' })
-  cpf: string | null;
+  cpf: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
@@ -38,5 +38,5 @@ export class Client {
   updated_at: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date | null;
+  deleted_at: Date;
 }

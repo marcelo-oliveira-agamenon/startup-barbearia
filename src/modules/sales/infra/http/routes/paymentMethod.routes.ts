@@ -21,8 +21,8 @@ paymentMethodRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
-      limit: Joi.number(),
-      offset: Joi.number()
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
     }
   }),
   paymentMethodController.list
@@ -32,7 +32,7 @@ paymentMethodRouter.get(
   '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      payment_method_id: Joi.number().required()
+      payment_method_id: Joi.number().integer().positive().required()
     }
   }),
   paymentMethodController.get
@@ -42,7 +42,7 @@ paymentMethodRouter.delete(
   '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      payment_method_id: Joi.number().required()
+      payment_method_id: Joi.number().integer().positive().required()
     }
   }),
   paymentMethodController.delete
@@ -52,7 +52,7 @@ paymentMethodRouter.put(
   '/:payment_method_id',
   celebrate({
     [Segments.PARAMS]: {
-      payment_method_id: Joi.number().required()
+      payment_method_id: Joi.number().integer().positive().required()
     },
     [Segments.BODY]: Joi.object()
       .keys({

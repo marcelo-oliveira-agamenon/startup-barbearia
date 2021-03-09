@@ -7,7 +7,7 @@ import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
 import { IListPaymentMethodsDTO } from '@modules/sales/dtos/IPaymentMethodDTO';
 
 @injectable()
-export default class ListPaymentMethodsService {
+export class ListPaymentMethodsService {
   constructor(
     @inject('PaymentMethodRepository')
     private serviceRepository: IPaymentMethodRepository

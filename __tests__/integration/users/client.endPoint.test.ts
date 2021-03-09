@@ -1,61 +1,13 @@
 import request from 'supertest';
-import { Client } from '@modules/users/infra/typeorm/entities/Client';
+import Client from '@modules/users/infra/typeorm/entities/Client';
 import 'dotenv/config';
+import ClientClass from '../users/client-class';
 
-import faker from 'faker';
+const clientClass = new ClientClass();
 
 const API = process.env.TEST_URL;
+const TOKEN = `Bearer ${process.env.TOKEN}`;
 
-const name = faker.name.findName(),
-  cpf = faker.internet.password(14),
-  phone = faker.phone.phoneNumber(),
-  email = faker.internet.email();
-const body = {
-    name,
-    phone,
-    cpf,
-    email
-  },
-  commonResponse = {
-    client_id: expect.anything(),
-    name,
-    phone,
-    cpf,
-    email,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  listQuery = {
-    limit: faker.random.number(),
-    offset: 1
-  },
-  updateBody = {
-    name,
-    phone,
-    cpf,
-    email
-  },
-  updateResponse = {
-    client_id: expect.anything(),
-    name,
-    phone,
-    cpf,
-    email,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  deleteResponse = {
-    client_id: expect.anything(),
-    name,
-    phone,
-    cpf,
-    email,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: expect.anything()
-  };
 const createEndPoint = '/clients/signup',
   listEndPoint = '/clients/';
 let commonEndPoint = '/clients/';
@@ -64,22 +16,24 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should create a client with all input fields and return {client}.', function (done) {
     request(API)
       .post(createEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(body)
+      .set('Authorization', TOKEN)
+      .send(clientClass.createRequest)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect((res) => {
         commonEndPoint += res.body.client_id;
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(clientClass.createResponse)
+        );
       })
       .end(done);
   });
 
-  it('Should list clientes and return [{client}].', function (done) {
+  it('Should list clients and return [{client}].', function (done) {
     request(API)
       .get(listEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .query(listQuery)
+      .set('Authorization', TOKEN)
+      .query(clientClass.listRequest)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect(200)
@@ -104,13 +58,14 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should get a client and return {client}.', function (done) {
     request(API)
       .get(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(body)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(clientClass.getResponse)
+        );
       })
       .end(done);
   });
@@ -118,13 +73,15 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should update a client and return {client}.', function (done) {
     request(API)
       .put(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(updateBody)
+      .set('Authorization', TOKEN)
+      .send(clientClass.updateRequest)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(clientClass.updateResponse)
+        );
       })
       .end(done);
   });
@@ -132,12 +89,14 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   it('Should delete a client softly and return {client}.', function (done) {
     request(API)
       .delete(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Client)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(clientClass.deleteResponse)
+        );
       })
       .end(done);
   });

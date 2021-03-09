@@ -4,7 +4,6 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import UserController from '@modules/users/infra/http/controllers/UserController';
 
 import { UserRole } from '@modules/users/infra/typeorm/entities/User';
-import authentication from '@shared/infra/middlewares/authentication';
 
 const userRouter = Router();
 const userController = new UserController();
@@ -77,8 +76,8 @@ userRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
-      limit: Joi.number(),
-      offset: Joi.number()
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
     }
   }),
   userController.list

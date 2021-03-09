@@ -1,6 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
 import IClientRepository from '@modules/users/repositories/IClientRepository';
-import { Client } from '@modules/users/infra/typeorm/entities/Client';
+import Client from '@modules/users/infra/typeorm/entities/Client';
 import { ICreateClientDTO, IDeleteClientDTO, IListClientsDTO, IUpdateClientDTO } from '@modules/users/dtos/IClientDTO';
 
 export default class ClientRepository implements IClientRepository {
@@ -12,7 +12,7 @@ export default class ClientRepository implements IClientRepository {
 
   public async create(data: ICreateClientDTO): Promise<Client> {
     const clientInstance =  this.ormRepository.create(data);
-    const client = await this.ormRepository.save(clientInstance)
+    const client = await this.ormRepository.save(clientInstance);
     return client;
   }
 

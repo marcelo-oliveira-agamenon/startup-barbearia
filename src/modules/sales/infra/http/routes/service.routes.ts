@@ -21,8 +21,8 @@ serviceRouter.get(
   '/',
   celebrate({
     [Segments.QUERY]: {
-      limit: Joi.number().integer(),
-      offset: Joi.number().integer()
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
     }
   }),
   serviceController.list
