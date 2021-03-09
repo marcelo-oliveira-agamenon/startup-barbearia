@@ -1,5 +1,10 @@
-import { Client } from '@modules/users/infra/typeorm/entities/Client';
-import { ICreateClientDTO, IUpdateClientDTO, IDeleteClientDTO, IListClientsDTO } from '@modules/users/dtos/IClientDTO';
+import Client from '@modules/users/infra/typeorm/entities/Client';
+import {
+  ICreateClientDTO,
+  IUpdateClientDTO,
+  IDeleteClientDTO,
+  IListClientsDTO
+} from '@modules/users/dtos/IClientDTO';
 
 export default interface IClientRepository {
   create(data: ICreateClientDTO): Promise<Client>;
