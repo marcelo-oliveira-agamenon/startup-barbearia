@@ -11,11 +11,12 @@ export default class SaleRepository implements ISaleRepository {
     this.ormRepository = getRepository(Sale);
   }
 
-  public async create(data: ICreateSaleDTO): Promise<string> {
-    const saleInserted = await this.ormRepository.insert(data);
-    const sale_id = saleInserted.identifiers[0].sale_id;
+  public async create(data: ICreateSaleDTO): Promise<Sale> {
+    const saleInstance = this.ormRepository.create(data);
+    const sale = await this.ormRepository.save(saleInstance);
+    console.log(sale);
 
-    return sale_id;
+    return sale;
   }
 
   public async findOne(id: string): Promise<Sale | undefined> {

@@ -3,12 +3,9 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-
-import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 @Entity('client')
 export default class Client {
@@ -26,9 +23,6 @@ export default class Client {
 
   @Column({ length: '14', nullable: true, type: 'varchar' })
   cpf: string | null;
-
-  @OneToMany(() => Sale, (sale) => sale.client)
-  sales: Sale[];
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

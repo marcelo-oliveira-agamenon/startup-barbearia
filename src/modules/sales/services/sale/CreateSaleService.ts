@@ -21,23 +21,22 @@ export class CreateSaleService {
     const { user_id, client_id, value, discount, is_discount_fixed } = data;
 
     const getUser = container.resolve(GetUserService);
-    const user = await getUser.execute({ user_id });
+    await getUser.execute({ user_id });
 
-    const saleInstance = { user, value, discount, is_discount_fixed };
+    const saleInstance = { user_id, value, discount, is_discount_fixed };
 
     if (client_id) {
       const getClient = container.resolve(GetClientService);
       const client = await getClient.execute({ client_id });
+
       Object.defineProperties(saleInstance, {
-        client: { value: client }
+        client_id: { value: client.client_id }
       });
     }
 
-    const sale_id = await this.saleRepository.create(saleInstance);
-    if (!sale_id) throw new AppError('Sale has not been created!');
-
-    const sale = await this.saleRepository.findOne(sale_id);
-    if (!sale) throw new AppError('Something went wrong!');
+    const sale = await this.saleRepository.create(saleInstance);
+    if (!sale)
+      throw new AppError('Something went wrong! Sale has not been created!');
 
     return sale;
   }

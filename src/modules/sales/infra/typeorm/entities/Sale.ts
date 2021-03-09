@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -16,11 +17,13 @@ export default class Sale {
   @PrimaryGeneratedColumn('uuid')
   sale_id: string;
 
-  @ManyToOne(() => Client, (client) => client.sales)
-  client: Client;
+  @ManyToOne(() => Client, (client) => client.client_id)
+  @JoinColumn({ name: 'client_id' })
+  client_id: string;
 
-  @ManyToOne(() => User, (user) => user.sales)
-  user: User;
+  @ManyToOne(() => User, (user) => user.user_id)
+  @JoinColumn({ name: 'user_id' })
+  user_id: string;
 
   @Column({ default: 0, type: 'numeric', precision: 10, scale: 2 })
   value: number;

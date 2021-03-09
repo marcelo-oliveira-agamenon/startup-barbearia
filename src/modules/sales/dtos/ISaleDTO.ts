@@ -9,8 +9,8 @@ export interface ICreateSaleParamsDTO {
   is_discount_fixed?: boolean;
 }
 export interface ICreateSaleDTO {
-  client?: Client;
-  user: User;
+  client_id?: string;
+  user_id: string;
   value: number;
   discount?: number;
   is_discount_fixed?: boolean;
