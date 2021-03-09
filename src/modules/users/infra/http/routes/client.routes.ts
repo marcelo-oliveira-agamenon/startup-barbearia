@@ -11,7 +11,7 @@ clientRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      cpf: Joi.string(),
+      cpf: Joi.string().length(14),
       phone: Joi.string(),
       email: Joi.string()
     }
