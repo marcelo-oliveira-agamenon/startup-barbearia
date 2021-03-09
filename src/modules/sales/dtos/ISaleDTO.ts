@@ -1,6 +1,3 @@
-import Client from '@modules/users/infra/typeorm/entities/Client';
-import { User } from '@modules/users/infra/typeorm/entities/User';
-
 export interface ICreateSaleParamsDTO {
   client_id?: string;
   user_id: string;
