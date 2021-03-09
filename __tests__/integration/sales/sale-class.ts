@@ -38,8 +38,8 @@ class SaleClass {
       deleted_at = null;
 
     return {
-      client: this.client_id,
-      user: this.user_id,
+      client_id: this.client_id,
+      user_id: this.user_id,
       value,
       discount,
       is_discount_fixed: this.is_discount_fixed,
