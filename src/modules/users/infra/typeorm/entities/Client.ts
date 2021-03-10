@@ -16,7 +16,7 @@ export default class Client {
   client_id: string;
 
   @OneToMany(() => Schedule, (schedule: Schedule) => schedule.client_id)
-  @JoinColumn()
+  @JoinColumn({ name: 'client_id' })
   schedule: Schedule;
 
   @Column()

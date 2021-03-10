@@ -1,77 +1,30 @@
 import request from 'supertest';
+import 'reflect-metadata';
+import 'shared/container';
 import 'dotenv/config';
 
-import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
+import { container } from 'tsyringe';
+import { Connection, createConnection } from 'typeorm';
+import config from '@shared/infra/typeorm/ormconfig';
 
-import faker from 'faker';
+import { CreateUserService } from '@modules/users/services/user';
+import { CreateClientService } from '@modules/users/services/client';
+import { CreateServiceService } from '@modules/sales/services/service';
+import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
+import ScheduleClass from './schedule-class';
+import UserClass from '../users/user-class';
+import ClientClass from '../users/client-class';
+import ServiceClass from '../sales/service-class';
+
+const scheduleClass = new ScheduleClass();
+const userClass = new UserClass();
+const clientClass = new ClientClass();
+const serviceClass = new ServiceClass();
 
 const API = process.env.TEST_URL;
+const TOKEN = `Bearer ${process.env.TOKEN}`;
+let connection: Connection;
 
-const body = {
-    user_id: '180e0ffe-c196-4bf1-bcee-4e3ef52ff287',
-    client_id: '0cf031f2-afcf-4687-b4a7-f7562bc80d5b',
-    service_id: 1,
-    start_date: faker.date.future(),
-    end_date: faker.date.future(),
-    status: faker.random.boolean(),
-    description: faker.random.words()
-  },
-  commonResponse = {
-    id: expect.anything(),
-    user_id: '180e0ffe-c196-4bf1-bcee-4e3ef52ff287',
-    client_id: '0cf031f2-afcf-4687-b4a7-f7562bc80d5b',
-    service_id: 1,
-    start_date: expect.anything(),
-    end_date: expect.anything(),
-    status: expect.anything(),
-    description: expect.anything(),
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  listQuery = {
-    limit: faker.random.number(),
-    offset: 1
-  },
-  dateFilter = {
-    start_date: faker.date.future(),
-    end_date: faker.date.future()
-  },
-  updateBody = {
-    user_id: '180e0ffe-c196-4bf1-bcee-4e3ef52ff287',
-    client_id: '0cf031f2-afcf-4687-b4a7-f7562bc80d5b',
-    service_id: 1,
-    start_date: faker.date.future(),
-    end_date: faker.date.future(),
-    status: faker.random.boolean(),
-    description: faker.random.words()
-  },
-  updateResponse = {
-    id: expect.anything(),
-    user_id: '180e0ffe-c196-4bf1-bcee-4e3ef52ff287',
-    client_id: '0cf031f2-afcf-4687-b4a7-f7562bc80d5b',
-    service_id: 1,
-    start_date: expect.anything(),
-    end_date: expect.anything(),
-    status: expect.anything(),
-    description: expect.anything(),
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  deleteResponse = {
-    id: expect.anything(),
-    user_id: '180e0ffe-c196-4bf1-bcee-4e3ef52ff287',
-    client_id: '0cf031f2-afcf-4687-b4a7-f7562bc80d5b',
-    service_id: 1,
-    start_date: expect.anything(),
-    end_date: expect.anything(),
-    status: expect.anything(),
-    description: expect.anything(),
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: expect.anything()
-  };
 const createEndPoint = '/schedules/register',
   listEndPoint = '/schedules/',
   filterDatePoint = '/schedules/date/filter';
@@ -80,11 +33,29 @@ let commonEndPointClient = '/schedules/client/';
 let commonEndPointUser = '/schedules/user/';
 
 describe('POST/GET/PUT/DELETE /schedules/', function () {
+  beforeAll(async () => {
+    connection = await createConnection(config);
+
+    const createUser = container.resolve(CreateUserService);
+    const createClient = container.resolve(CreateClientService);
+    const createService = container.resolve(CreateServiceService);
+
+    const user = await createUser.execute(userClass);
+    const client = await createClient.execute(clientClass);
+    const service = await createService.execute(serviceClass);
+
+    if (user) scheduleClass.user_id = user.user_id;
+    if (client) scheduleClass.client_id = client.client_id;
+    if (service) scheduleClass.service_id = service.service_id;
+  });
+  afterAll(async () => {
+    await connection.close();
+  });
   it('Should create a schedule with all input fields and return {schedule}.', function (done) {
     request(API)
       .post(createEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(body)
+      .set('Authorization', TOKEN)
+      .send(scheduleClass.createRequest)
       .expect('Content-Type', /json/)
       .expect(Schedule)
       .expect(201)
@@ -92,7 +63,9 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
         commonEndPoint += res.body.id;
         commonEndPointClient += res.body.client_id;
         commonEndPointUser += res.body.user_id;
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(scheduleClass.createResponse)
+        );
       })
       .end(done);
   });
@@ -100,8 +73,8 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   it('Should list schedules and return [{schedule}].', function (done) {
     request(API)
       .get(listEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .query(listQuery)
+      .set('Authorization', TOKEN)
+      .query(scheduleClass.getListSet)
       .expect('Content-Type', /json/)
       .expect(Schedule)
       .expect(200)
@@ -129,12 +102,14 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   it('Should get a schedule and return {schedule}.', function (done) {
     request(API)
       .get(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Schedule)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(scheduleClass.getResponse)
+        );
       })
       .end(done);
   });
@@ -142,7 +117,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   it('Should list schedules by client id and return [{schedule}].', function (done) {
     request(API)
       .get(commonEndPointClient)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Schedule)
       .expect(200)
@@ -170,7 +145,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   it('Should list schedules by user id and return [{schedule}].', function (done) {
     request(API)
       .get(commonEndPointUser)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Schedule)
       .expect(200)
@@ -198,8 +173,8 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   it('Should list schedules by date and return [{schedule}].', function (done) {
     request(API)
       .get(filterDatePoint)
-      .send(dateFilter)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .send(scheduleClass.getFilterDate)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Schedule)
       .expect(200)
@@ -224,29 +199,33 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .end(done);
   });
 
-  it('Should update a schedule and return {schedule}.', function (done) {
-    request(API)
-      .put(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(updateBody)
-      .expect('Content-Type', /json/)
-      .expect(Schedule)
-      .expect(200)
-      .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(updateResponse));
-      })
-      .end(done);
-  });
+  // it('Should update a schedule and return {schedule}.', function (done) {
+  //   request(API)
+  //     .put(commonEndPoint)
+  //     .set('Authorization', TOKEN)
+  //     .send(scheduleClass.updateRequest)
+  //     .expect('Content-Type', /json/)
+  //     .expect(Schedule)
+  //     .expect(200)
+  //     .expect((res) => {
+  //       expect(res.body).toEqual(
+  //         expect.objectContaining(scheduleClass.updateResponse)
+  //       );
+  //     })
+  //     .end(done);
+  // });
 
   it('Should delete a schedule softly and return {schedule}.', function (done) {
     request(API)
       .delete(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Schedule)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(scheduleClass.deleteResponse)
+        );
       })
       .end(done);
   });

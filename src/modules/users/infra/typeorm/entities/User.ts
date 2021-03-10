@@ -25,7 +25,7 @@ export class User {
   user_id: string;
 
   @OneToMany(() => Schedule, (schedule: Schedule) => schedule.user_id)
-  @JoinColumn()
+  @JoinColumn({ name: 'user_id' })
   schedule: Schedule;
 
   @Column()

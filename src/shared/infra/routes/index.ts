@@ -17,5 +17,6 @@ router.use('/services', serviceRouter);
 router.use('/products', productRouter);
 router.use('/payment-methods', paymentMethodRouter);
 router.use('/sales', saleRouter);
+router.use('/schedules', scheduleRouter);
 
 export default router;

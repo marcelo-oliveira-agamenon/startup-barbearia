@@ -3,13 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
+  JoinColumn,
   ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { Client } from '@modules/users/infra/typeorm/entities/Client';
+import Client from '@modules/users/infra/typeorm/entities/Client';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import Service from '@modules/sales/infra/typeorm/entities/Service';
 
@@ -26,8 +26,8 @@ export class Schedule {
   @Column()
   client_id: string;
 
-  @ManyToMany(() => Service)
-  @JoinTable()
+  @ManyToMany(() => Service, (service) => service.service_id)
+  @JoinColumn({ name: 'service_id' })
   @Column()
   service_id: number;
 

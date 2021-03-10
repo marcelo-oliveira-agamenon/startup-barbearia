@@ -22,7 +22,7 @@ export default class Service {
   value: number;
 
   @ManyToMany(() => Schedule, (schedule: Schedule) => schedule.service_id)
-  @JoinColumn()
+  @JoinColumn({ name: 'service_id' })
   schedule: Schedule;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
