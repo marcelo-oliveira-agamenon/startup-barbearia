@@ -61,6 +61,20 @@ describe('POST/GET/DELETE /sales/', function () {
       })
       .end(done);
   });
+  it('Should get a sale and return {user}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.getResponse)
+        );
+      })
+      .end(done);
+  });
 
   // it('Should list users and return [{user}].', function (done) {
   //   request(API)
@@ -89,20 +103,7 @@ describe('POST/GET/DELETE /sales/', function () {
   //     })
   //     .end(done);
   // });
-  // it('Should get a user and return {user}.', function (done) {
-  //   request(API)
-  //     .get(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(userClass.getResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+
   // it('Should update a user and return {user}.', function (done) {
   //   request(API)
   //     .put(commonEndPoint)
