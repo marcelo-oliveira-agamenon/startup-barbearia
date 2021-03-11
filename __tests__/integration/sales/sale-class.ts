@@ -50,7 +50,7 @@ class SaleClass {
     };
   }
   get listRequest() {
-    return {};
+    return { limit: this.limit, offset: this.offset };
   }
 
   get getResponse() {

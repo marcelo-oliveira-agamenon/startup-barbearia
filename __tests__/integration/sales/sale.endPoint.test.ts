@@ -76,33 +76,32 @@ describe('POST/GET/DELETE /sales/', function () {
       .end(done);
   });
 
-  // it('Should list users and return [{user}].', function (done) {
-  //   request(API)
-  //     .get(listEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .query(userClass.listRequest)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       if (res.body.length) {
-  //         const firstElement = res.body[0];
-  //         expect(firstElement).toHaveProperty('user_id');
-  //         expect(firstElement).toHaveProperty('name');
-  //         expect(firstElement).toHaveProperty('user_type');
-  //         expect(firstElement).toHaveProperty('phone');
-  //         expect(firstElement).toHaveProperty('cpf');
-  //         expect(firstElement).toHaveProperty('email');
-  //         expect(firstElement).toHaveProperty('is_active');
-  //         expect(firstElement).toHaveProperty('created_at');
-  //         expect(firstElement).toHaveProperty('updated_at');
-  //         expect(firstElement).toHaveProperty('deleted_at');
-  //       } else {
-  //         expect(res.body).toEqual(expect.arrayContaining([]));
-  //       }
-  //     })
-  //     .end(done);
-  // });
+  it('Should list sales and return [{user}].', function (done) {
+    request(API)
+      .get(listEndPoint)
+      .set('Authorization', TOKEN)
+      .query(saleClass.listRequest)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('client_id');
+          expect(firstElement).toHaveProperty('user_id');
+          expect(firstElement).toHaveProperty('value');
+          expect(firstElement).toHaveProperty('discount');
+          expect(firstElement).toHaveProperty('is_discount_fixed');
+          expect(firstElement).toHaveProperty('sale_id');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+          expect(firstElement).toHaveProperty('deleted_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
 
   // it('Should update a user and return {user}.', function (done) {
   //   request(API)
