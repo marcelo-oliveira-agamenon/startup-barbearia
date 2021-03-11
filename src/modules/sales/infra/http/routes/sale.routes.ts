@@ -23,17 +23,6 @@ saleRouter.post(
   saleController.create
 );
 
-// saleRouter.get(
-//   '/',
-//   celebrate({
-//     [Segments.QUERY]: {
-//       limit: Joi.number().integer().positive(),
-//       offset: Joi.number().integer().positive()
-//     }
-//   }),
-//   saleController.list
-// );
-
 saleRouter.get(
   '/:sale_id',
   celebrate({
@@ -42,6 +31,17 @@ saleRouter.get(
     }
   }),
   saleController.get
+);
+
+saleRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
+    }
+  }),
+  saleController.list
 );
 
 // saleRouter.delete(

@@ -1,5 +1,5 @@
 import { getRepository, Repository } from 'typeorm';
-import { ICreateSaleDTO } from '@modules/sales/dtos/ISaleDTO';
+import { ICreateSaleDTO, IListSalesDTO } from '@modules/sales/dtos/ISaleDTO';
 
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
@@ -26,15 +26,19 @@ export default class SaleRepository implements ISaleRepository {
     return sale;
   }
 
-  // public async findAll(query: IListServicesDTO): Promise<Service[]> {
-  //   const { limit, offset } = query;
-  //   const take = limit ? limit : 0,
-  //     skip = offset ? offset : 0;
+  public async findAll(query: IListSalesDTO): Promise<Sale[]> {
+    const { limit, offset } = query;
+    const take = limit ? limit : 0,
+      skip = offset ? offset : 0;
 
-  //   const sales = await this.ormRepository.find({ take, skip });
+    const sales = await this.ormRepository.find({
+      take,
+      skip,
+      loadRelationIds: true
+    });
 
-  //   return sales;
-  // }
+    return sales;
+  }
 
   // public async delete({
   //   service_id

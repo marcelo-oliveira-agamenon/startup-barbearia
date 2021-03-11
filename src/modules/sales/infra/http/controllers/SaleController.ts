@@ -3,7 +3,8 @@ import { Request, Response } from 'express';
 
 import {
   CreateSaleService,
-  GetSaleService
+  GetSaleService,
+  ListSalesService
 } from '@modules/sales/services/sale';
 
 export default class SaleController {
@@ -25,14 +26,14 @@ export default class SaleController {
     return response.status(200).json(sale);
   }
 
-  // public async list(request: Request, response: Response): Promise<Response> {
-  //   const query = request.query;
+  public async list(request: Request, response: Response): Promise<Response> {
+    const query = request.query;
 
-  //   const listServices = container.resolve(ListServicesService);
-  //   const service = await listServices.execute(query);
+    const listSales = container.resolve(ListSalesService);
+    const service = await listSales.execute(query);
 
-  //   return response.status(200).json(service);
-  // }
+    return response.status(200).json(service);
+  }
 
   // public async delete(request: Request, response: Response): Promise<Response> {
   //   const { service_id } = request.params;

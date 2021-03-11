@@ -16,3 +16,8 @@ export interface ICreateSaleDTO {
 export interface IUpdateSaleDTO {
   sale_id: string;
 }
+
+export interface IListSalesDTO {
+  limit?: number;
+  offset?: number;
+}
