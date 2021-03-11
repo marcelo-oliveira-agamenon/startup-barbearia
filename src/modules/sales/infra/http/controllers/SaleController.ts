@@ -1,7 +1,10 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import { CreateSaleService } from '@modules/sales/services/sale';
+import {
+  CreateSaleService,
+  GetSaleService
+} from '@modules/sales/services/sale';
 
 export default class SaleController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -13,14 +16,14 @@ export default class SaleController {
     return response.status(201).json(sale);
   }
 
-  // public async get(request: Request, response: Response): Promise<Response> {
-  //   const { service_id } = request.params;
+  public async get(request: Request, response: Response): Promise<Response> {
+    const { sale_id } = request.params;
 
-  //   const getService = container.resolve(GetServiceService);
-  //   const service = await getService.execute({ service_id: +service_id });
+    const getSale = container.resolve(GetSaleService);
+    const sale = await getSale.execute({ sale_id });
 
-  //   return response.status(200).json(service);
-  // }
+    return response.status(200).json(sale);
+  }
 
   // public async list(request: Request, response: Response): Promise<Response> {
   //   const query = request.query;

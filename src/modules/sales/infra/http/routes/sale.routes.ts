@@ -34,15 +34,15 @@ saleRouter.post(
 //   saleController.list
 // );
 
-// saleRouter.get(
-//   '/:sale_id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       sale_id: Joi.string().required()
-//     }
-//   }),
-//   saleController.get
-// );
+saleRouter.get(
+  '/:sale_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      sale_id: Joi.string().required()
+    }
+  }),
+  saleController.get
+);
 
 // saleRouter.delete(
 //   '/:sale_id',

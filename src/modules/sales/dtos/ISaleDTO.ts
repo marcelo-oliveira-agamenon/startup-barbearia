@@ -12,3 +12,7 @@ export interface ICreateSaleDTO {
   discount?: number;
   is_discount_fixed?: boolean;
 }
+
+export interface IUpdateSaleDTO {
+  sale_id: string;
+}
