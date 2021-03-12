@@ -1,10 +1,14 @@
 import { ICreateStockDTO, IListStocksDTO, IUpdateStockDTO } from "@modules/sales/dtos/IStockDTO";
 import IStockRepository from "@modules/sales/repositories/IStockRepository";
-import { Repository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
 import Stock from "../entities/Stock";
 
 export default class StockRepository implements IStockRepository {
   private ormRepository: Repository<Stock>;
+
+  constructor() {
+    this.ormRepository = getRepository(Stock);
+  }
 
   public async create(data: ICreateStockDTO): Promise<Stock> {
     const stockInstance = this.ormRepository.create(data);
@@ -13,8 +17,8 @@ export default class StockRepository implements IStockRepository {
     return stock;
   }
 
-  public async findOne(stock_id: number): Promise<Stock | undefined> {
-    const stock = await this.ormRepository.findOne(stock_id);
+  public async findByProductId(product_id: string): Promise<Stock | undefined> {
+    const stock = await this.ormRepository.findOne({product_id});
 
     return stock;
   }

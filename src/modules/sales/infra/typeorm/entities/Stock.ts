@@ -4,8 +4,7 @@ import {
     Entity,
     OneToOne,
     PrimaryGeneratedColumn,
-    JoinColumn,
-    Index
+    JoinColumn
   } from 'typeorm';
 import Product from './Product';
 
@@ -19,10 +18,9 @@ export default class Stock {
         })
     quantity: number;
 
-    @OneToOne(() => Product)
-    @JoinColumn()
-    @Index({unique: true})
-    product: string;
+    @OneToOne(() => Product, (product)=>product.product_id)
+    @JoinColumn({name: "product_id"})
+    product_id: string;
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;

@@ -7,6 +7,7 @@ import productRouter from '@modules/sales/infra/http/routes/product.routes';
 import serviceRouter from '@modules/sales/infra/http/routes/service.routes';
 import paymentMethodRouter from '@modules/sales/infra/http/routes/paymentMethod.routes';
 import saleRouter from '@modules/sales/infra/http/routes/sale.routes';
+import stockRouter from '@modules/sales/infra/http/routes/stock.routes';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/services', serviceRouter);
 router.use('/products', productRouter);
 router.use('/payment-methods', paymentMethodRouter);
 router.use('/sales', saleRouter);
+router.use('/stocks', stockRouter);
 
 export default router;
