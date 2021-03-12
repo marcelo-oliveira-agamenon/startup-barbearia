@@ -61,7 +61,7 @@ describe('POST/GET/DELETE /sales/', function () {
       })
       .end(done);
   });
-  it('Should get a sale and return {user}.', function (done) {
+  it('Should get a sale and return {sale}.', function (done) {
     request(API)
       .get(commonEndPoint)
       .set('Authorization', TOKEN)
@@ -119,18 +119,18 @@ describe('POST/GET/DELETE /sales/', function () {
   //     .end(done);
   // });
 
-  // it('Should delete a user softly and return {user}.', function (done) {
-  //   request(API)
-  //     .delete(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(userClass.deleteResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should delete a sale softly and return {sale}.', function (done) {
+    request(API)
+      .delete(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.deleteResponse)
+        );
+      })
+      .end(done);
+  });
 });
