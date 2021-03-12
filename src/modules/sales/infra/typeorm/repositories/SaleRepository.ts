@@ -1,5 +1,9 @@
 import { getRepository, Repository } from 'typeorm';
-import { ICreateSaleDTO, IListSalesDTO } from '@modules/sales/dtos/ISaleDTO';
+import {
+  ICreateSaleDTO,
+  IDeleteSaleDTO,
+  IListSalesDTO
+} from '@modules/sales/dtos/ISaleDTO';
 
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
@@ -18,8 +22,8 @@ export default class SaleRepository implements ISaleRepository {
     return sale;
   }
 
-  public async findOne(id: string): Promise<Sale | undefined> {
-    const sale = await this.ormRepository.findOne(id, {
+  public async findOne(sale_id: string): Promise<Sale | undefined> {
+    const sale = await this.ormRepository.findOne(sale_id, {
       loadRelationIds: true
     });
 
@@ -40,20 +44,23 @@ export default class SaleRepository implements ISaleRepository {
     return sales;
   }
 
-  // public async delete({
-  //   service_id
-  // }: IDeleteServicesDTO): Promise<number | undefined> {
-  //   const isServiceDeleted = await this.ormRepository.softDelete(service_id);
-  //   const isServiceAffected = isServiceDeleted.affected;
+  public async delete({
+    sale_id
+  }: IDeleteSaleDTO): Promise<number | undefined> {
+    const isSaleDeleted = await this.ormRepository.softDelete(sale_id);
+    const isSaleAffected = isSaleDeleted.affected;
 
-  //   return isServiceAffected;
-  // }
+    return isSaleAffected;
+  }
 
-  // public async findDeletedEntity(id: number): Promise<Service | undefined> {
-  //   const service = await this.ormRepository.findOne(id, { withDeleted: true });
+  public async findDeletedEntity(sale_id: string): Promise<Sale | undefined> {
+    const sale = await this.ormRepository.findOne(sale_id, {
+      withDeleted: true,
+      loadRelationIds: true
+    });
 
-  //   return service;
-  // }
+    return sale;
+  }
 
   // public async update(id: number, data: IUpdateServicesDTO): Promise<Service> {
   //   const serviceExists = await this.ormRepository.findOne(id);

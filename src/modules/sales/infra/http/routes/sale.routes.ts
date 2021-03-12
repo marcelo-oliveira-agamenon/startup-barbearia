@@ -44,14 +44,14 @@ saleRouter.get(
   saleController.list
 );
 
-// saleRouter.delete(
-//   '/:sale_id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       sale_id: Joi.string().required()
-//     }
-//   }),
-//   saleController.delete
-// );
+saleRouter.delete(
+  '/:sale_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      sale_id: Joi.string().required()
+    }
+  }),
+  saleController.delete
+);
 
 export default saleRouter;

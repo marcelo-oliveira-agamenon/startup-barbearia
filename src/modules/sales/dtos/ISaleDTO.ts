@@ -21,3 +21,7 @@ export interface IListSalesDTO {
   limit?: number;
   offset?: number;
 }
+
+export interface IDeleteSaleDTO {
+  sale_id: string;
+}

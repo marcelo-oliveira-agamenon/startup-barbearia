@@ -4,7 +4,8 @@ import { Request, Response } from 'express';
 import {
   CreateSaleService,
   GetSaleService,
-  ListSalesService
+  ListSalesService,
+  DeleteSaleService
 } from '@modules/sales/services/sale';
 
 export default class SaleController {
@@ -35,18 +36,6 @@ export default class SaleController {
     return response.status(200).json(service);
   }
 
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  //   const { service_id } = request.params;
-  //   const id: IGetServiceDTO = {
-  //     service_id: Number(service_id)
-  //   };
-
-  //   const deleteService = container.resolve(DeleteServicesService);
-  //   const service = await deleteService.execute(id);
-
-  //   return response.status(200).json(service);
-  // }
-
   // public async update(request: Request, response: Response): Promise<Response> {
   //   const { service_id } = request.body;
   //   const data = request.body;
@@ -56,4 +45,13 @@ export default class SaleController {
 
   //   return response.status(200).json(service);
   // }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { sale_id } = request.params;
+
+    const deleteSale = container.resolve(DeleteSaleService);
+    const sale = await deleteSale.execute({ sale_id });
+
+    return response.status(200).json(sale);
+  }
 }
