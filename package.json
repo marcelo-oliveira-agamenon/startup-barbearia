@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "test": "jest",
+    "test": "jest --passWithNoTests --silent --noStackTrace --watch",
+    "test:verbose": "jest",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f src/shared/infra/typeorm/ormconfig.ts"
   },
   "jest": {
