@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "lint-staged",
+    "pre-commit": "npx eslint 'src/**'",
     "pre-push": "yarn test:verbose"
   }
 }
