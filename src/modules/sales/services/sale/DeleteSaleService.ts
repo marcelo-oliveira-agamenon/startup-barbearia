@@ -6,7 +6,7 @@ import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 import AppError from '@shared/errors/AppError';
-
+//as
 @injectable()
 export class DeleteSaleService {
   constructor(
