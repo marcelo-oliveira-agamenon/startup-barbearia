@@ -1,5 +1,5 @@
 {
   "*.ts": [
-    "npx eslint 'src/**'"
+    "eslint 'src/**' --fix"
   ]
 }
