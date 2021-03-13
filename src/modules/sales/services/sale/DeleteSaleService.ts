@@ -1,4 +1,4 @@
-import { injectable, inject, container, ClassProvider } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { IDeleteSaleDTO } from '@modules/sales/dtos/ISaleDTO';
 
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
@@ -6,7 +6,6 @@ import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 import AppError from '@shared/errors/AppError';
-//*dsaf
 
 @injectable()
 export class DeleteSaleService {
