@@ -136,7 +136,7 @@ describe('POST/GET/PUT/DELETE /products', function () {
       .end(done);
   });
 
-  it('Should delete a product softly and return {client}.', function (done) {
+  it('Should delete a product softly and return {client}..', function (done) {
     request(API)
       .delete(commonEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
