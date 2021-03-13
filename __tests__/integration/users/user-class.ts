@@ -16,7 +16,7 @@ class UserClass {
   constructor() {
     this.name = faker.name.findName();
     this.user_type = UserRole.ADMIN;
-    this.phone = faker.phone.phoneNumber();
+    this.phone = faker.phone.phoneNumber('(##) #####-####');
     this.cpf = faker.internet.password(14);
     this.email = faker.internet.email();
     this.is_active = faker.random.boolean();

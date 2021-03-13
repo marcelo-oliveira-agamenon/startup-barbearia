@@ -10,8 +10,8 @@ saleRouter.post(
   '/signup',
   celebrate({
     [Segments.BODY]: {
-      client_id: Joi.string(),
-      user_id: Joi.string().required(),
+      client_id: Joi.string().uuid(),
+      user_id: Joi.string().uuid().required(),
       value: Joi.number().positive().required(),
       discount: Joi.number().positive(),
       is_discount_fixed: Joi.boolean().when('discount', {
@@ -23,35 +23,35 @@ saleRouter.post(
   saleController.create
 );
 
-// saleRouter.get(
-//   '/',
-//   celebrate({
-//     [Segments.QUERY]: {
-//       limit: Joi.number().integer().positive(),
-//       offset: Joi.number().integer().positive()
-//     }
-//   }),
-//   saleController.list
-// );
+saleRouter.get(
+  '/:sale_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      sale_id: Joi.string().uuid().required()
+    }
+  }),
+  saleController.get
+);
 
-// saleRouter.get(
-//   '/:sale_id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       sale_id: Joi.string().required()
-//     }
-//   }),
-//   saleController.get
-// );
+saleRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
+    }
+  }),
+  saleController.list
+);
 
-// saleRouter.delete(
-//   '/:sale_id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       sale_id: Joi.string().required()
-//     }
-//   }),
-//   saleController.delete
-// );
+saleRouter.delete(
+  '/:sale_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      sale_id: Joi.string().uuid().required()
+    }
+  }),
+  saleController.delete
+);
 
 export default saleRouter;

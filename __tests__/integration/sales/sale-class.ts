@@ -50,26 +50,49 @@ class SaleClass {
     };
   }
   get listRequest() {
-    return {};
+    return { limit: this.limit, offset: this.offset };
   }
 
   get getResponse() {
-    const user_id = expect.anything(),
+    const sale_id = expect.anything(),
       created_at = expect.anything(),
       updated_at = expect.anything(),
+      value = expect.anything(),
+      discount = expect.anything(),
       deleted_at = null;
 
-    return {};
+    return {
+      client_id: this.client_id,
+      user_id: this.user_id,
+      value,
+      discount,
+      is_discount_fixed: this.is_discount_fixed,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
   }
 
   get deleteResponse() {
-    const user_id = expect.anything(),
+    const sale_id = expect.anything(),
       created_at = expect.anything(),
       updated_at = expect.anything(),
-      deleted_at = expect.anything(),
-      is_active = false;
+      value = expect.anything(),
+      discount = expect.anything(),
+      deleted_at = expect.anything();
 
-    return {};
+    return {
+      client_id: this.client_id,
+      user_id: this.user_id,
+      value,
+      discount,
+      is_discount_fixed: this.is_discount_fixed,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
   }
 }
 export default SaleClass;
