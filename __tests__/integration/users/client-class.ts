@@ -12,7 +12,7 @@ class ClientClass {
     this.name = faker.name.findName();
     this.cpf = faker.internet.password(14);
     this.email = faker.internet.email();
-    this.phone = faker.phone.phoneNumber();
+    this.phone = faker.phone.phoneNumber('(##) #####-####');
     this.limit = 3;
     this.offset = 1;
   }
