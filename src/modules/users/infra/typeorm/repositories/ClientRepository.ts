@@ -4,8 +4,7 @@ import Client from '@modules/users/infra/typeorm/entities/Client';
 import {
   ICreateClientDTO,
   IDeleteClientDTO,
-  IListClientsDTO,
-  IUpdateClientDTO
+  IListClientsDTO
 } from '@modules/users/dtos/IClientDTO';
 
 export default class ClientRepository implements IClientRepository {
@@ -37,8 +36,8 @@ export default class ClientRepository implements IClientRepository {
     return isClientAffected;
   }
 
-  public async findOne(id: string): Promise<Client | undefined> {
-    const client = await this.ormRepository.findOne(id);
+  public async findOne(client_id: string): Promise<Client | undefined> {
+    const client = await this.ormRepository.findOne(client_id);
 
     return client;
   }
@@ -55,8 +54,12 @@ export default class ClientRepository implements IClientRepository {
     return client;
   }
 
-  public async findDeletedEntity(id: string): Promise<Client | undefined> {
-    const client = await this.ormRepository.findOne(id, { withDeleted: true });
+  public async findDeletedEntity(
+    client_id: string
+  ): Promise<Client | undefined> {
+    const client = await this.ormRepository.findOne(client_id, {
+      withDeleted: true
+    });
 
     return client;
   }

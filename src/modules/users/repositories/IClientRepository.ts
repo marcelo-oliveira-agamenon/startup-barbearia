@@ -12,6 +12,6 @@ export default interface IClientRepository {
   delete({ client_id }: IDeleteClientDTO): Promise<number | undefined>;
   findByCpf(cpf: string): Promise<Client | undefined>;
   findByEmail(email: string): Promise<Client | undefined>;
-  findDeletedEntity(id: string): Promise<Client | undefined>;
+  findDeletedEntity(client_id: string): Promise<Client | undefined>;
   findAll(query: IListClientsDTO): Promise<Client[]>;
 }
