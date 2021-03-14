@@ -16,14 +16,9 @@ export class UpdateSaleService {
 
   public async execute(sale_id: string, data: IUpdateSaleDTO): Promise<Sale> {
     const saleExists = await this.saleRepository.findOne(sale_id);
-    console.log(saleExists);
     if (!saleExists) throw new AppError('Sale does not exist!');
-    console.log('data');
-    console.log(data);
 
     const saleEntity = Object.assign(saleExists, data);
-    console.log('merge');
-    console.log(saleEntity);
 
     const sale = await this.saleRepository.update(saleEntity);
 
