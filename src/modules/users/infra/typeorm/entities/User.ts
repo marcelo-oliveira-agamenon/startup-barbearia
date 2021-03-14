@@ -5,13 +5,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
-import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -34,10 +32,10 @@ export class User {
   user_type: UserRole;
 
   @Column({ nullable: true, type: 'varchar' })
-  phone: string | null;
+  phone: string;
 
   @Column({ length: 14, nullable: true, type: 'varchar' })
-  cpf: string | null;
+  cpf: string;
 
   @Column()
   email: string;
@@ -55,9 +53,6 @@ export class User {
   @Column({ default: true })
   is_active: boolean;
 
-  @OneToMany(() => Sale, (sale) => sale.client)
-  sales: Sale[];
-
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
@@ -65,5 +60,5 @@ export class User {
   updated_at: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date | null;
+  deleted_at: Date;
 }

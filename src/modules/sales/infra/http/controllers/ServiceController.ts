@@ -25,7 +25,7 @@ export default class ServicesController {
     const { service_id } = request.params;
 
     const getService = container.resolve(GetServiceService);
-    const service = await getService.execute({ service_id: +service_id });
+    const service = await getService.execute({ service_id });
 
     return response.status(200).json(service);
   }
@@ -41,12 +41,9 @@ export default class ServicesController {
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { service_id } = request.params;
-    const id: IGetServiceDTO = {
-      service_id: Number(service_id)
-    };
 
     const deleteService = container.resolve(DeleteServiceService);
-    const service = await deleteService.execute(id);
+    const service = await deleteService.execute({ service_id });
 
     return response.status(200).json(service);
   }
@@ -56,7 +53,7 @@ export default class ServicesController {
     const data = request.body;
 
     const updateService = container.resolve(UpdateServiceService);
-    const service = await updateService.execute(data, service_id);
+    const service = await updateService.execute(service_id, data);
 
     return response.status(200).json(service);
   }

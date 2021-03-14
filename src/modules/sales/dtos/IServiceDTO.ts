@@ -4,11 +4,11 @@ export interface ICreateServicesDTO {
 }
 
 export interface IDeleteServicesDTO {
-  service_id: number;
+  service_id: string;
 }
 
 export interface IGetServiceDTO {
-  service_id: number;
+  service_id: string;
 }
 
 export interface IListServicesDTO {

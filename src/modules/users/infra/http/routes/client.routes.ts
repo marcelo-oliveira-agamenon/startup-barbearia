@@ -11,7 +11,7 @@ clientRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      cpf: Joi.string(),
+      cpf: Joi.string().length(14),
       phone: Joi.string(),
       email: Joi.string()
     }
@@ -23,7 +23,7 @@ clientRouter.get(
   '/:client_id',
   celebrate({
     [Segments.PARAMS]: {
-      client_id: Joi.string().required()
+      client_id: Joi.string().uuid().required()
     }
   }),
   clientController.get
@@ -44,7 +44,7 @@ clientRouter.put(
   '/:client_id',
   celebrate({
     [Segments.PARAMS]: {
-      client_id: Joi.string().required()
+      client_id: Joi.string().uuid().required()
     },
     [Segments.BODY]: Joi.object()
       .keys({
@@ -62,7 +62,7 @@ clientRouter.delete(
   '/:client_id',
   celebrate({
     [Segments.PARAMS]: {
-      client_id: Joi.string().required()
+      client_id: Joi.string().uuid().required()
     }
   }),
   clientController.delete

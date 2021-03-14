@@ -35,7 +35,7 @@ productRouter.get(
   '/:product_id',
   celebrate({
     [Segments.PARAMS]: {
-      product_id: Joi.string().required()
+      product_id: Joi.string().uuid().required()
     }
   }),
   productController.get
@@ -45,7 +45,7 @@ productRouter.put(
   '/:product_id',
   celebrate({
     [Segments.PARAMS]: {
-      product_id: Joi.string().required()
+      product_id: Joi.string().uuid().required()
     },
     [Segments.BODY]: Joi.object()
       .keys({
@@ -64,7 +64,7 @@ productRouter.delete(
   '/:product_id',
   celebrate({
     [Segments.PARAMS]: {
-      product_id: Joi.string().required()
+      product_id: Joi.string().uuid().required()
     }
   }),
   productController.delete

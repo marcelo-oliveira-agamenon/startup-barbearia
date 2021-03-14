@@ -38,8 +38,8 @@ class SaleClass {
       deleted_at = null;
 
     return {
-      client: this.client_id,
-      user: this.user_id,
+      client_id: this.client_id,
+      user_id: this.user_id,
       value,
       discount,
       is_discount_fixed: this.is_discount_fixed,
@@ -50,26 +50,77 @@ class SaleClass {
     };
   }
   get listRequest() {
-    return {};
+    return { limit: this.limit, offset: this.offset };
   }
 
   get getResponse() {
-    const user_id = expect.anything(),
+    const sale_id = expect.anything(),
       created_at = expect.anything(),
       updated_at = expect.anything(),
+      value = expect.anything(),
+      discount = expect.anything(),
       deleted_at = null;
 
-    return {};
+    return {
+      client_id: this.client_id,
+      user_id: this.user_id,
+      value,
+      discount,
+      is_discount_fixed: this.is_discount_fixed,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
+  }
+
+  get updateRequest() {
+    return {
+      client_id: this.client_id,
+      discount: this.discount,
+      is_discount_fixed: this.is_discount_fixed
+    };
+  }
+  get updateResponse() {
+    const sale_id = expect.anything(),
+      created_at = expect.anything(),
+      updated_at = expect.anything(),
+      deleted_at = null,
+      discount = expect.anything(),
+      value = expect.anything();
+
+    return {
+      client_id: this.client_id,
+      user_id: this.user_id,
+      is_discount_fixed: this.is_discount_fixed,
+      value,
+      discount,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
   }
 
   get deleteResponse() {
-    const user_id = expect.anything(),
+    const sale_id = expect.anything(),
       created_at = expect.anything(),
       updated_at = expect.anything(),
       deleted_at = expect.anything(),
-      is_active = false;
+      discount = expect.anything(),
+      value = expect.anything();
 
-    return {};
+    return {
+      client_id: this.client_id,
+      user_id: this.user_id,
+      is_discount_fixed: this.is_discount_fixed,
+      value,
+      discount,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
   }
 }
 export default SaleClass;

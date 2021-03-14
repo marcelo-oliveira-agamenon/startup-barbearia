@@ -9,8 +9,8 @@ import {
 
 @Entity('service')
 export default class Service {
-  @PrimaryGeneratedColumn('increment')
-  service_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  service_id: string;
 
   @Column()
   name: string;
@@ -25,5 +25,5 @@ export default class Service {
   updated_at: Date;
 
   @DeleteDateColumn({ type: 'timestamptz' })
-  deleted_at: Date | null;
+  deleted_at: Date;
 }

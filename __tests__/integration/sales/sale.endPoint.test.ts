@@ -25,8 +25,7 @@ const TOKEN = `Bearer ${process.env.TOKEN}`;
 let connection: Connection;
 
 const createEndPoint = '/sales/signup',
-  listEndPoint = '/sales/',
-  loginEndPoint = '/sales';
+  listEndPoint = '/sales/';
 let commonEndPoint = '/sales/';
 
 describe('POST/GET/DELETE /sales/', function () {
@@ -38,7 +37,6 @@ describe('POST/GET/DELETE /sales/', function () {
 
     const user = await createUser.execute(userClass);
     const client = await createClient.execute(clientClass);
-
     if (user) saleClass.user_id = user.user_id;
     if (client) saleClass.client_id = client.client_id;
   });
@@ -61,76 +59,76 @@ describe('POST/GET/DELETE /sales/', function () {
       })
       .end(done);
   });
+  it('Should get a sale and return {sale}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.getResponse)
+        );
+      })
+      .end(done);
+  });
 
-  // it('Should list users and return [{user}].', function (done) {
-  //   request(API)
-  //     .get(listEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .query(userClass.listRequest)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       if (res.body.length) {
-  //         const firstElement = res.body[0];
-  //         expect(firstElement).toHaveProperty('user_id');
-  //         expect(firstElement).toHaveProperty('name');
-  //         expect(firstElement).toHaveProperty('user_type');
-  //         expect(firstElement).toHaveProperty('phone');
-  //         expect(firstElement).toHaveProperty('cpf');
-  //         expect(firstElement).toHaveProperty('email');
-  //         expect(firstElement).toHaveProperty('is_active');
-  //         expect(firstElement).toHaveProperty('created_at');
-  //         expect(firstElement).toHaveProperty('updated_at');
-  //         expect(firstElement).toHaveProperty('deleted_at');
-  //       } else {
-  //         expect(res.body).toEqual(expect.arrayContaining([]));
-  //       }
-  //     })
-  //     .end(done);
-  // });
-  // it('Should get a user and return {user}.', function (done) {
-  //   request(API)
-  //     .get(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(userClass.getResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
-  // it('Should update a user and return {user}.', function (done) {
-  //   request(API)
-  //     .put(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .send(userClass.updateRequest)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(userClass.updateResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should list sales and return [{sale}].', function (done) {
+    request(API)
+      .get(listEndPoint)
+      .set('Authorization', TOKEN)
+      .query(saleClass.listRequest)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('client_id');
+          expect(firstElement).toHaveProperty('user_id');
+          expect(firstElement).toHaveProperty('value');
+          expect(firstElement).toHaveProperty('discount');
+          expect(firstElement).toHaveProperty('is_discount_fixed');
+          expect(firstElement).toHaveProperty('sale_id');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+          expect(firstElement).toHaveProperty('deleted_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
 
-  // it('Should delete a user softly and return {user}.', function (done) {
-  //   request(API)
-  //     .delete(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(userClass.deleteResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should update a sale and return {sale}.', function (done) {
+    request(API)
+      .put(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .send(saleClass.updateRequest)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.updateResponse)
+        );
+      })
+      .end(done);
+  });
+
+  it('Should delete a sale softly and return {sale}.', function (done) {
+    request(API)
+      .delete(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.deleteResponse)
+        );
+      })
+      .end(done);
+  });
 });

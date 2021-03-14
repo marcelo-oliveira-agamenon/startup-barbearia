@@ -29,7 +29,7 @@ userRouter.put(
   '/:user_id',
   celebrate({
     [Segments.PARAMS]: {
-      user_id: Joi.string().required()
+      user_id: Joi.string().uuid().required()
     },
     [Segments.BODY]: Joi.object()
       .keys({
@@ -56,7 +56,7 @@ userRouter.delete(
   '/:user_id',
   celebrate({
     [Segments.PARAMS]: {
-      user_id: Joi.string().required()
+      user_id: Joi.string().uuid().required()
     }
   }),
   userController.delete
@@ -66,7 +66,7 @@ userRouter.get(
   '/:user_id',
   celebrate({
     [Segments.PARAMS]: {
-      user_id: Joi.string().required()
+      user_id: Joi.string().uuid().required()
     }
   }),
   userController.get
