@@ -25,8 +25,7 @@ const TOKEN = `Bearer ${process.env.TOKEN}`;
 let connection: Connection;
 
 const createEndPoint = '/sales/signup',
-  listEndPoint = '/sales/',
-  loginEndPoint = '/sales';
+  listEndPoint = '/sales/';
 let commonEndPoint = '/sales/';
 
 describe('POST/GET/DELETE /sales/', function () {
@@ -38,7 +37,6 @@ describe('POST/GET/DELETE /sales/', function () {
 
     const user = await createUser.execute(userClass);
     const client = await createClient.execute(clientClass);
-
     if (user) saleClass.user_id = user.user_id;
     if (client) saleClass.client_id = client.client_id;
   });
@@ -76,7 +74,7 @@ describe('POST/GET/DELETE /sales/', function () {
       .end(done);
   });
 
-  it('Should list sales and return [{user}].', function (done) {
+  it('Should list sales and return [{sale}].', function (done) {
     request(API)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
@@ -103,21 +101,21 @@ describe('POST/GET/DELETE /sales/', function () {
       .end(done);
   });
 
-  // it('Should update a user and return {user}.', function (done) {
-  //   request(API)
-  //     .put(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .send(userClass.updateRequest)
-  //     .expect('Content-Type', /json/)
-  //     .expect(User)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(userClass.updateResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should update a sale and return {sale}.', function (done) {
+    request(API)
+      .put(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .send(saleClass.updateRequest)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.updateResponse)
+        );
+      })
+      .end(done);
+  });
 
   it('Should delete a sale softly and return {sale}.', function (done) {
     request(API)

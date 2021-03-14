@@ -74,20 +74,48 @@ class SaleClass {
     };
   }
 
-  get deleteResponse() {
+  get updateRequest() {
+    return {
+      client_id: this.client_id,
+      discount: this.discount,
+      is_discount_fixed: this.is_discount_fixed
+    };
+  }
+  get updateResponse() {
     const sale_id = expect.anything(),
       created_at = expect.anything(),
       updated_at = expect.anything(),
-      value = expect.anything(),
+      deleted_at = null,
       discount = expect.anything(),
-      deleted_at = expect.anything();
+      value = expect.anything();
 
     return {
       client_id: this.client_id,
       user_id: this.user_id,
+      is_discount_fixed: this.is_discount_fixed,
       value,
       discount,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
+  }
+
+  get deleteResponse() {
+    const sale_id = expect.anything(),
+      created_at = expect.anything(),
+      updated_at = expect.anything(),
+      deleted_at = expect.anything(),
+      discount = expect.anything(),
+      value = expect.anything();
+
+    return {
+      client_id: this.client_id,
+      user_id: this.user_id,
       is_discount_fixed: this.is_discount_fixed,
+      value,
+      discount,
       sale_id,
       created_at,
       updated_at,
