@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import { IUpdateSaleDTO } from '@modules/sales/dtos/ISaleDTO';
+import { IGetSaleDTO } from '@modules/sales/dtos/ISaleDTO';
 
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 
@@ -14,7 +14,7 @@ export class GetSaleService {
     private saleRepository: ISaleRepository
   ) {}
 
-  public async execute({ sale_id }: IUpdateSaleDTO): Promise<Sale> {
+  public async execute({ sale_id }: IGetSaleDTO): Promise<Sale> {
     const sale = await this.saleRepository.findOne(sale_id);
     if (!sale) throw new AppError('Sale does not exist!');
 

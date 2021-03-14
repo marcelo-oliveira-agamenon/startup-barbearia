@@ -44,6 +44,23 @@ saleRouter.get(
   saleController.list
 );
 
+saleRouter.put(
+  '/:sale_id',
+  celebrate({
+    [Segments.BODY]: Joi.object()
+      .keys({
+        client_id: Joi.string().uuid(),
+        discount: Joi.number().positive(),
+        is_discount_fixed: Joi.boolean().when('discount', {
+          is: Joi.exist(),
+          then: Joi.required()
+        })
+      })
+      .min(1)
+  }),
+  saleController.update
+);
+
 saleRouter.delete(
   '/:sale_id',
   celebrate({

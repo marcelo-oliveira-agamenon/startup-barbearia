@@ -11,5 +11,5 @@ export default interface ISaleRepository {
   findAll(query: IListSalesDTO): Promise<Sale[]>;
   delete({ sale_id }: IDeleteSaleDTO): Promise<number | undefined>;
   findDeletedEntity(sale_id: string): Promise<Sale | undefined>;
-  // update(id: number, data: IUpdateServicesDTO): Promise<Service>;
+  update(saleEntity: Sale): Promise<Sale>;
 }

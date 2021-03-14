@@ -5,7 +5,8 @@ import {
   CreateSaleService,
   GetSaleService,
   ListSalesService,
-  DeleteSaleService
+  DeleteSaleService,
+  UpdateSaleService
 } from '@modules/sales/services/sale';
 
 export default class SaleController {
@@ -31,20 +32,20 @@ export default class SaleController {
     const query = request.query;
 
     const listSales = container.resolve(ListSalesService);
-    const service = await listSales.execute(query);
+    const sales = await listSales.execute(query);
 
-    return response.status(200).json(service);
+    return response.status(200).json(sales);
   }
 
-  // public async update(request: Request, response: Response): Promise<Response> {
-  //   const { service_id } = request.body;
-  //   const data = request.body;
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { sale_id } = request.body;
+    const data = request.body;
 
-  //   const updateService = container.resolve(UpdateServicesService);
-  //   const service = await updateService.execute(data, service_id);
+    const updateSale = container.resolve(UpdateSaleService);
+    const sale = await updateSale.execute(sale_id, data);
 
-  //   return response.status(200).json(service);
-  // }
+    return response.status(200).json(sale);
+  }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const { sale_id } = request.params;

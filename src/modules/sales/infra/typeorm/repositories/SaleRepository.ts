@@ -62,12 +62,9 @@ export default class SaleRepository implements ISaleRepository {
     return sale;
   }
 
-  // public async update(id: number, data: IUpdateServicesDTO): Promise<Service> {
-  //   const serviceExists = await this.ormRepository.findOne(id);
-  //   const isServiceUpdated = await this.ormRepository.save(
-  //     Object.assign(serviceExists, data)
-  //   );
+  public async update(saleEntity: Sale): Promise<Sale> {
+    const sale = await this.ormRepository.save(saleEntity);
 
-  //   return isServiceUpdated;
-  // }
+    return sale;
+  }
 }
