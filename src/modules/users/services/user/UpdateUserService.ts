@@ -20,21 +20,22 @@ export class UpdateUserService {
     if (!userExists) throw new AppError('User does not exist!');
 
     if (data.email) {
-      if (data.email != userExists.email) {
+      if (data.email !== userExists.email) {
         const emailExists = await this.userRepository.findByEmail(data.email);
         if (emailExists)
           throw new AppError('This email already belongs to another user!');
       }
     }
     if (data.cpf) {
-      if (data.cpf != userExists.cpf) {
+      if (data.cpf !== userExists.cpf) {
         const cpfExists = await this.userRepository.findByCpf(data.cpf);
         if (cpfExists)
           throw new AppError('This cpf already belongs to another user!');
       }
     }
     delete data.confirmPassword;
-    const user = await this.userRepository.update(userExists.user_id, data);
+    const userEntity = Object.assign(userExists, data);
+    const user = await this.userRepository.update(userEntity);
 
     return user;
   }
