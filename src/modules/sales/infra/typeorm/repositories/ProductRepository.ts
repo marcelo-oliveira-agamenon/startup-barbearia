@@ -28,15 +28,10 @@ export default class ProductRepository implements IProductRepository {
     return product;
   }
 
-  public async update(
-    product_id: string,
-    data: IUpdateProductDTO
-  ): Promise<Product> {
-    const productExists = await this.ormRepository.findOne(product_id);
-    const isProductUpdated = await this.ormRepository.save(
-      Object.assign(productExists, data)
-    );
-    return isProductUpdated;
+  public async update(productEntity: Product): Promise<Product> {
+    const product = await this.ormRepository.save(productEntity);
+
+    return product;
   }
 
   public async delete({

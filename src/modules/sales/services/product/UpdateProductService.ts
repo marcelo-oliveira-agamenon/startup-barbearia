@@ -16,16 +16,15 @@ export class UpdateProductService {
   ) {}
 
   public async execute(
-    data: IUpdateProductDTO,
-    product_id: string
+    product_id: string,
+    data: IUpdateProductDTO
   ): Promise<Product> {
     const productExists = await this.productRepository.findOne(product_id);
     if (!productExists) throw new AppError('Product does not exist!');
 
-    const product = await this.productRepository.update(
-      productExists.product_id,
-      data
-    );
+    const productEntity = Object.assign(productExists, data);
+
+    const product = await this.productRepository.update(productEntity);
 
     return product;
   }
