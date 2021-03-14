@@ -16,30 +16,29 @@ export class UpdateClientService {
   ) {}
 
   public async execute(
-    data: IUpdateClientDTO,
-    client_id: string
+    client_id: string,
+    data: IUpdateClientDTO
   ): Promise<Client> {
     const clientExists = await this.clientRepository.findOne(client_id);
     if (!clientExists) throw new AppError('Client does not exist!');
 
     if (data.email) {
-      if (data.email != clientExists.email) {
+      if (data.email !== clientExists.email) {
         const emailExists = await this.clientRepository.findByEmail(data.email);
         if (emailExists)
           throw new AppError('This email already belongs to another client!');
       }
     }
     if (data.cpf) {
-      if (data.cpf != clientExists.cpf) {
+      if (data.cpf !== clientExists.cpf) {
         const cpfExists = await this.clientRepository.findByCpf(data.cpf);
         if (cpfExists)
           throw new AppError('This cpf already belongs to another client!');
       }
     }
-    const client = await this.clientRepository.update(
-      clientExists.client_id,
-      data
-    );
+    const clientEntity = Object.assign(clientExists, data);
+
+    const client = await this.clientRepository.update(clientEntity);
 
     return client;
   }

@@ -1,7 +1,12 @@
 import { getRepository, Repository } from 'typeorm';
 import IClientRepository from '@modules/users/repositories/IClientRepository';
 import Client from '@modules/users/infra/typeorm/entities/Client';
-import { ICreateClientDTO, IDeleteClientDTO, IListClientsDTO, IUpdateClientDTO } from '@modules/users/dtos/IClientDTO';
+import {
+  ICreateClientDTO,
+  IDeleteClientDTO,
+  IListClientsDTO,
+  IUpdateClientDTO
+} from '@modules/users/dtos/IClientDTO';
 
 export default class ClientRepository implements IClientRepository {
   private ormRepository: Repository<Client>;
@@ -11,20 +16,21 @@ export default class ClientRepository implements IClientRepository {
   }
 
   public async create(data: ICreateClientDTO): Promise<Client> {
-    const clientInstance =  this.ormRepository.create(data);
+    const clientInstance = this.ormRepository.create(data);
     const client = await this.ormRepository.save(clientInstance);
+
     return client;
   }
 
-  public async update(client_id: string, data: IUpdateClientDTO): Promise<Client> {
-    const clientExists = await this.ormRepository.findOne(client_id);
-    const isClientUpdated = await this.ormRepository.save(
-      Object.assign(clientExists, data)
-    );
-    return isClientUpdated;
+  public async update(clientEntity: Client): Promise<Client> {
+    const client = await this.ormRepository.save(clientEntity);
+
+    return client;
   }
 
-  public async delete({ client_id }: IDeleteClientDTO): Promise<number | undefined> {
+  public async delete({
+    client_id
+  }: IDeleteClientDTO): Promise<number | undefined> {
     const isClientDeleted = await this.ormRepository.softDelete(client_id);
     const isClientAffected = isClientDeleted.affected;
 
@@ -64,5 +70,4 @@ export default class ClientRepository implements IClientRepository {
 
     return clients;
   }
-
 }
