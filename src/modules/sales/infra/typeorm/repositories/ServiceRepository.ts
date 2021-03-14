@@ -4,8 +4,7 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 import {
   ICreateServicesDTO,
   IListServicesDTO,
-  IDeleteServicesDTO,
-  IUpdateServicesDTO
+  IDeleteServicesDTO
 } from '@modules/sales/dtos/IServiceDTO';
 
 export default class ServiceRepository implements IServiceRepository {
@@ -22,8 +21,8 @@ export default class ServiceRepository implements IServiceRepository {
     return service;
   }
 
-  public async findOne(id: number): Promise<Service | undefined> {
-    const service = await this.ormRepository.findOne(id);
+  public async findOne(service_id: string): Promise<Service | undefined> {
+    const service = await this.ormRepository.findOne(service_id);
 
     return service;
   }
@@ -47,19 +46,20 @@ export default class ServiceRepository implements IServiceRepository {
     return isServiceAffected;
   }
 
-  public async findDeletedEntity(id: number): Promise<Service | undefined> {
-    const service = await this.ormRepository.findOne(id, { withDeleted: true });
+  public async findDeletedEntity(
+    service_id: string
+  ): Promise<Service | undefined> {
+    const service = await this.ormRepository.findOne(service_id, {
+      withDeleted: true
+    });
 
     return service;
   }
 
-  public async update(id: number, data: IUpdateServicesDTO): Promise<Service> {
-    const serviceExists = await this.ormRepository.findOne(id);
-    const isServiceUpdated = await this.ormRepository.save(
-      Object.assign(serviceExists, data)
-    );
+  public async update(serviceEntity: Service): Promise<Service> {
+    const service = await this.ormRepository.save(serviceEntity);
 
-    return isServiceUpdated;
+    return service;
   }
   public async findByName(name: string): Promise<Service | undefined> {
     const service = await this.ormRepository.findOne({ name });

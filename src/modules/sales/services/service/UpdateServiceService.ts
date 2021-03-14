@@ -16,13 +16,15 @@ export class UpdateServiceService {
   ) {}
 
   public async execute(
-    data: IUpdateServicesDTO,
-    service_id: number
+    service_id: string,
+    data: IUpdateServicesDTO
   ): Promise<Service> {
     const serviceExists = await this.serviceRepository.findOne(service_id);
     if (!serviceExists) throw new AppError('Service does not exist!');
 
-    const service = await this.serviceRepository.update(service_id, data);
+    const serviceEntity = Object.assign(serviceExists, data);
+
+    const service = await this.serviceRepository.update(serviceEntity);
 
     return service;
   }
