@@ -12,8 +12,8 @@ import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 
 @Entity('service')
 export default class Service {
-  @PrimaryGeneratedColumn('increment')
-  service_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  service_id: string;
 
   @Column()
   name: string;

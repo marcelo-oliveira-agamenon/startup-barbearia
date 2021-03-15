@@ -1,7 +1,13 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import { CreateSaleService } from '@modules/sales/services/sale';
+import {
+  CreateSaleService,
+  GetSaleService,
+  ListSalesService,
+  DeleteSaleService,
+  UpdateSaleService
+} from '@modules/sales/services/sale';
 
 export default class SaleController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -13,43 +19,40 @@ export default class SaleController {
     return response.status(201).json(sale);
   }
 
-  // public async get(request: Request, response: Response): Promise<Response> {
-  //   const { service_id } = request.params;
+  public async get(request: Request, response: Response): Promise<Response> {
+    const { sale_id } = request.params;
 
-  //   const getService = container.resolve(GetServiceService);
-  //   const service = await getService.execute({ service_id: +service_id });
+    const getSale = container.resolve(GetSaleService);
+    const sale = await getSale.execute({ sale_id });
 
-  //   return response.status(200).json(service);
-  // }
+    return response.status(200).json(sale);
+  }
 
-  // public async list(request: Request, response: Response): Promise<Response> {
-  //   const query = request.query;
+  public async list(request: Request, response: Response): Promise<Response> {
+    const query = request.query;
 
-  //   const listServices = container.resolve(ListServicesService);
-  //   const service = await listServices.execute(query);
+    const listSales = container.resolve(ListSalesService);
+    const sales = await listSales.execute(query);
 
-  //   return response.status(200).json(service);
-  // }
+    return response.status(200).json(sales);
+  }
 
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  //   const { service_id } = request.params;
-  //   const id: IGetServiceDTO = {
-  //     service_id: Number(service_id)
-  //   };
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { sale_id } = request.body;
+    const data = request.body;
 
-  //   const deleteService = container.resolve(DeleteServicesService);
-  //   const service = await deleteService.execute(id);
+    const updateSale = container.resolve(UpdateSaleService);
+    const sale = await updateSale.execute(sale_id, data);
 
-  //   return response.status(200).json(service);
-  // }
+    return response.status(200).json(sale);
+  }
 
-  // public async update(request: Request, response: Response): Promise<Response> {
-  //   const { service_id } = request.body;
-  //   const data = request.body;
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { sale_id } = request.params;
 
-  //   const updateService = container.resolve(UpdateServicesService);
-  //   const service = await updateService.execute(data, service_id);
+    const deleteSale = container.resolve(DeleteSaleService);
+    const sale = await deleteSale.execute({ sale_id });
 
-  //   return response.status(200).json(service);
-  // }
+    return response.status(200).json(sale);
+  }
 }
