@@ -61,11 +61,7 @@ export default class ServiceRepository implements IServiceRepository {
 
     return service;
   }
-  public async findByName(name: string): Promise<Service | undefined> {
-    const service = await this.ormRepository.findOne({ name });
 
-    return service;
-  }
   public async findByName(name: string): Promise<Service | undefined> {
     const service = await this.ormRepository.findOne({ name });
 

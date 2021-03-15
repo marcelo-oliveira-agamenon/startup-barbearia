@@ -3,7 +3,7 @@ import faker from 'faker';
 export default class ScheduleClass {
   user_id: string;
   client_id: string;
-  service_id: number;
+  service_id: string;
   start_date: Date;
   end_date: Date;
   status: boolean;

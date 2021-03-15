@@ -4,11 +4,8 @@ import {
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  ManyToMany,
-  JoinTable
+  UpdateDateColumn
 } from 'typeorm';
-import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 
 @Entity('service')
 export default class Service {
@@ -20,14 +17,6 @@ export default class Service {
 
   @Column()
   value: number;
-
-  @ManyToMany(() => Schedule)
-  @JoinTable({
-    name: 'schedule',
-    joinColumns: [{ name: 'service_id' }],
-    inverseJoinColumns: [{ name: 'service_id' }]
-  })
-  schedule: Schedule[];
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

@@ -4,6 +4,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -28,10 +29,10 @@ export class Schedule {
   @Column()
   client_id: string;
 
-  @ManyToMany(() => Service)
-  @JoinColumn({ referencedColumnName: 'service_id', name: 'service_id' })
+  @ManyToOne(() => Service)
+  @JoinColumn({ name: 'service_id', referencedColumnName: 'service_id' })
   @Column()
-  service_id: number;
+  service_id: string;
 
   @Column()
   start_date: Date;

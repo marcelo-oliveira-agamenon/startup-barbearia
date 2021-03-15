@@ -1,7 +1,7 @@
 export interface ICreateScheduleDTO {
   user_id: string;
   client_id: string;
-  service_id: number;
+  service_id: string;
   start_date: Date;
   end_date: Date;
   status: boolean;
@@ -11,7 +11,7 @@ export interface ICreateScheduleDTO {
 export interface IUpdateScheduleDTO {
   user_id: string;
   client_id: string;
-  service_id: number;
+  service_id: string;
   start_date: Date;
   end_date: Date;
   status: boolean;

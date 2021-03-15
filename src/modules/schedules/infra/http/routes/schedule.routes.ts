@@ -64,7 +64,7 @@ scheduleRouter.post(
     [Segments.BODY]: {
       user_id: Joi.string().required(),
       client_id: Joi.string().required(),
-      service_id: Joi.number().required().integer(),
+      service_id: Joi.string().required(),
       start_date: Joi.date().required(),
       end_date: Joi.date().required(),
       status: Joi.boolean().required(),
@@ -80,7 +80,7 @@ scheduleRouter.put(
     [Segments.BODY]: {
       user_id: Joi.string().required(),
       client_id: Joi.string().required(),
-      service_id: Joi.number().required().integer(),
+      service_id: Joi.string().required(),
       start_date: Joi.date().required(),
       end_date: Joi.date().required(),
       status: Joi.boolean().required(),

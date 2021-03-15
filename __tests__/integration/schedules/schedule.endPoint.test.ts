@@ -199,21 +199,21 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .end(done);
   });
 
-  // it('Should update a schedule and return {schedule}.', function (done) {
-  //   request(API)
-  //     .put(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .send(scheduleClass.updateRequest)
-  //     .expect('Content-Type', /json/)
-  //     .expect(Schedule)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(scheduleClass.updateResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should update a schedule and return {schedule}.', function (done) {
+    request(API)
+      .put(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .send(scheduleClass.updateRequest)
+      .expect('Content-Type', /json/)
+      .expect(Schedule)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(scheduleClass.updateResponse)
+        );
+      })
+      .end(done);
+  });
 
   it('Should delete a schedule softly and return {schedule}.', function (done) {
     request(API)
