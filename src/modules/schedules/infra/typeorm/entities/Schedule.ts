@@ -5,7 +5,7 @@ import {
   Entity,
   JoinColumn,
   ManyToMany,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -18,16 +18,18 @@ export class Schedule {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @OneToOne(() => User, (user) => user.user_id)
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'user_id' })
   @Column()
   user_id: string;
 
-  @OneToOne(() => Client, (client) => client.client_id)
+  @ManyToOne(() => Client)
+  @JoinColumn({ name: 'client_id', referencedColumnName: 'client_id' })
   @Column()
   client_id: string;
 
-  @ManyToMany(() => Service, (service) => service.service_id)
-  @JoinColumn({ name: 'service_id' })
+  @ManyToMany(() => Service)
+  @JoinColumn({ referencedColumnName: 'service_id', name: 'service_id' })
   @Column()
   service_id: number;
 
