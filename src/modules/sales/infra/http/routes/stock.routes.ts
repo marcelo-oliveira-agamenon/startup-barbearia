@@ -49,4 +49,15 @@ stockRouter.put(
   }),
   stockController.update
 );
+
+stockRouter.delete(
+  '/:stock_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      stock_id: Joi.number().integer().positive().required()
+    }
+  }),
+  stockController.delete
+);
+
 export default stockRouter;

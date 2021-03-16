@@ -39,10 +39,10 @@ export default class StockRepository implements IStockRepository {
     return isStockUpdated;
   }
 
-  public async delete(stock_id: number): Promise<number | undefined> {
-    const isStockDeleted = await this.ormRepository.softDelete(stock_id);
+  public async delete(stock_id: number): Promise<number | null | undefined> {
+    const isStockDeleted = await this.ormRepository.delete(stock_id);
     const isStockAffected = isStockDeleted.affected;
-
+    
     return isStockAffected;
   }
 

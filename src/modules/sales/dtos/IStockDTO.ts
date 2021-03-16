@@ -3,6 +3,10 @@ export interface ICreateStockDTO{
     quantity: number;
 }
 
+export interface IDeleteStockDTO {
+    stock_id: number;
+}
+
 export interface IGetStockDTO {
     product_id: string;
 }

@@ -6,6 +6,6 @@ export default interface IStockRepository {
     findByProductId(product_id: string): Promise<Stock | undefined>;
     findOne(stock_id: number): Promise<Stock | undefined>;
     update(stock_id: number, data: IUpdateStockDTO): Promise<Stock>;
-    delete(stock_id: number): Promise<number | undefined>;
+    delete(stock_id: number): Promise<number | null | undefined>;
     findAll(query: IListStocksDTO): Promise<Stock[]>;
 }

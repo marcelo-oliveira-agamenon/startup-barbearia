@@ -110,4 +110,20 @@ describe('POST/GET/DELETE /stocks/', function () {
       })
       .end(done);
   });
+
+   it('Should delete a stock and return {stock}.', function (done) {
+     console.log(updateEndPoint);
+    request(API)
+      .delete(updateEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(Stock)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(stockClass.deleteResponse)
+        );
+      })
+      .end(done);
+  });
 });

@@ -5,6 +5,7 @@ import { CreateStockService } from '@modules/sales/services/stock/CreateStockSer
 import { GetStockService } from '@modules/sales/services/stock/GetStockService';
 import { ListStocksService } from '@modules/sales/services/stock/ListStocksService';
 import { UpdateStockService } from '@modules/sales/services/stock/UpdateStockService';
+import { DeleteStockService } from '@modules/sales/services/stock/DeleteStockService';
 
 export default class StockController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -40,5 +41,14 @@ export default class StockController {
     const stock = await updateStock.execute(+stock_id, data);
 
     return response.status(200).json(classToClass(stock));
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { stock_id } = request.params;
+
+    const deleteStock = container.resolve(DeleteStockService);
+    const stock = await deleteStock.execute({ stock_id: +stock_id });
+
+    return response.status(200).json(stock);
   }
 }

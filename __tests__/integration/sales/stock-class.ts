@@ -70,6 +70,20 @@ class StockClass {
       created_at
     };
   }
+
+  get deleteResponse() {
+    const stock_id = expect.anything(),
+      created_at = expect.anything(),
+      product_id = expect.anything(),
+      quantity = expect.anything();
+
+    return {
+      stock_id,
+      product_id,
+      quantity,
+      created_at
+    };
+  }
 }
 
 export default StockClass;
