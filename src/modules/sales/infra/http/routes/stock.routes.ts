@@ -9,8 +9,8 @@ stockRouter.post(
   '/signup',
   celebrate({
     [Segments.BODY]: {
-      product_id: Joi.string().required(),
-      quantity: Joi.number()
+      product_id: Joi.string().uuid().required(),
+      quantity: Joi.number().integer().min(0)
     }
   }),
   stockController.create
@@ -35,5 +35,18 @@ stockRouter.get(
     }
   }),
   stockController.list
+);
+
+stockRouter.put(
+  '/:stock_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      stock_id: Joi.number().integer().positive().required()
+    },
+    [Segments.BODY]: {
+        quantity: Joi.number().integer().min(0).required()
+      }
+  }),
+  stockController.update
 );
 export default stockRouter;

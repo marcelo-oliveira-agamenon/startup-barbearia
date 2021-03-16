@@ -21,6 +21,7 @@ const createEndPoint = '/stocks/signup',
   listEndPoint = '/stocks/',
   loginEndPoint = '/sales';
 let commonEndPoint = '/stocks/';
+let updateEndPoint = '/stocks/';
 
 
 const productClass = new ProductClass();
@@ -48,6 +49,7 @@ describe('POST/GET/DELETE /stocks/', function () {
           .expect(Stock)
           .expect(201)
           .expect((res) => {
+            updateEndPoint += res.body.stock_id;
             commonEndPoint += res.body.product_id;
             expect(res.body).toEqual(
               expect.objectContaining(stockClass.createResponse)
@@ -89,6 +91,22 @@ describe('POST/GET/DELETE /stocks/', function () {
         } else {
           expect(res.body).toEqual(expect.arrayContaining([]));
         }
+      })
+      .end(done);
+  });
+
+  it('Should update a stock and return {stock}.', function (done) {
+    request(API)
+      .put(updateEndPoint)
+      .set('Authorization', TOKEN)
+      .send(stockClass.updateRequest)
+      .expect('Content-Type', /json/)
+      .expect(Stock)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(stockClass.updateResponse)
+        );
       })
       .end(done);
   });

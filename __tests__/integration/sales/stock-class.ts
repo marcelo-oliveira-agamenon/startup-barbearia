@@ -50,6 +50,26 @@ class StockClass {
     get listRequest() {
     return { limit: this.limit, offset: this.offset };
   }
+
+  get updateRequest() {
+    return {
+      stock_id: this.stock_id,
+      quantity: this.quantity,
+    };
+  }
+  get updateResponse() {
+    const stock_id = expect.anything(),
+      created_at = expect.anything(),
+      product_id =  expect.anything(),
+      quantity = expect.anything();
+
+    return {
+      stock_id,
+      product_id,
+      quantity,
+      created_at
+    };
+  }
 }
 
 export default StockClass;

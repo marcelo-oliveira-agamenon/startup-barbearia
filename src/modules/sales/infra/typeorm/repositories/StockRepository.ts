@@ -59,4 +59,10 @@ export default class StockRepository implements IStockRepository {
 
     return stocks;
   }
+
+  public async findOne(stock_id: number): Promise<Stock | undefined> {
+    const stock = await this.ormRepository.findOne(stock_id, { loadRelationIds: true });
+
+    return stock;
+  }
 }

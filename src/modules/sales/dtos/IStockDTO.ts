@@ -13,6 +13,6 @@ export interface IListStocksDTO {
   }
   
   export interface IUpdateStockDTO {
-    stock_id: string;
+    stock_id: number;
     quantity: number;
   }
