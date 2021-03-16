@@ -19,17 +19,14 @@ export class Schedule {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
-  @Column()
   user_id: string;
 
   @ManyToOne(() => Client)
   @JoinColumn({ name: 'client_id' })
-  @Column()
   client_id: string;
 
   @ManyToOne(() => Service)
   @JoinColumn({ name: 'service_id' })
-  @Column()
   service_id: string;
 
   @Column()
