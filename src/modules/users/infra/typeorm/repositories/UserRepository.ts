@@ -21,12 +21,10 @@ export default class UserRepository implements IUserRepository {
     return user;
   }
 
-  public async update(user_id: string, data: IUpdateUserDTO): Promise<User> {
-    const userExists = await this.ormRepository.findOne(user_id);
-    const isUserUpdated = await this.ormRepository.save(
-      Object.assign(userExists, data)
-    );
-    return isUserUpdated;
+  public async update(userEntity: User): Promise<User> {
+    const user = await this.ormRepository.save(userEntity);
+
+    return user;
   }
 
   public async delete({
@@ -38,8 +36,8 @@ export default class UserRepository implements IUserRepository {
     return isUserAffected;
   }
 
-  public async findOne(id: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne(id);
+  public async findOne(user_id: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne(user_id);
 
     return user;
   }
@@ -56,8 +54,10 @@ export default class UserRepository implements IUserRepository {
     return user;
   }
 
-  public async findDeletedEntity(id: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne(id, { withDeleted: true });
+  public async findDeletedEntity(user_id: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne(user_id, {
+      withDeleted: true
+    });
 
     return user;
   }

@@ -42,7 +42,7 @@ export default class ClientController {
     const { client_id } = request.params;
 
     const updateClient = container.resolve(UpdateClientService);
-    const client = await updateClient.execute(data, client_id);
+    const client = await updateClient.execute(client_id, data);
 
     return response.status(200).json(classToClass(client));
   }

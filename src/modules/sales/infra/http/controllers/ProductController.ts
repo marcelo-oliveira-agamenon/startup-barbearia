@@ -42,7 +42,7 @@ export default class ProductController {
     const { product_id } = request.params;
 
     const updateProduct = container.resolve(UpdateProductService);
-    const product = await updateProduct.execute(data, product_id);
+    const product = await updateProduct.execute(product_id, data);
 
     return response.status(200).json(classToClass(product));
   }

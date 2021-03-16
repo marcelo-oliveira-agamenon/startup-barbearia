@@ -32,7 +32,7 @@ serviceRouter.get(
   '/:service_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().required()
+      service_id: Joi.string().uuid().required()
     }
   }),
   serviceController.get
@@ -42,7 +42,7 @@ serviceRouter.delete(
   '/:service_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().required()
+      service_id: Joi.string().uuid().required()
     }
   }),
   serviceController.delete
@@ -52,7 +52,7 @@ serviceRouter.put(
   '/:service_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().required()
+      service_id: Joi.string().uuid().required()
     },
     [Segments.BODY]: Joi.object()
       .keys({

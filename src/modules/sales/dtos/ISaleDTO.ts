@@ -14,6 +14,12 @@ export interface ICreateSaleDTO {
 }
 
 export interface IUpdateSaleDTO {
+  client_id?: string;
+  discount?: number;
+  is_discount_fixed?: boolean;
+}
+
+export interface IGetSaleDTO {
   sale_id: string;
 }
 

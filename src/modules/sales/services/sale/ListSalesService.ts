@@ -5,8 +5,6 @@ import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
-import AppError from '@shared/errors/AppError';
-
 @injectable()
 export class ListSalesService {
   constructor(
