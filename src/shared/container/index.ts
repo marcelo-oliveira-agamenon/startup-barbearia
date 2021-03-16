@@ -15,6 +15,9 @@ import ProductRepository from '@modules/sales/infra/typeorm/repositories/Product
 import PaymentMethodRepository from '@modules/sales/infra/typeorm/repositories/PaymentMethodRepository';
 import IPaymentMethodRepository from '@modules/sales/repositories/IPaymentMethodRepository';
 
+import ScheduleRepository from '@modules/schedules/infra/typeorm/repositories/ScheduleRepository';
+import IScheduleRepository from '@modules/schedules/repositories/IScheduleRepository';
+
 import SaleRepository from '@modules/sales/infra/typeorm/repositories/SaleRepository';
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 import IStockRepository from '@modules/sales/repositories/IStockRepository';
@@ -38,6 +41,11 @@ container.registerSingleton<IClientRepository>(
 container.registerSingleton<IServiceRepository>(
   'ServiceRepository',
   ServiceRepository
+);
+
+container.registerSingleton<IScheduleRepository>(
+  'ScheduleRepository',
+  ScheduleRepository
 );
 
 container.registerSingleton<IPaymentMethodRepository>(
