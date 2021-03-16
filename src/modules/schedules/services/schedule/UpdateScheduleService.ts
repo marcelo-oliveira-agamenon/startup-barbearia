@@ -18,7 +18,9 @@ export default class GetScheduleByDateService {
     const scheduleExists = await this.scheduleRepository.findOne(id);
     if (!scheduleExists) throw new AppError('Schedule does not exist!');
 
-    const schedule = await this.scheduleRepository.update(id, data);
+    const scheduleEntity = Object.assign(scheduleExists, data);
+
+    const schedule = await this.scheduleRepository.update(scheduleEntity);
 
     return schedule;
   }

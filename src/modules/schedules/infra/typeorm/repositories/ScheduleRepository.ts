@@ -7,8 +7,7 @@ import {
   IGetScheduleByClientIdDTO,
   IGetScheduleByDateDTO,
   IGetScheduleByUserIdDTO,
-  IListScheduleDTO,
-  IUpdateScheduleDTO
+  IListScheduleDTO
 } from '@modules/schedules/dtos/ISchedulesDTO';
 import { Between } from 'typeorm';
 
@@ -97,11 +96,9 @@ export default class ScheduleRepository implements IScheduleRepository {
     return schedules;
   }
 
-  public async update(id: string, data: IUpdateScheduleDTO): Promise<Schedule> {
-    const scheduleExist = await this.ormRepository.findOne(id);
-    const isScheduleUpdated = await this.ormRepository.save(
-      Object.assign(scheduleExist, data)
-    );
-    return isScheduleUpdated;
+  public async update(scheduleEntity: Schedule): Promise<Schedule> {
+    const schedule = await this.ormRepository.save(scheduleEntity);
+
+    return schedule;
   }
 }

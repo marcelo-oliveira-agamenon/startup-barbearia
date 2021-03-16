@@ -5,14 +5,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
-import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -23,10 +20,6 @@ export enum UserRole {
 export class User {
   @PrimaryGeneratedColumn('uuid')
   user_id: string;
-
-  @OneToMany(() => Schedule, (schedule: Schedule) => schedule.user_id)
-  @JoinColumn({ name: 'user_id' })
-  schedule: Schedule;
 
   @Column()
   name: string;

@@ -4,8 +4,6 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -20,17 +18,17 @@ export class Schedule {
   id: number;
 
   @ManyToOne(() => User)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'user_id' })
+  @JoinColumn({ name: 'user_id' })
   @Column()
   user_id: string;
 
   @ManyToOne(() => Client)
-  @JoinColumn({ name: 'client_id', referencedColumnName: 'client_id' })
+  @JoinColumn({ name: 'client_id' })
   @Column()
   client_id: string;
 
   @ManyToOne(() => Service)
-  @JoinColumn({ name: 'service_id', referencedColumnName: 'service_id' })
+  @JoinColumn({ name: 'service_id' })
   @Column()
   service_id: string;
 
