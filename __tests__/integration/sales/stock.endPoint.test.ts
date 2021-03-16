@@ -112,7 +112,6 @@ describe('POST/GET/DELETE /stocks/', function () {
   });
 
    it('Should delete a stock and return {stock}.', function (done) {
-     console.log(updateEndPoint);
     request(API)
       .delete(updateEndPoint)
       .set('Authorization', TOKEN)
