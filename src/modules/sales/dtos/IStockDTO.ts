@@ -4,7 +4,7 @@ export interface ICreateStockDTO{
 }
 
 export interface IGetStockDTO {
-    stock_id: string;
+    product_id: string;
 }
 
 export interface IListStocksDTO {

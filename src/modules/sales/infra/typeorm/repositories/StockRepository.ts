@@ -1,7 +1,11 @@
-import { ICreateStockDTO, IListStocksDTO, IUpdateStockDTO } from "@modules/sales/dtos/IStockDTO";
-import IStockRepository from "@modules/sales/repositories/IStockRepository";
-import { getRepository, Repository } from "typeorm";
-import Stock from "../entities/Stock";
+import {
+  ICreateStockDTO,
+  IListStocksDTO,
+  IUpdateStockDTO
+} from '@modules/sales/dtos/IStockDTO';
+import IStockRepository from '@modules/sales/repositories/IStockRepository';
+import { getRepository, Repository } from 'typeorm';
+import Stock from '../entities/Stock';
 
 export default class StockRepository implements IStockRepository {
   private ormRepository: Repository<Stock>;
@@ -18,7 +22,10 @@ export default class StockRepository implements IStockRepository {
   }
 
   public async findByProductId(product_id: string): Promise<Stock | undefined> {
-    const stock = await this.ormRepository.findOne({product_id});
+    const stock = await this.ormRepository.findOne(
+      { product_id },
+      { loadRelationIds: true }
+    );
 
     return stock;
   }
@@ -44,9 +51,12 @@ export default class StockRepository implements IStockRepository {
     const take = limit ? limit : 0,
       skip = offset ? offset : 0;
 
-    const stocks = await this.ormRepository.find({ take, skip });
+    const stocks = await this.ormRepository.find({
+      take,
+      skip,
+      loadRelationIds: true
+    });
 
     return stocks;
   }
-
 }

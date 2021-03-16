@@ -18,7 +18,7 @@ const TOKEN = `Bearer ${process.env.TOKEN}`;
 let connection: Connection;
 
 const createEndPoint = '/stocks/signup',
-  listEndPoint = '/sales/',
+  listEndPoint = '/stocks/',
   loginEndPoint = '/sales';
 let commonEndPoint = '/stocks/';
 
@@ -48,11 +48,48 @@ describe('POST/GET/DELETE /stocks/', function () {
           .expect(Stock)
           .expect(201)
           .expect((res) => {
-            commonEndPoint += res.body.stock_id;
+            commonEndPoint += res.body.product_id;
             expect(res.body).toEqual(
               expect.objectContaining(stockClass.createResponse)
             );
           })
           .end(done);
       });
+
+      it('Should get a stock and return {stock}.', function (done) {
+    request(API)
+      .get(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(Stock)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(stockClass.getResponse)
+        );
+      })
+      .end(done);
+  });
+
+    it('Should list stocks and return [{stock}].', function (done) {
+    request(API)
+      .get(listEndPoint)
+      .set('Authorization', TOKEN)
+      .query(stockClass.listRequest)
+      .expect('Content-Type', /json/)
+      .expect(Stock)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('product_id');
+          expect(firstElement).toHaveProperty('stock_id');
+          expect(firstElement).toHaveProperty('quantity');
+          expect(firstElement).toHaveProperty('created_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
 });
