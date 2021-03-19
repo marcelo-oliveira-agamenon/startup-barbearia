@@ -75,10 +75,10 @@ scheduleRouter.post(
 );
 
 scheduleRouter.put(
-  '/:id',
+  '/:schedule_id',
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
+      schedule_id: Joi.string().uuid().required()
     },
     [Segments.BODY]: Joi.object().keys({
       user_id: Joi.string().uuid(),

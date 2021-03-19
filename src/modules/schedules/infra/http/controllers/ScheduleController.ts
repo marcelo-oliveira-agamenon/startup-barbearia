@@ -87,9 +87,9 @@ export default class ScheduleController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const data = request.body;
-    const { id } = request.params;
+    const { schedule_id } = request.params;
     const updateSchedule = container.resolve(UpdateScheduleService);
-    const schedule = await updateSchedule.execute(id, data);
+    const schedule = await updateSchedule.execute(schedule_id, data);
 
     return response.status(200).json(classToClass(schedule));
   }

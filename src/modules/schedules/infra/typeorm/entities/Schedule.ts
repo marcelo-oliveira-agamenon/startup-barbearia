@@ -15,7 +15,7 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 @Entity('schedule')
 export class Schedule {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  schedule_id: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })

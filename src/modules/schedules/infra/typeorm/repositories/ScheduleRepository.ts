@@ -25,8 +25,10 @@ export default class ScheduleRepository implements IScheduleRepository {
     return schedule;
   }
 
-  public async findOne(id: string): Promise<Schedule | undefined> {
-    const schedule = await this.ormRepository.findOne(id);
+  public async findOne(schedule_id: string): Promise<Schedule | undefined> {
+    const schedule = await this.ormRepository.findOne(schedule_id, {
+      loadRelationIds: true
+    });
 
     return schedule;
   }
@@ -36,7 +38,11 @@ export default class ScheduleRepository implements IScheduleRepository {
     const take = limit ? limit : 0,
       skip = offset ? offset : 0;
 
-    const schedules = await this.ormRepository.find({ take, skip });
+    const schedules = await this.ormRepository.find({
+      loadRelationIds: true,
+      take,
+      skip
+    });
 
     return schedules;
   }
@@ -50,9 +56,12 @@ export default class ScheduleRepository implements IScheduleRepository {
     return isScheduleAffected;
   }
 
-  public async findDeletedEntity(id: string): Promise<Schedule | undefined> {
-    const schedule = await this.ormRepository.findOne(id, {
-      withDeleted: true
+  public async findDeletedEntity(
+    schedule_id: string
+  ): Promise<Schedule | undefined> {
+    const schedule = await this.ormRepository.findOne(schedule_id, {
+      withDeleted: true,
+      loadRelationIds: true
     });
 
     return schedule;
@@ -64,7 +73,8 @@ export default class ScheduleRepository implements IScheduleRepository {
     const schedules = await this.ormRepository.find({
       where: {
         client_id: client_id
-      }
+      },
+      loadRelationIds: true
     });
 
     return schedules;
@@ -76,7 +86,8 @@ export default class ScheduleRepository implements IScheduleRepository {
     const schedules = await this.ormRepository.find({
       where: {
         user_id: user_id
-      }
+      },
+      loadRelationIds: true
     });
 
     return schedules;
@@ -90,7 +101,8 @@ export default class ScheduleRepository implements IScheduleRepository {
       where: {
         start_date: Between(start_date, end_date),
         end_date: Between(start_date, end_date)
-      }
+      },
+      loadRelationIds: true
     });
 
     return schedules;
