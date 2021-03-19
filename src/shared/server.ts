@@ -21,8 +21,8 @@ import errorHandling from '@shared/infra/middlewares/errorHandling';
     express.json(),
     authExceptions(authentication),
     Routes,
-    errors(),
-    errorHandling
+    errorHandling,
+    errors()
   );
 
   app.listen(process.env.PORT, () => {
