@@ -14,10 +14,12 @@ export default class ScheduleClass {
   deleted_at: Date;
 
   constructor() {
-    this.start_date = faker.date.future();
-    this.end_date = faker.date.future();
+    this.start_date = faker.date.soon(2);
+    this.end_date = faker.date.future(2);
     this.status = faker.random.boolean();
     this.description = faker.random.words();
+    this.limit = 5;
+    this.offset = 1;
   }
 
   get createRequest() {
@@ -33,7 +35,7 @@ export default class ScheduleClass {
   }
 
   get createResponse() {
-    const id = expect.anything(),
+    const schedule_id = expect.anything(),
       start_date = expect.anything(),
       end_date = expect.anything(),
       status = expect.anything(),
@@ -43,7 +45,7 @@ export default class ScheduleClass {
       deleted_at = null;
 
     return {
-      id,
+      schedule_id,
       user_id: this.user_id,
       client_id: this.client_id,
       service_id: this.service_id,
@@ -58,7 +60,7 @@ export default class ScheduleClass {
   }
 
   get getResponse() {
-    const id = expect.anything(),
+    const schedule_id = expect.anything(),
       start_date = expect.anything(),
       end_date = expect.anything(),
       status = expect.anything(),
@@ -68,7 +70,7 @@ export default class ScheduleClass {
       deleted_at = null;
 
     return {
-      id,
+      schedule_id,
       user_id: this.user_id,
       client_id: this.client_id,
       service_id: this.service_id,
@@ -109,7 +111,7 @@ export default class ScheduleClass {
   }
 
   get updateResponse() {
-    const id = expect.anything(),
+    const schedule_id = expect.anything(),
       user_id = this.user_id,
       client_id = this.client_id,
       service_id = this.service_id,
@@ -122,7 +124,7 @@ export default class ScheduleClass {
       deleted_at = null;
 
     return {
-      id,
+      schedule_id,
       user_id,
       client_id,
       service_id,
@@ -137,7 +139,7 @@ export default class ScheduleClass {
   }
 
   get deleteResponse() {
-    const id = expect.anything(),
+    const schedule_id = expect.anything(),
       user_id = this.user_id,
       client_id = this.client_id,
       service_id = this.service_id,
@@ -150,7 +152,7 @@ export default class ScheduleClass {
       deleted_at = expect.anything();
 
     return {
-      id,
+      schedule_id,
       user_id,
       service_id,
       client_id,

@@ -7,9 +7,9 @@ import { container } from 'tsyringe';
 import { Connection, createConnection } from 'typeorm';
 import config from '@shared/infra/typeorm/ormconfig';
 
-import { CreateUserService } from '@modules/users/services/user';
-import { CreateClientService } from '@modules/users/services/client';
-import { CreateServiceService } from '@modules/sales/services/service';
+import { CreateUserService } from '@modules/users/services/user/CreateUserService';
+import { CreateClientService } from '@modules/users/services/client/CreateClientService';
+import { CreateServiceService } from '@modules/sales/services/service/CreateServiceService';
 import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 import ScheduleClass from './schedule-class';
 import UserClass from '../users/user-class';
@@ -60,7 +60,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect(Schedule)
       .expect(201)
       .expect((res) => {
-        commonEndPoint += res.body.id;
+        commonEndPoint += res.body.schedule_id;
         commonEndPointClient += res.body.client_id;
         commonEndPointUser += res.body.user_id;
         expect(res.body).toEqual(
@@ -81,7 +81,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
@@ -124,7 +124,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
@@ -152,7 +152,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
@@ -181,7 +181,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
