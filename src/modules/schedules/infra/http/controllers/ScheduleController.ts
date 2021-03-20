@@ -1,14 +1,17 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import CreateScheduleService from '@modules/schedules/services/schedule/CreateScheduleService';
-import GetScheduleService from '@modules/schedules/services/schedule/GetScheduleService';
-import GetSchedulesListService from '@modules/schedules/services/schedule/GetSchedulesListService';
-import GetScheduleByClientIdService from '@modules/schedules/services/schedule/GetScheduleByClientIdService';
-import GetScheduleByUserId from '@modules/schedules/services/schedule/GetScheduleByUserId';
-import GetScheduleByDateService from '@modules/schedules/services/schedule/GetScheduleByDateService';
-import UpdateScheduleService from '@modules/schedules/services/schedule/UpdateScheduleService';
-import DeleteScheduleService from '@modules/schedules/services/schedule/DeleteScheduleService';
+import {
+  CreateScheduleService,
+  GetScheduleService,
+  ListSchedulesService,
+  GetScheduleByClientIdService,
+  GetScheduleByUserId,
+  GetScheduleByDateService,
+  DeleteScheduleService,
+  UpdateScheduleService
+} from '@modules/schedules/services/schedule';
+
 import { classToClass } from 'class-transformer';
 export default class ScheduleController {
   public async create(
@@ -35,8 +38,8 @@ export default class ScheduleController {
   public async list(request: Request, response: Response): Promise<Response> {
     const query = request.query;
 
-    const getScheduleList = container.resolve(GetSchedulesListService);
-    const schedules = await getScheduleList.execute(query);
+    const listSchedules = container.resolve(ListSchedulesService);
+    const schedules = await listSchedules.execute(query);
 
     return response.status(200).json(schedules);
   }
