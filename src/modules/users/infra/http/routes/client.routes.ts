@@ -13,7 +13,7 @@ clientRouter.post(
       name: Joi.string().required(),
       cpf: Joi.string().length(14),
       phone: Joi.string(),
-      email: Joi.string()
+      email: Joi.string().email()
     }
   }),
   clientController.create
@@ -51,7 +51,7 @@ clientRouter.put(
         name: Joi.string(),
         phone: Joi.string(),
         cpf: Joi.string().length(14),
-        email: Joi.string()
+        email: Joi.string().email()
       })
       .min(1)
   }),

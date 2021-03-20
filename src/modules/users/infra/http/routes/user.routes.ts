@@ -16,7 +16,7 @@ userRouter.post(
       user_type: Joi.string().required().valid(UserRole.ADMIN, UserRole.NORMAL),
       phone: Joi.string(),
       cpf: Joi.string().length(14),
-      email: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().required().min(5).max(12),
       confirmPassword: Joi.string().required().valid(Joi.ref('password')),
       is_active: Joi.boolean()
@@ -37,7 +37,7 @@ userRouter.put(
         user_type: Joi.string().valid(UserRole.ADMIN, UserRole.NORMAL),
         phone: Joi.string(),
         cpf: Joi.string().length(14),
-        email: Joi.string(),
+        email: Joi.string().email(),
         password: Joi.string().min(5).max(12),
         confirmPassword: Joi.string()
           .valid(Joi.ref('password'))
@@ -87,7 +87,7 @@ userRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      email: Joi.string(),
+      email: Joi.string().email(),
       password: Joi.string().min(5).max(12)
     }
   }),
