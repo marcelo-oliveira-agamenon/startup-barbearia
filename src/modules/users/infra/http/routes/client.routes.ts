@@ -23,7 +23,7 @@ clientRouter.get(
   '/:client_id',
   celebrate({
     [Segments.PARAMS]: {
-      client_id: Joi.string().uuid().required()
+      client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   clientController.get
@@ -44,7 +44,7 @@ clientRouter.put(
   '/:client_id',
   celebrate({
     [Segments.PARAMS]: {
-      client_id: Joi.string().uuid().required()
+      client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     },
     [Segments.BODY]: Joi.object()
       .keys({
@@ -62,7 +62,7 @@ clientRouter.delete(
   '/:client_id',
   celebrate({
     [Segments.PARAMS]: {
-      client_id: Joi.string().uuid().required()
+      client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   clientController.delete

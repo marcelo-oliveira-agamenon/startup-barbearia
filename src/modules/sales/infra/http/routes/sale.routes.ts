@@ -50,6 +50,7 @@ saleRouter.put(
     [Segments.BODY]: Joi.object()
       .keys({
         client_id: Joi.string().uuid(),
+        user_id: Joi.string().uuid().required(),
         discount: Joi.number().positive(),
         is_discount_fixed: Joi.boolean().when('discount', {
           is: Joi.exist(),
