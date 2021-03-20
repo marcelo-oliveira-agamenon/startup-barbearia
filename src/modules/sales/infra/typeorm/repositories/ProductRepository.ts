@@ -4,8 +4,7 @@ import Product from '@modules/sales/infra/typeorm/entities/Product';
 import {
   ICreateProductDTO,
   IListProductsDTO,
-  IDeleteProductDTO,
-  IUpdateProductDTO
+  IDeleteProductDTO
 } from '@modules/sales/dtos/IProductDTO';
 
 export default class ProductRepository implements IProductRepository {

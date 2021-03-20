@@ -9,8 +9,6 @@ import {
   DeleteServiceService
 } from '@modules/sales/services/service';
 
-import { IGetServiceDTO } from '@modules/sales/dtos/IServiceDTO';
-
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;

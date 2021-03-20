@@ -9,7 +9,7 @@ import { IGetScheduleDTO } from '@modules/schedules/dtos/ISchedulesDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class GetScheduleService {
+export class GetScheduleService {
   constructor(
     @inject('ScheduleRepository')
     private scheduleRepository: IScheduleRepository
