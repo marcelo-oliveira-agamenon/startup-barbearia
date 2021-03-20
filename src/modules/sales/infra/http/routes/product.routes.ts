@@ -11,10 +11,10 @@ productRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      cost: Joi.number(),
-      value: Joi.number().required(),
+      cost: Joi.number().positive(),
+      value: Joi.number().positive().required(),
       description: Joi.string(),
-      discount: Joi.number()
+      discount: Joi.number().positive()
     }
   }),
   productController.create
@@ -35,7 +35,7 @@ productRouter.get(
   '/:product_id',
   celebrate({
     [Segments.PARAMS]: {
-      product_id: Joi.string().uuid().required()
+      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   productController.get
@@ -45,15 +45,15 @@ productRouter.put(
   '/:product_id',
   celebrate({
     [Segments.PARAMS]: {
-      product_id: Joi.string().uuid().required()
+      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     },
     [Segments.BODY]: Joi.object()
       .keys({
         name: Joi.string(),
-        cost: Joi.number(),
-        value: Joi.number(),
+        cost: Joi.number().positive(),
+        value: Joi.number().positive(),
         description: Joi.string(),
-        discount: Joi.number()
+        discount: Joi.number().positive()
       })
       .min(1)
   }),
@@ -64,7 +64,7 @@ productRouter.delete(
   '/:product_id',
   celebrate({
     [Segments.PARAMS]: {
-      product_id: Joi.string().uuid().required()
+      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   productController.delete
