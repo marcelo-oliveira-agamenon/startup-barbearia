@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "test": "jest --passWithNoTests --watch",
-    "test:verbose": "jest",
+    "clear:jest": "jest --clearCache",
+    "test": "jest --passWithNoTests --watch --runInBand",
+    "test:verbose": "jest --runInBand",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f src/shared/infra/typeorm/ormconfig.ts"
   },
   "jest": {
