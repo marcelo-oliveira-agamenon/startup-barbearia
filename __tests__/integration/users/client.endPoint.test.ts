@@ -2,10 +2,14 @@ import request from 'supertest';
 import Client from '@modules/users/infra/typeorm/entities/Client';
 import 'dotenv/config';
 import ClientClass from '../users/client-class';
+import app from '@shared/infra/config/app';
+import { Connection, createConnection } from 'typeorm';
+import config from '@shared/infra/typeorm/ormconfig';
+
+let connection: Connection;
 
 const clientClass = new ClientClass();
 
-const API = process.env.TEST_URL;
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
 const createEndPoint = '/clients/signup',
@@ -13,8 +17,14 @@ const createEndPoint = '/clients/signup',
 let commonEndPoint = '/clients/';
 
 describe('POST/GET/PUT/DELETE /clients/signup', function () {
+  beforeAll(async () => {
+    connection = await createConnection(config);
+  });
+  afterAll(async () => {
+    await connection.close();
+  });
   it('Should create a client with all input fields and return {client}.', function (done) {
-    request(API)
+    request(app)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
       .send(clientClass.createRequest)
@@ -30,7 +40,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   });
 
   it('Should list clients and return [{client}].', function (done) {
-    request(API)
+    request(app)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
       .query(clientClass.listRequest)
@@ -56,7 +66,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   });
 
   it('Should get a client and return {client}.', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
@@ -71,7 +81,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   });
 
   it('Should update a client and return {client}.', function (done) {
-    request(API)
+    request(app)
       .put(commonEndPoint)
       .set('Authorization', TOKEN)
       .send(clientClass.updateRequest)
@@ -87,7 +97,7 @@ describe('POST/GET/PUT/DELETE /clients/signup', function () {
   });
 
   it('Should delete a client softly and return {client}.', function (done) {
-    request(API)
+    request(app)
       .delete(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)

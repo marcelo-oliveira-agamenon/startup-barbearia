@@ -16,13 +16,15 @@ import { CreateUserService } from '@modules/users/services/user';
 import { CreateClientService } from '@modules/users/services/client';
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 
+import app from '@shared/infra/config/app';
+
+let connection: Connection;
+
 const saleClass = new SaleClass();
 const userClass = new UserClass();
 const clientClass = new ClientClass();
 
-const API = process.env.TEST_URL;
 const TOKEN = `Bearer ${process.env.TOKEN}`;
-let connection: Connection;
 
 const createEndPoint = '/sales/signup',
   listEndPoint = '/sales/';
@@ -44,7 +46,7 @@ describe('POST/GET/DELETE /sales/', function () {
     await connection.close();
   });
   it('Should create a sale with all input fields and return {sale}.', function (done) {
-    request(API)
+    request(app)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
       .send(saleClass.createRequest)
@@ -60,7 +62,7 @@ describe('POST/GET/DELETE /sales/', function () {
       .end(done);
   });
   it('Should get a sale and return {sale}.', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
@@ -75,7 +77,7 @@ describe('POST/GET/DELETE /sales/', function () {
   });
 
   it('Should list sales and return [{sale}].', function (done) {
-    request(API)
+    request(app)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
       .query(saleClass.listRequest)
@@ -102,7 +104,7 @@ describe('POST/GET/DELETE /sales/', function () {
   });
 
   it('Should update a sale and return {sale}.', function (done) {
-    request(API)
+    request(app)
       .put(commonEndPoint)
       .set('Authorization', TOKEN)
       .send(saleClass.updateRequest)
@@ -118,7 +120,7 @@ describe('POST/GET/DELETE /sales/', function () {
   });
 
   it('Should delete a sale softly and return {sale}.', function (done) {
-    request(API)
+    request(app)
       .delete(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
