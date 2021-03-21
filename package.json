@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "nodemon",
     "clear:jest": "jest --clearCache",
-    "test": "jest --passWithNoTests --watch --runInBand",
+    "test": "jest --passWithNoTests --runInBand",
     "test:verbose": "jest --runInBand",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli -f src/shared/infra/typeorm/ormconfig.ts"
   },
