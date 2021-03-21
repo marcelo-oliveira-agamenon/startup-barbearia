@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+import 'shared/container';
 import { errors } from 'celebrate';
 import cors from 'cors';
 import express from 'express';

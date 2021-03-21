@@ -1,8 +1,5 @@
 /* eslint-disable no-console */
-import 'reflect-metadata';
 import 'dotenv/config';
-import 'shared/container';
-import 'express-async-errors';
 import { createConnection } from 'typeorm';
 import config from '@shared/infra/typeorm/ormconfig';
 
