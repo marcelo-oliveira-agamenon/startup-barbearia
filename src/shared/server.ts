@@ -5,10 +5,11 @@ import 'shared/container';
 import 'express-async-errors';
 import { createConnection } from 'typeorm';
 import config from '@shared/infra/typeorm/ormconfig';
-import app from '@shared/infra/config/app';
 
 createConnection(config)
   .then(async () => {
+    const app = (await import('@shared/infra/config/app')).default;
+
     app.listen(process.env.PORT, () => {
       console.log('Server listening on PORT:', process.env.PORT);
     });
