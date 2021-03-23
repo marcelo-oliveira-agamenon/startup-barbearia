@@ -76,6 +76,7 @@ class SaleClass {
 
   get updateRequest() {
     return {
+      user_id: this.user_id,
       client_id: this.client_id,
       discount: this.discount,
       is_discount_fixed: this.is_discount_fixed

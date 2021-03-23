@@ -11,7 +11,7 @@ serviceRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      value: Joi.number().required()
+      value: Joi.number().positive().required()
     }
   }),
   serviceController.create
@@ -32,7 +32,7 @@ serviceRouter.get(
   '/:service_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().uuid().required()
+      service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   serviceController.get
@@ -42,7 +42,7 @@ serviceRouter.delete(
   '/:service_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().uuid().required()
+      service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   serviceController.delete
@@ -52,12 +52,12 @@ serviceRouter.put(
   '/:service_id',
   celebrate({
     [Segments.PARAMS]: {
-      service_id: Joi.string().uuid().required()
+      service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     },
     [Segments.BODY]: Joi.object()
       .keys({
         name: Joi.string(),
-        value: Joi.number()
+        value: Joi.number().positive()
       })
       .min(1)
   }),
