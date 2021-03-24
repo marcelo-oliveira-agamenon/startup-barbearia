@@ -20,6 +20,8 @@ import IScheduleRepository from '@modules/schedules/repositories/IScheduleReposi
 
 import SaleRepository from '@modules/sales/infra/typeorm/repositories/SaleRepository';
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
+import IStockRepository from '@modules/sales/repositories/IStockRepository';
+import StockRepository from '@modules/sales/infra/typeorm/repositories/StockRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<IClientRepository>(
@@ -49,6 +51,11 @@ container.registerSingleton<IScheduleRepository>(
 container.registerSingleton<IPaymentMethodRepository>(
   'PaymentMethodRepository',
   PaymentMethodRepository
+);
+
+container.registerSingleton<IStockRepository>(
+  'StockRepository',
+  StockRepository
 );
 
 container.registerSingleton<ISaleRepository>('SaleRepository', SaleRepository);
