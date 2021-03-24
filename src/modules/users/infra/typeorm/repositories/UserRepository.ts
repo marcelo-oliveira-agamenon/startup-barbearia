@@ -3,7 +3,6 @@ import IUserRepository from '@modules/users/repositories/IUserRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import {
   ICreateUserDTO,
-  IUpdateUserDTO,
   IDeleteUserDTO,
   IListUsersDTO
 } from '@modules/users/dtos/IUserDTO';

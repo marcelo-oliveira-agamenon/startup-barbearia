@@ -5,7 +5,7 @@ import { IGetScheduleByUserIdDTO } from '@modules/schedules/dtos/ISchedulesDTO';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export default class GetScheduleByClientIdService {
+export class GetScheduleByUserId {
   constructor(
     @inject('ScheduleRepository')
     private scheduleRepository: IScheduleRepository

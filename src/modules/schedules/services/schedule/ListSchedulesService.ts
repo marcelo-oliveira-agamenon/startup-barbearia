@@ -4,7 +4,7 @@ import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 import { IListScheduleDTO } from '@modules/schedules/dtos/ISchedulesDTO';
 
 @injectable()
-export default class GetSchedulesListService {
+export class ListSchedulesService {
   constructor(
     @inject('ScheduleRepository')
     private scheduleRepository: IScheduleRepository

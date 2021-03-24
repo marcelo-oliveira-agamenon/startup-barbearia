@@ -10,8 +10,8 @@ saleRouter.post(
   '/signup',
   celebrate({
     [Segments.BODY]: {
-      client_id: Joi.string().uuid(),
-      user_id: Joi.string().uuid().required(),
+      client_id: Joi.string().uuid({ version: 'uuidv4' }),
+      user_id: Joi.string().uuid({ version: 'uuidv4' }),
       value: Joi.number().positive().required(),
       discount: Joi.number().positive(),
       is_discount_fixed: Joi.boolean().when('discount', {
@@ -27,7 +27,7 @@ saleRouter.get(
   '/:sale_id',
   celebrate({
     [Segments.PARAMS]: {
-      sale_id: Joi.string().uuid().required()
+      sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   saleController.get
@@ -49,7 +49,8 @@ saleRouter.put(
   celebrate({
     [Segments.BODY]: Joi.object()
       .keys({
-        client_id: Joi.string().uuid(),
+        client_id: Joi.string().uuid({ version: 'uuidv4' }),
+        user_id: Joi.string().uuid({ version: 'uuidv4' }),
         discount: Joi.number().positive(),
         is_discount_fixed: Joi.boolean().when('discount', {
           is: Joi.exist(),
@@ -65,7 +66,7 @@ saleRouter.delete(
   '/:sale_id',
   celebrate({
     [Segments.PARAMS]: {
-      sale_id: Joi.string().uuid().required()
+      sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   saleController.delete

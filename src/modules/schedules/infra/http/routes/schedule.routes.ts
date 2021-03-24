@@ -10,7 +10,7 @@ scheduleRouter.get(
   '/:schedule_id',
   celebrate({
     [Segments.PARAMS]: {
-      schedule_id: Joi.string().uuid().required()
+      schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   scheduleController.get
@@ -20,7 +20,7 @@ scheduleRouter.get(
   '/client/:client_id',
   celebrate({
     [Segments.PARAMS]: {
-      client_id: Joi.string().uuid().required()
+      client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   scheduleController.getByClient
@@ -30,7 +30,7 @@ scheduleRouter.get(
   '/user/:user_id',
   celebrate({
     [Segments.PARAMS]: {
-      user_id: Joi.string().uuid().required()
+      user_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   scheduleController.getByUser
@@ -41,7 +41,7 @@ scheduleRouter.get(
   celebrate({
     [Segments.BODY]: {
       start_date: Joi.date().required(),
-      end_date: Joi.date().required()
+      end_date: Joi.date().min(Joi.ref('start_date')).required()
     }
   }),
   scheduleController.getByDate
@@ -62,8 +62,8 @@ scheduleRouter.post(
   '/register',
   celebrate({
     [Segments.BODY]: {
-      user_id: Joi.string().uuid().required(),
-      client_id: Joi.string().uuid(),
+      user_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
+      client_id: Joi.string().uuid({ version: 'uuidv4' }),
       service_id: Joi.string().uuid().required(),
       start_date: Joi.date().required(),
       end_date: Joi.date().min(Joi.ref('start_date')),
@@ -75,20 +75,22 @@ scheduleRouter.post(
 );
 
 scheduleRouter.put(
-  '/:id',
+  '/:schedule_id',
   celebrate({
     [Segments.PARAMS]: {
-      id: Joi.string().uuid().required()
+      schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     },
-    [Segments.BODY]: Joi.object().keys({
-      user_id: Joi.string().uuid(),
-      client_id: Joi.string().uuid(),
-      service_id: Joi.string().uuid(),
-      start_date: Joi.date(),
-      end_date: Joi.date().min(Joi.ref('start_date')),
-      status: Joi.boolean(),
-      description: Joi.string()
-    })
+    [Segments.BODY]: Joi.object()
+      .keys({
+        user_id: Joi.string().uuid({ version: 'uuidv4' }),
+        client_id: Joi.string().uuid({ version: 'uuidv4' }),
+        service_id: Joi.string().uuid({ version: 'uuidv4' }),
+        start_date: Joi.date(),
+        end_date: Joi.date().min(Joi.ref('start_date')),
+        status: Joi.boolean(),
+        description: Joi.string()
+      })
+      .min(1)
   }),
   scheduleController.update
 );
@@ -97,7 +99,7 @@ scheduleRouter.delete(
   '/:schedule_id',
   celebrate({
     [Segments.PARAMS]: {
-      schedule_id: Joi.string().uuid().required()
+      schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   scheduleController.delete

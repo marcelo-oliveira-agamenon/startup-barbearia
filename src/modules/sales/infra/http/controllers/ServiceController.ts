@@ -9,6 +9,7 @@ import {
   DeleteServiceService,
   ListServicesUserService
 } from '@modules/sales/services/service';
+
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;

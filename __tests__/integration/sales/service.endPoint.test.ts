@@ -5,7 +5,11 @@ import Service from '@modules/sales/infra/typeorm/entities/Service';
 
 import faker from 'faker';
 
-const API = process.env.TEST_URL;
+import app from '@shared/infra/config/app';
+import { Connection, createConnection } from 'typeorm';
+import config from '@shared/infra/typeorm/ormconfig';
+
+let connection: Connection;
 
 const name = faker.name.findName(),
   value = faker.random.number();
@@ -51,8 +55,14 @@ const createEndPoint = '/services/signup',
 let commonEndPoint = '/services/';
 
 describe('POST/GET/PUT/DELETE /service/', function () {
+  beforeAll(async () => {
+    connection = await createConnection(config);
+  });
+  afterAll(async () => {
+    await connection.close();
+  });
   it('Should create a service with all input fields and return {service}.', function (done) {
-    request(API)
+    request(app)
       .post(createEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(body)
@@ -67,7 +77,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   });
 
   it('Should list services and return [{service}].', function (done) {
-    request(API)
+    request(app)
       .get(listEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .query(listQuery)
@@ -91,7 +101,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   });
 
   it('Should get a service and return {service}.', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .expect('Content-Type', /json/)
@@ -104,7 +114,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   });
 
   it('Should update a service and return {service}.', function (done) {
-    request(API)
+    request(app)
       .put(commonEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .send(updateBody)
@@ -118,7 +128,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
   });
 
   it('Should delete a service softly and return {service}.', function (done) {
-    request(API)
+    request(app)
       .delete(commonEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .expect('Content-Type', /json/)

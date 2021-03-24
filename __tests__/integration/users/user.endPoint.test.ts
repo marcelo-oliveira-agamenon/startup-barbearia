@@ -3,9 +3,14 @@ import 'dotenv/config';
 
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import UserClass from './user-class';
+import app from '@shared/infra/config/app';
+import { Connection, createConnection } from 'typeorm';
+import config from '@shared/infra/typeorm/ormconfig';
+
+let connection: Connection;
+
 const userClass = new UserClass();
 
-const API = process.env.TEST_URL;
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
 const createEndPoint = '/users/signup',
@@ -14,8 +19,14 @@ const createEndPoint = '/users/signup',
 let commonEndPoint = '/users/';
 
 describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
+  beforeAll(async () => {
+    connection = await createConnection(config);
+  });
+  afterAll(async () => {
+    await connection.close();
+  });
   it('Should create a user with all input fields and return {user}.', function (done) {
-    request(API)
+    request(app)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
       .send(userClass.createRequest)
@@ -32,7 +43,7 @@ describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
   });
 
   it('Should list users and return [{user}].', function (done) {
-    request(API)
+    request(app)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
       .query(userClass.listRequest)
@@ -59,7 +70,7 @@ describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
       .end(done);
   });
   it('Should get a user and return {user}.', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
@@ -73,7 +84,7 @@ describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
       .end(done);
   });
   it('Should update a user and return {user}.', function (done) {
-    request(API)
+    request(app)
       .put(commonEndPoint)
       .set('Authorization', TOKEN)
       .send(userClass.updateRequest)
@@ -88,7 +99,7 @@ describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
       .end(done);
   });
   it('Should login and return {auth, token}.', function (done) {
-    request(API)
+    request(app)
       .post(loginEndPoint)
       .set('Authorization', TOKEN)
       .send(userClass.login)
@@ -101,7 +112,7 @@ describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
       .end(done);
   });
   it('Should delete a user softly and return {user}.', function (done) {
-    request(API)
+    request(app)
       .delete(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)

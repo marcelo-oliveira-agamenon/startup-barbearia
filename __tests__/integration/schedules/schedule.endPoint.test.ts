@@ -6,10 +6,11 @@ import 'dotenv/config';
 import { container } from 'tsyringe';
 import { Connection, createConnection } from 'typeorm';
 import config from '@shared/infra/typeorm/ormconfig';
+import app from '@shared/infra/config/app';
 
-import { CreateUserService } from '@modules/users/services/user';
-import { CreateClientService } from '@modules/users/services/client';
-import { CreateServiceService } from '@modules/sales/services/service';
+import { CreateUserService } from '@modules/users/services/user/CreateUserService';
+import { CreateClientService } from '@modules/users/services/client/CreateClientService';
+import { CreateServiceService } from '@modules/sales/services/service/CreateServiceService';
 import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 import ScheduleClass from './schedule-class';
 import UserClass from '../users/user-class';
@@ -21,7 +22,6 @@ const userClass = new UserClass();
 const clientClass = new ClientClass();
 const serviceClass = new ServiceClass();
 
-const API = process.env.TEST_URL;
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 let connection: Connection;
 
@@ -52,7 +52,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
     await connection.close();
   });
   it('Should create a schedule with all input fields and return {schedule}.', function (done) {
-    request(API)
+    request(app)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
       .send(scheduleClass.createRequest)
@@ -60,7 +60,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect(Schedule)
       .expect(201)
       .expect((res) => {
-        commonEndPoint += res.body.id;
+        commonEndPoint += res.body.schedule_id;
         commonEndPointClient += res.body.client_id;
         commonEndPointUser += res.body.user_id;
         expect(res.body).toEqual(
@@ -71,7 +71,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   });
 
   it('Should list schedules and return [{schedule}].', function (done) {
-    request(API)
+    request(app)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
       .query(scheduleClass.getListSet)
@@ -81,7 +81,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
@@ -100,7 +100,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   });
 
   it('Should get a schedule and return {schedule}.', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
@@ -115,7 +115,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   });
 
   it('Should list schedules by client id and return [{schedule}].', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPointClient)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
@@ -124,7 +124,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
@@ -143,7 +143,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   });
 
   it('Should list schedules by user id and return [{schedule}].', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPointUser)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
@@ -152,7 +152,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
@@ -171,7 +171,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   });
 
   it('Should list schedules by date and return [{schedule}].', function (done) {
-    request(API)
+    request(app)
       .get(filterDatePoint)
       .send(scheduleClass.getFilterDate)
       .set('Authorization', TOKEN)
@@ -181,7 +181,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
       .expect((res) => {
         if (res.body.length) {
           const firstElement = res.body[0];
-          expect(firstElement).toHaveProperty('id');
+          expect(firstElement).toHaveProperty('schedule_id');
           expect(firstElement).toHaveProperty('user_id');
           expect(firstElement).toHaveProperty('client_id');
           expect(firstElement).toHaveProperty('service_id');
@@ -200,7 +200,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   });
 
   it('Should update a schedule and return {schedule}.', function (done) {
-    request(API)
+    request(app)
       .put(commonEndPoint)
       .set('Authorization', TOKEN)
       .send(scheduleClass.updateRequest)
@@ -216,7 +216,7 @@ describe('POST/GET/PUT/DELETE /schedules/', function () {
   });
 
   it('Should delete a schedule softly and return {schedule}.', function (done) {
-    request(API)
+    request(app)
       .delete(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
