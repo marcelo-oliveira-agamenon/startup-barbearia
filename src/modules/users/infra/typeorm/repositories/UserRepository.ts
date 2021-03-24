@@ -80,4 +80,18 @@ export default class UserRepository implements IUserRepository {
 
     return users;
   }
+
+  public async findAllWithService(query: IListUsersDTO): Promise<User[]> {
+    const { limit, offset } = query;
+    const take = limit ? limit : 0,
+      skip = offset ? offset : 0;
+
+    const users = await this.ormRepository.find({
+      take,
+      skip,
+      relations: ['services']
+    });
+
+    return users;
+  }
 }

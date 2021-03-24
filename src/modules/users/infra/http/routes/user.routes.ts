@@ -83,6 +83,17 @@ userRouter.get(
   userController.list
 );
 
+userRouter.get(
+  '/list/services',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
+    }
+  }),
+  userController.listServices
+);
+
 userRouter.post(
   '/',
   celebrate({

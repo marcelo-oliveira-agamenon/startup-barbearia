@@ -6,11 +6,9 @@ import {
   ListServicesService,
   UpdateServiceService,
   GetServiceService,
-  DeleteServiceService
+  DeleteServiceService,
+  ListServicesUserService
 } from '@modules/sales/services/service';
-
-import { IGetServiceDTO } from '@modules/sales/dtos/IServiceDTO';
-
 export default class ServicesController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
@@ -35,6 +33,18 @@ export default class ServicesController {
 
     const listServices = container.resolve(ListServicesService);
     const service = await listServices.execute(query);
+
+    return response.status(200).json(service);
+  }
+
+  public async listWithUser(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const query = request.query;
+
+    const listServicesUser = container.resolve(ListServicesUserService);
+    const service = await listServicesUser.execute(query);
 
     return response.status(200).json(service);
   }
