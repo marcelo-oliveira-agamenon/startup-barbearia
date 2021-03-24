@@ -11,14 +11,16 @@ export class UpdateStockService {
     private stockRepository: IStockRepository
   ) {}
 
-  public async execute(stock_id: number, data: IUpdateStockDTO): Promise<Stock | undefined> {
+  public async execute(
+    stock_id: number,
+    data: IUpdateStockDTO
+  ): Promise<Stock | undefined> {
     const stockExists = await this.stockRepository.findOne(data.stock_id);
-    if (!stockExists)
-      throw new AppError('Stock does not exist!');
-    
+    if (!stockExists) throw new AppError('Stock does not exist!');
+
     const stocktEntity = Object.assign(stockExists, data);
 
-    const stock = await this.stockRepository.update(stock_id, stocktEntity);
+    const stock = await this.stockRepository.update(stocktEntity);
 
     return stock;
   }

@@ -8,12 +8,12 @@ import request from 'supertest';
 import { container } from 'tsyringe';
 import { Connection, createConnection } from 'typeorm';
 
-import ProductClass from "./product-class";
+import ProductClass from './product-class';
 import { CreateProductService } from '@modules/sales/services/product';
 import StockClass from './stock-class';
 import Stock from '@modules/sales/infra/typeorm/entities/Stock';
+import app from '@shared/infra/config/app';
 
-const API = process.env.TEST_URL;
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 let connection: Connection;
 
@@ -23,43 +23,42 @@ const createEndPoint = '/stocks/signup',
 let commonEndPoint = '/stocks/';
 let updateEndPoint = '/stocks/';
 
-
 const productClass = new ProductClass();
 const stockClass = new StockClass();
 
 describe('POST/GET/DELETE /stocks/', function () {
-    beforeAll(async () => {
-        connection = await createConnection(config);
-    
-        const createProduct = container.resolve(CreateProductService);
-    
-        const product = await createProduct.execute(productClass);
-        if (product) stockClass.product_id = product.product_id;
-      });
-      afterAll(async () => {
-        await connection.close();
-      });
+  beforeAll(async () => {
+    connection = await createConnection(config);
 
-      it('Should create a stock with all input fields and return {stock}.', function (done) {
-        request(API)
-          .post(createEndPoint)
-          .set('Authorization', TOKEN)
-          .send(stockClass.createRequest)
-          .expect('Content-Type', /json/)
-          .expect(Stock)
-          .expect(201)
-          .expect((res) => {
-            updateEndPoint += res.body.stock_id;
-            commonEndPoint += res.body.product_id;
-            expect(res.body).toEqual(
-              expect.objectContaining(stockClass.createResponse)
-            );
-          })
-          .end(done);
-      });
+    const createProduct = container.resolve(CreateProductService);
 
-      it('Should get a stock and return {stock}.', function (done) {
-    request(API)
+    const product = await createProduct.execute(productClass);
+    if (product) stockClass.product_id = product.product_id;
+  });
+  afterAll(async () => {
+    await connection.close();
+  });
+
+  it('Should create a stock with all input fields and return {stock}.', function (done) {
+    request(app)
+      .post(createEndPoint)
+      .set('Authorization', TOKEN)
+      .send(stockClass.createRequest)
+      .expect('Content-Type', /json/)
+      .expect(Stock)
+      .expect(201)
+      .expect((res) => {
+        updateEndPoint += res.body.stock_id;
+        commonEndPoint += res.body.product_id;
+        expect(res.body).toEqual(
+          expect.objectContaining(stockClass.createResponse)
+        );
+      })
+      .end(done);
+  });
+
+  it('Should get a stock and return {stock}.', function (done) {
+    request(app)
       .get(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
@@ -73,8 +72,8 @@ describe('POST/GET/DELETE /stocks/', function () {
       .end(done);
   });
 
-    it('Should list stocks and return [{stock}].', function (done) {
-    request(API)
+  it('Should list stocks and return [{stock}].', function (done) {
+    request(app)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
       .query(stockClass.listRequest)
@@ -96,7 +95,7 @@ describe('POST/GET/DELETE /stocks/', function () {
   });
 
   it('Should update a stock and return {stock}.', function (done) {
-    request(API)
+    request(app)
       .put(updateEndPoint)
       .set('Authorization', TOKEN)
       .send(stockClass.updateRequest)
@@ -111,8 +110,8 @@ describe('POST/GET/DELETE /stocks/', function () {
       .end(done);
   });
 
-   it('Should delete a stock and return {stock}.', function (done) {
-    request(API)
+  it('Should delete a stock and return {stock}.', function (done) {
+    request(app)
       .delete(updateEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)

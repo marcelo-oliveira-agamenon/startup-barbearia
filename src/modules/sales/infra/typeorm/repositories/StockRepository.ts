@@ -30,19 +30,16 @@ export default class StockRepository implements IStockRepository {
     return stock;
   }
 
-  public async update(stock_id: number, data: IUpdateStockDTO): Promise<Stock> {
-    const stockExists = await this.ormRepository.findOne(stock_id);
-    const isStockUpdated = await this.ormRepository.save(
-      Object.assign(stockExists, data)
-    );
+  public async update(stockEntity: Stock): Promise<Stock> {
+    const stock = await this.ormRepository.save(stockEntity);
 
-    return isStockUpdated;
+    return stock;
   }
 
   public async delete(stock_id: number): Promise<number | null | undefined> {
     const isStockDeleted = await this.ormRepository.delete(stock_id);
     const isStockAffected = isStockDeleted.affected;
-    
+
     return isStockAffected;
   }
 
@@ -61,7 +58,9 @@ export default class StockRepository implements IStockRepository {
   }
 
   public async findOne(stock_id: number): Promise<Stock | undefined> {
-    const stock = await this.ormRepository.findOne(stock_id, { loadRelationIds: true });
+    const stock = await this.ormRepository.findOne(stock_id, {
+      loadRelationIds: true
+    });
 
     return stock;
   }
