@@ -1,92 +1,56 @@
-import request from 'supertest';
+import 'reflect-metadata';
+import 'shared/container';
 import 'dotenv/config';
+
+import config from '@shared/infra/typeorm/ormconfig';
 
 import faker from 'faker';
 import Product from '@modules/sales/infra/typeorm/entities/Product';
+import ProductClass from './product-class';
 
-const API = process.env.TEST_URL;
+import { container } from 'tsyringe';
+import { Connection, createConnection } from 'typeorm';
+import app from '@shared/infra/config/app';
+import request from 'supertest';
 
-const name = faker.name.findName(),
-  cost = faker.random.number(),
-  value = faker.random.number(),
-  description = faker.internet.email(),
-  discount = faker.random.number();
-const body = {
-    name,
-    cost,
-    value,
-    description,
-    discount
-  },
-  commonResponse = {
-    product_id: expect.anything(),
-    name,
-    cost,
-    value: expect.anything(),
-    description,
-    discount,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  listQuery = {
-    limit: 1,
-    offset: 1
-  },
-  updateBody = {
-    name,
-    cost,
-    value,
-    description,
-    discount
-  },
-  updateResponse = {
-    product_id: expect.anything(),
-    name,
-    cost,
-    value: expect.anything(),
-    description,
-    discount,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  deleteResponse = {
-    product_id: expect.anything(),
-    name,
-    cost,
-    value,
-    description,
-    discount,
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: expect.anything()
-  };
+const productClass = new ProductClass();
+
+const TOKEN = `Bearer ${process.env.TOKEN}`;
+let connection: Connection;
 
 const createEndPoint = '/products/signup',
   listEndPoint = '/products/';
 let commonEndPoint = '/products/';
 
 describe('POST/GET/PUT/DELETE /products', function () {
+  beforeAll(async () => {
+    connection = await createConnection(config);
+  });
+  afterAll(async () => {
+    await connection.close();
+  });
+
   it('Should create a product with all input fields and return {client}.', function (done) {
-    request(API)
+    request(app)
       .post(createEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(body)
+      .set('Authorization', TOKEN)
+      .send(productClass.createRequest)
       .expect('Content-Type', /json/)
       .expect(Product)
       .expect((res) => {
         commonEndPoint += res.body.product_id;
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(productClass.createResponse)
+        );
       })
       .end(done);
   });
 
   it('Should list products and return [{product}].', function (done) {
-    request(API)
+    request(app)
       .get(listEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .query(listQuery)
+      .set('Authorization', TOKEN)
+      .query(productClass.listRequest)
       .expect('Content-Type', /json/)
       .expect(Product)
       .expect(200)
@@ -110,41 +74,47 @@ describe('POST/GET/PUT/DELETE /products', function () {
   });
 
   it('Should get a product and return {product}.', function (done) {
-    request(API)
+    request(app)
       .get(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Product)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(productClass.getResponse)
+        );
       })
       .end(done);
   });
 
   it('Should update a product and return {product}.', function (done) {
-    request(API)
+    request(app)
       .put(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(updateBody)
+      .set('Authorization', TOKEN)
+      .send(productClass.updateRequest)
       .expect('Content-Type', /json/)
       .expect(Product)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(productClass.updateResponse)
+        );
       })
       .end(done);
   });
 
   it('Should delete a product softly and return {client}.', function (done) {
-    request(API)
+    request(app)
       .delete(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(Product)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(productClass.deleteResponse)
+        );
       })
       .end(done);
   });
