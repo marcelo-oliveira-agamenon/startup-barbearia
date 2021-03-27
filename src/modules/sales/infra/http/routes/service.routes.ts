@@ -29,6 +29,17 @@ serviceRouter.get(
 );
 
 serviceRouter.get(
+  '/list/users',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
+    }
+  }),
+  serviceController.listWithUser
+);
+
+serviceRouter.get(
   '/:service_id',
   celebrate({
     [Segments.PARAMS]: {

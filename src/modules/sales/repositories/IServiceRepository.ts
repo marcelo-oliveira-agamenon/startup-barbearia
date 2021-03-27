@@ -13,4 +13,5 @@ export default interface IServiceRepository {
   findAll(query: IListServicesDTO): Promise<Service[]>;
   findByName(name: string): Promise<Service | undefined>;
   findDeletedEntity(service_id: string): Promise<Service | undefined>;
+  findAllWithUser(query: IListServicesDTO): Promise<Service[]>;
 }

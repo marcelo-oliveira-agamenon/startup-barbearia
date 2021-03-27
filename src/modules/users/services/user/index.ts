@@ -4,3 +4,4 @@ export * from './GetUserService';
 export * from './ListUsersService';
 export * from './SignInUserService';
 export * from './UpdateUserService';
+export * from './ListUsersServicesService';

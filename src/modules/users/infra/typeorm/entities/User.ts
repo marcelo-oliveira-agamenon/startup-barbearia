@@ -5,11 +5,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 import bcrypt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
+import Service from '@modules/sales/infra/typeorm/entities/Service';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -20,6 +23,20 @@ export enum UserRole {
 export class User {
   @PrimaryGeneratedColumn('uuid')
   user_id: string;
+
+  @ManyToMany(() => Service, (service) => service.service_id)
+  @JoinTable({
+    name: 'user_service',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'user_id'
+    },
+    inverseJoinColumn: {
+      name: 'service_id',
+      referencedColumnName: 'service_id'
+    }
+  })
+  services: Service[];
 
   @Column()
   name: string;

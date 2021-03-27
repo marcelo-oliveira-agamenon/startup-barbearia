@@ -7,7 +7,8 @@ import {
   DeleteUserService,
   GetUserService,
   ListUsersService,
-  SignInUserService
+  SignInUserService,
+  ListUsersServicesService
 } from '@modules/users/services/user';
 
 import { classToClass } from 'class-transformer';
@@ -48,6 +49,18 @@ export default class UserController {
 
     const listUsers = container.resolve(ListUsersService);
     const users = await listUsers.execute(query);
+
+    return response.status(200).json(users);
+  }
+
+  public async listServices(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const query = request.query;
+
+    const listUsersServices = container.resolve(ListUsersServicesService);
+    const users = await listUsersServices.execute(query);
 
     return response.status(200).json(users);
   }

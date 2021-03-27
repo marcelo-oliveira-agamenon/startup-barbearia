@@ -6,7 +6,8 @@ import {
   ListServicesService,
   UpdateServiceService,
   GetServiceService,
-  DeleteServiceService
+  DeleteServiceService,
+  ListServicesUserService
 } from '@modules/sales/services/service';
 
 export default class ServicesController {
@@ -33,6 +34,18 @@ export default class ServicesController {
 
     const listServices = container.resolve(ListServicesService);
     const service = await listServices.execute(query);
+
+    return response.status(200).json(service);
+  }
+
+  public async listWithUser(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const query = request.query;
+
+    const listServicesUser = container.resolve(ListServicesUserService);
+    const service = await listServicesUser.execute(query);
 
     return response.status(200).json(service);
   }
