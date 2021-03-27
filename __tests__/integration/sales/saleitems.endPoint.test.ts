@@ -52,19 +52,36 @@ describe('POST/GET/DELETE /sale-items/', function () {
   afterAll(async () => {
     await connection.close();
   });
-  it('Should create a sale items with all input fields and return {saleItems}.', function (done) {
+  it('Should create a sale items with product and return {saleItems}.', function (done) {
     saleItemsClass.quantity = 10;
     request(app)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
       .send(saleItemsClass.createRequestWithProduct)
       .expect('Content-Type', /json/)
-      //   .expect(SaleItems)
+      .expect(SaleItems)
       .expect(201, done);
     // .expect((res) => {
-    //   // commonEndPoint += res.body.sale_id;
+    //   commonEndPoint += res.body.sale_id;
     //   expect(res.body).toEqual(
     //     expect.objectContaining(saleItemsClass.createResponseWithProduct)
+    //   );
+    // })
+    // .end(done);
+  });
+  it('Should create a sale items with service and return {saleItems}.', function (done) {
+    saleItemsClass.quantity = 10;
+    request(app)
+      .post(createEndPoint)
+      .set('Authorization', TOKEN)
+      .send(saleItemsClass.createRequestWithService)
+      .expect('Content-Type', /json/)
+      .expect(SaleItems)
+      .expect(201, done);
+    // .expect((res) => {
+    //   commonEndPoint += res.body.sale_id;
+    //   expect(res.body).toEqual(
+    //     expect.objectContaining(saleItemsClass.createResponseWithService)
     //   );
     // })
     // .end(done);

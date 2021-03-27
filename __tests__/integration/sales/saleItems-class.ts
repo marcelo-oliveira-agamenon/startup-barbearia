@@ -19,28 +19,40 @@ class SaleItemsClass {
     return {
       sale_id: this.sale_id,
       product_id: this.product_id,
-      service_id: this.service_id,
       quantity: this.quantity,
       value: this.value
     };
   }
   get createResponseWithProduct() {
-    const sale_items_id = expect.anything(),
-      service_id = expect.anything(),
-      created_at = expect.any(Date),
-      updated_at = expect.any(Date),
-      deleted_at = null;
-
     return {
-      sale_items_id,
-      service_id,
-      created_at,
-      updated_at,
-      deleted_at,
+      sale_items_id: expect.anything(),
+      service_id: expect.anything(),
+      created_at: expect.any(Date),
+      updated_at: expect.any(Date),
+      deleted_at: null,
       sale_id: this.sale_id,
       product_id: this.product_id,
       value: this.value,
       quantity: this.quantity
+    };
+  }
+
+  get createRequestWithService() {
+    return {
+      sale_id: this.sale_id,
+      service_id: this.service_id,
+      value: this.value
+    };
+  }
+  get createResponseWithService() {
+    return {
+      sale_items_id: expect.anything,
+      service_id: expect.anything(),
+      created_at: expect.any(Date),
+      updated_at: expect.any(Date),
+      deleted_at: null,
+      sale_id: this.sale_id,
+      value: this.value
     };
   }
   // get listRequest() {
