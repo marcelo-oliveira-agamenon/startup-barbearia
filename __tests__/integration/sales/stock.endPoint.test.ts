@@ -18,8 +18,7 @@ const TOKEN = `Bearer ${process.env.TOKEN}`;
 let connection: Connection;
 
 const createEndPoint = '/stocks/signup',
-  listEndPoint = '/stocks/',
-  loginEndPoint = '/sales';
+  listEndPoint = '/stocks/';
 let commonEndPoint = '/stocks/';
 let updateEndPoint = '/stocks/';
 

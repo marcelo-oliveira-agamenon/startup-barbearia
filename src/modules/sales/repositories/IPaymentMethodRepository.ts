@@ -4,7 +4,7 @@ import {
   IListPaymentMethodsDTO
 } from '@modules/sales/dtos/IPaymentMethodDTO';
 
-export default interface IServiceRepository {
+export default interface IPaymentMethodRepository {
   create(data: ICreatePaymentMethodDTO): Promise<PaymentMethod>;
   update(entity: PaymentMethod): Promise<PaymentMethod>;
   deleteById(payment_method_id: number): Promise<number | null | undefined>;
