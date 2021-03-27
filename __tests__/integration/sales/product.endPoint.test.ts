@@ -4,11 +4,9 @@ import 'dotenv/config';
 
 import config from '@shared/infra/typeorm/ormconfig';
 
-import faker from 'faker';
 import Product from '@modules/sales/infra/typeorm/entities/Product';
 import ProductClass from './product-class';
 
-import { container } from 'tsyringe';
 import { Connection, createConnection } from 'typeorm';
 import app from '@shared/infra/config/app';
 import request from 'supertest';
