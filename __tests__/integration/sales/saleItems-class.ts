@@ -19,6 +19,7 @@ class SaleItemsClass {
     return {
       sale_id: this.sale_id,
       product_id: this.product_id,
+      service_id: this.service_id,
       quantity: this.quantity,
       value: this.value
     };
