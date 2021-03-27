@@ -5,11 +5,29 @@ export class Schedule1614036580002 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "schedule" ("schedule_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "user_id" uuid NOT NULL, "client_id" uuid NOT NULL, "service_id" uuid NOT NULL, "start_date" TIMESTAMP NOT NULL, "end_date" TIMESTAMP NOT NULL, "status" boolean NOT NULL, "description" character varying NOT NULL, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, PRIMARY KEY ("schedule_id"), CONSTRAINT "FK_758b8ce7c18b9d347461b30228d" FOREIGN KEY ("user_id") REFERENCES "user" ("user_id"), CONSTRAINT "FK_758b8ce7c18b9d347461b30228a" FOREIGN KEY ("client_id") REFERENCES "client" ("client_id"), CONSTRAINT "FK_758b8ce7c18b9d347461b30228q" FOREIGN KEY ("service_id") REFERENCES "service" ("service_id"))`
+      `CREATE TABLE "schedule" ("schedule_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "start_date" TIMESTAMP NOT NULL, "end_date" TIMESTAMP NOT NULL, "status" boolean NOT NULL, "description" character varying NOT NULL, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP WITH TIME ZONE, "user_id" uuid, "client_id" uuid, "service_id" uuid, CONSTRAINT "PK_e2f8b8dde7d240896cd58c669a2" PRIMARY KEY ("schedule_id"))`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "schedule" ADD CONSTRAINT "FK_c9927b15da3efbbfb7f29928216" FOREIGN KEY ("user_id") REFERENCES "user"("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "schedule" ADD CONSTRAINT "FK_c192d4610a2c250924db12c4395" FOREIGN KEY ("client_id") REFERENCES "client"("client_id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "schedule" ADD CONSTRAINT "FK_aeec1ea313799187cac733f5481" FOREIGN KEY ("service_id") REFERENCES "service"("service_id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "schedule" DROP CONSTRAINT "FK_aeec1ea313799187cac733f5481"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "schedule" DROP CONSTRAINT "FK_c192d4610a2c250924db12c4395"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "schedule" DROP CONSTRAINT "FK_c9927b15da3efbbfb7f29928216"`
+    );
     await queryRunner.query(`DROP TABLE "schedule"`);
   }
 }
