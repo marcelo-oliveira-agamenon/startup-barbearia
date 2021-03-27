@@ -37,6 +37,20 @@ export default class ServiceRepository implements IServiceRepository {
     return services;
   }
 
+  public async findAllWithUser(query: IListServicesDTO): Promise<Service[]> {
+    const { limit, offset } = query;
+    const take = limit ? limit : 0,
+      skip = offset ? offset : 0;
+
+    const services = await this.ormRepository.find({
+      take,
+      skip,
+      relations: ['users']
+    });
+
+    return services;
+  }
+
   public async delete({
     service_id
   }: IDeleteServicesDTO): Promise<number | undefined> {
