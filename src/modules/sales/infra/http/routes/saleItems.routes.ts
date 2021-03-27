@@ -24,10 +24,10 @@ saleItemsRouter.post(
           then: Joi.forbidden(),
           otherwise: Joi.required()
         }),
-      quantity: Joi.number().integer().positive().when('service_id', {
+      quantity: Joi.number().integer().positive().when('product_id', {
         is: Joi.exist(),
-        then: Joi.forbidden(),
-        otherwise: Joi.required()
+        then: Joi.required(),
+        otherwise: Joi.forbidden()
       }),
       value: Joi.number().positive().required()
     }
