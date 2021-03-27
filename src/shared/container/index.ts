@@ -22,6 +22,8 @@ import SaleRepository from '@modules/sales/infra/typeorm/repositories/SaleReposi
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 import IStockRepository from '@modules/sales/repositories/IStockRepository';
 import StockRepository from '@modules/sales/infra/typeorm/repositories/StockRepository';
+import IPaymentMovementRepository from '@modules/sales/repositories/IPaymentMovementRepository';
+import PaymentMovementRepository from '@modules/sales/infra/typeorm/repositories/PaymentMovementRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<IClientRepository>(
@@ -56,6 +58,11 @@ container.registerSingleton<IPaymentMethodRepository>(
 container.registerSingleton<IStockRepository>(
   'StockRepository',
   StockRepository
+);
+
+container.registerSingleton<IPaymentMovementRepository>(
+  'PaymentMovementRepository',
+  PaymentMovementRepository
 );
 
 container.registerSingleton<ISaleRepository>('SaleRepository', SaleRepository);
