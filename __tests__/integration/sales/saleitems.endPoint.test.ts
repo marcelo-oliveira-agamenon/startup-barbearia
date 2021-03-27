@@ -19,10 +19,13 @@ import { CreateServiceService } from '@modules/sales/services/service/CreateServ
 import SaleItems from '@modules/sales/infra/typeorm/entities/SaleItems';
 
 import app from '@shared/infra/config/app';
+import { CreateUserService } from '@modules/users/services/user/CreateUserService';
+import UserClass from '../users/user-class';
 
 let connection: Connection;
 
 const saleClass = new SaleClass();
+const userClass = new UserClass();
 const productClass = new ProductClass();
 const serviceClass = new ServiceClass();
 const saleItemsClass = new SaleItemsClass();
@@ -31,21 +34,26 @@ const TOKEN = `Bearer ${process.env.TOKEN}`;
 
 const createEndPoint = '/sale-items/signup',
   listEndPoint = '/sale-items/';
-const commonEndPoint = '/sale-items/';
+let commonEndPoint = '/sale-items/';
 
 describe('POST/GET/DELETE /sale-items/', function () {
   beforeAll(async () => {
     connection = await createConnection(config);
 
-    const CreateSale = container.resolve(CreateSaleService);
     const createProduct = container.resolve(CreateProductService);
     const createService = container.resolve(CreateServiceService);
 
-    const sale = await CreateSale.execute(saleClass);
     const product = await createProduct.execute(productClass);
     const service = await createService.execute(serviceClass);
+    const createUser = container.resolve(CreateUserService);
+    const user = await createUser.execute(userClass);
+    if (user) {
+      const createSale = container.resolve(CreateSaleService);
+      saleClass.user_id = user.user_id;
+      const sale = await createSale.execute(saleClass);
+      if (sale) saleItemsClass.sale_id = sale.sale_id;
+    }
 
-    if (sale) saleItemsClass.sale_id = sale.sale_id;
     if (product) saleItemsClass.product_id = product.product_id;
     if (service) saleItemsClass.service_id = service.service_id;
   });
@@ -60,31 +68,29 @@ describe('POST/GET/DELETE /sale-items/', function () {
       .send(saleItemsClass.createRequestWithProduct)
       .expect('Content-Type', /json/)
       .expect(SaleItems)
-      .expect(201, done);
-    // .expect((res) => {
-    //   commonEndPoint += res.body.sale_id;
-    //   expect(res.body).toEqual(
-    //     expect.objectContaining(saleItemsClass.createResponseWithProduct)
-    //   );
-    // })
-    // .end(done);
+      .expect(201)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleItemsClass.createResponseWithProduct)
+        );
+      })
+      .end(done);
   });
   it('Should create a sale items with service and return {saleItems}.', function (done) {
-    saleItemsClass.quantity = 10;
     request(app)
       .post(createEndPoint)
       .set('Authorization', TOKEN)
       .send(saleItemsClass.createRequestWithService)
       .expect('Content-Type', /json/)
       .expect(SaleItems)
-      .expect(201, done);
-    // .expect((res) => {
-    //   commonEndPoint += res.body.sale_id;
-    //   expect(res.body).toEqual(
-    //     expect.objectContaining(saleItemsClass.createResponseWithService)
-    //   );
-    // })
-    // .end(done);
+      .expect(201)
+      .expect((res) => {
+        commonEndPoint += res.body.sale_id;
+        expect(res.body).toEqual(
+          expect.objectContaining(saleItemsClass.createResponseWithService)
+        );
+      })
+      .end(done);
   });
   // it('Should get a sale and return {sale}.', function (done) {
   //   request(app)

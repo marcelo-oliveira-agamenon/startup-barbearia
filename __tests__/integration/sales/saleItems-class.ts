@@ -1,5 +1,3 @@
-import faker from 'faker';
-
 class SaleItemsClass {
   product_id: string;
   sale_id: string;
@@ -10,7 +8,7 @@ class SaleItemsClass {
   offset: number;
 
   constructor() {
-    this.value = faker.random.number();
+    this.value = 10.5;
     this.limit = 3;
     this.offset = 1;
   }
@@ -19,20 +17,19 @@ class SaleItemsClass {
     return {
       sale_id: this.sale_id,
       product_id: this.product_id,
-      quantity: this.quantity,
+      quantity: 10,
       value: this.value
     };
   }
   get createResponseWithProduct() {
     return {
       sale_items_id: expect.anything(),
-      service_id: expect.anything(),
-      created_at: expect.any(Date),
-      updated_at: expect.any(Date),
+      created_at: expect.anything(),
+      updated_at: expect.anything(),
       deleted_at: null,
       sale_id: this.sale_id,
       product_id: this.product_id,
-      value: this.value,
+      value: expect.anything(),
       quantity: this.quantity
     };
   }
@@ -46,13 +43,13 @@ class SaleItemsClass {
   }
   get createResponseWithService() {
     return {
-      sale_items_id: expect.anything,
+      sale_items_id: expect.anything(),
       service_id: expect.anything(),
-      created_at: expect.any(Date),
-      updated_at: expect.any(Date),
+      created_at: expect.anything(),
+      updated_at: expect.anything(),
       deleted_at: null,
       sale_id: this.sale_id,
-      value: this.value
+      value: expect.anything()
     };
   }
   // get listRequest() {
