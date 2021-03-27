@@ -1,3 +1,4 @@
+import Service from '@modules/sales/infra/typeorm/entities/Service';
 import { UserRole } from '@modules/users/infra/typeorm/entities/User';
 import faker from 'faker';
 
@@ -10,6 +11,7 @@ class UserClass {
   confirmPassword: string;
   email: string;
   is_active: boolean;
+  services: Service[];
   limit: number;
   offset: number;
 

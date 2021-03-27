@@ -3,53 +3,16 @@ import 'dotenv/config';
 
 import Service from '@modules/sales/infra/typeorm/entities/Service';
 
-import faker from 'faker';
-
 import app from '@shared/infra/config/app';
 import { Connection, createConnection } from 'typeorm';
 import config from '@shared/infra/typeorm/ormconfig';
 
+import ServiceClass from './service-class';
+
+const serviceClass = new ServiceClass();
+
 let connection: Connection;
 
-const name = faker.name.findName(),
-  value = faker.random.number();
-
-const body = {
-    name,
-    value
-  },
-  commonResponse = {
-    service_id: expect.anything(),
-    name,
-    value: expect.anything(),
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  listQuery = {
-    limit: faker.random.number(),
-    offset: 1
-  },
-  updateBody = {
-    name,
-    value
-  },
-  updateResponse = {
-    service_id: expect.anything(),
-    name,
-    value: expect.anything(),
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: null
-  },
-  deleteResponse = {
-    service_id: expect.anything(),
-    name,
-    value: expect.anything(),
-    created_at: expect.anything(),
-    updated_at: expect.anything(),
-    deleted_at: expect.anything()
-  };
 const createEndPoint = '/services/signup',
   listEndPoint = '/services/';
 let commonEndPoint = '/services/';
@@ -65,13 +28,15 @@ describe('POST/GET/PUT/DELETE /service/', function () {
     request(app)
       .post(createEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(body)
+      .send(serviceClass.createRequest)
       .expect('Content-Type', /json/)
       .expect(Service)
       .expect(201)
       .expect((res) => {
         commonEndPoint += res.body.service_id;
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(serviceClass.createResponse)
+        );
       })
       .end(done);
   });
@@ -80,7 +45,7 @@ describe('POST/GET/PUT/DELETE /service/', function () {
     request(app)
       .get(listEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .query(listQuery)
+      .query(serviceClass.getListSet)
       .expect('Content-Type', /json/)
       .expect(Service)
       .expect(200)
@@ -108,7 +73,34 @@ describe('POST/GET/PUT/DELETE /service/', function () {
       .expect(Service)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(commonResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(serviceClass.getResponse)
+        );
+      })
+      .end(done);
+  });
+
+  it('Should list services and return [{service}] with users.', function (done) {
+    request(app)
+      .get(listEndPoint + '/list/users')
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .query(serviceClass.getListSet)
+      .expect('Content-Type', /json/)
+      .expect(Service)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('service_id');
+          expect(firstElement).toHaveProperty('name');
+          expect(firstElement).toHaveProperty('value');
+          expect(firstElement).toHaveProperty('users');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+          expect(firstElement).toHaveProperty('deleted_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
       })
       .end(done);
   });
@@ -117,12 +109,14 @@ describe('POST/GET/PUT/DELETE /service/', function () {
     request(app)
       .put(commonEndPoint)
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(updateBody)
+      .send(serviceClass.updateRequest)
       .expect('Content-Type', /json/)
       .expect(Service)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(serviceClass.updateResponse)
+        );
       })
       .end(done);
   });
@@ -135,7 +129,9 @@ describe('POST/GET/PUT/DELETE /service/', function () {
       .expect(Service)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(serviceClass.deleteResponse)
+        );
       })
       .end(done);
   });
