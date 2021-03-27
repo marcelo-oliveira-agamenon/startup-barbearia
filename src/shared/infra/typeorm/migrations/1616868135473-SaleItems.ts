@@ -32,15 +32,7 @@ export class SaleItems1616868135473 implements MigrationInterface {
     await queryRunner.query(
       `COMMENT ON COLUMN "schedule"."created_at" IS NULL`
     );
-    await queryRunner.query(`COMMENT ON COLUMN "stock"."created_at" IS NULL`);
-    await queryRunner.query(`COMMENT ON COLUMN "sale"."created_at" IS NULL`);
-    await queryRunner.query(`COMMENT ON COLUMN "user"."created_at" IS NULL`);
-    await queryRunner.query(`COMMENT ON COLUMN "service"."created_at" IS NULL`);
-    await queryRunner.query(`COMMENT ON COLUMN "client"."created_at" IS NULL`);
-    await queryRunner.query(`COMMENT ON COLUMN "product"."created_at" IS NULL`);
-    await queryRunner.query(
-      `COMMENT ON COLUMN "payment_method"."created_at" IS NULL`
-    );
+
     await queryRunner.query(`DROP TABLE "sale_items"`);
   }
 }
