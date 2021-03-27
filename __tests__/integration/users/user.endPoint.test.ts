@@ -69,6 +69,36 @@ describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
       })
       .end(done);
   });
+
+  it('Should list users with services and return [{user}].', function (done) {
+    request(app)
+      .get(listEndPoint + 'list/services')
+      .set('Authorization', TOKEN)
+      .query(userClass.listRequest)
+      .expect('Content-Type', /json/)
+      .expect(User)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('user_id');
+          expect(firstElement).toHaveProperty('name');
+          expect(firstElement).toHaveProperty('user_type');
+          expect(firstElement).toHaveProperty('phone');
+          expect(firstElement).toHaveProperty('cpf');
+          expect(firstElement).toHaveProperty('email');
+          expect(firstElement).toHaveProperty('is_active');
+          expect(firstElement).toHaveProperty('services');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+          expect(firstElement).toHaveProperty('deleted_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
+
   it('Should get a user and return {user}.', function (done) {
     request(app)
       .get(commonEndPoint)
