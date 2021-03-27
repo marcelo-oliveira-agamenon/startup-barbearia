@@ -1,21 +1,14 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
-import {
-  CreateSaleService,
-  GetSaleService,
-  ListSalesService,
-  DeleteSaleService,
-  UpdateSaleService
-} from '@modules/sales/services/sale';
+import { CreateSaleItemsService } from '@modules/sales/services/saleItems';
 
 export default class SaleController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
+    const createSaleItems = container.resolve(CreateSaleItemsService);
+    const saleItems = await createSaleItems.execute(data);
 
-    // const createSale = container.resolve(CreateSaleService);
-    // const sale = await createSale.execute(data);
-
-    return response.status(201).json({});
+    return response.status(201).json(saleItems);
   }
 }

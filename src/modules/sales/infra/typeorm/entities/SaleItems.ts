@@ -1,5 +1,4 @@
 import {
-  Check,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -12,12 +11,10 @@ import {
 
 import Service from './Service';
 import Product from './Product';
+import Sale from './Sale';
 
 @Entity('sale_items')
-@Check(
-  `CASE WHEN "product_id" <> NULL THEN "quantity" <> NULL AND "service_id" = NULL WHEN "quantity" <> NULL THEN "product_id" <> NULL AND "service_id" = NULL WHEN "service_id" <> NULL THEN "product_id" = NULL AND "quantity" = NULL END`
-)
-export default class Sale {
+export default class SaleItems {
   @PrimaryGeneratedColumn('uuid')
   sale_items_id: string;
 
