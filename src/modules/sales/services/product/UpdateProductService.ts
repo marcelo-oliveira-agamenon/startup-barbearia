@@ -22,9 +22,9 @@ export class UpdateProductService {
     const productExists = await this.productRepository.findOne(product_id);
     if (!productExists) throw new AppError('Product does not exist!');
 
-    const productEntity = Object.assign(productExists, data);
-
-    const product = await this.productRepository.update(productEntity);
+    const product = await this.productRepository.update(
+      Object.assign({}, productExists, data)
+    );
 
     return product;
   }

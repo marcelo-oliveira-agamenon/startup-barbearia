@@ -34,8 +34,9 @@ export class UpdateUserService {
       }
     }
     delete data.confirmPassword;
-    const userEntity = Object.assign(userExists, data);
-    const user = await this.userRepository.update(userEntity);
+    const user = await this.userRepository.update(
+      Object.assign(userExists, data)
+    );
 
     return user;
   }

@@ -19,7 +19,7 @@ export class UpdateSaleService {
     if (!saleExists) throw new AppError('Sale does not exist!');
 
     const sale = await this.saleRepository.update(
-      Object.assign(saleExists, data)
+      Object.assign({}, saleExists, data)
     );
 
     return sale;
