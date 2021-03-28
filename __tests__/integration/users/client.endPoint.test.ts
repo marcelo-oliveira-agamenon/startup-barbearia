@@ -1,14 +1,11 @@
 import request from 'supertest';
 import Client from '@modules/users/infra/typeorm/entities/Client';
 import 'dotenv/config';
-import ClientClass from '../users/client-class';
+import { makeClientSut } from '../factories';
 import app from '@shared/infra/config/app';
-import { Connection, createConnection } from 'typeorm';
-import config from '@shared/infra/typeorm/ormconfig';
+import connection from '../config/connection';
 
-let connection: Connection;
-
-const clientClass = new ClientClass();
+const clientClass = makeClientSut();
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
@@ -18,8 +15,9 @@ let commonEndPoint = '/clients/';
 
 describe('POST/GET/PUT/DELETE /clients/signup', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
+    await connection.create();
   });
+
   afterAll(async () => {
     await connection.close();
   });
