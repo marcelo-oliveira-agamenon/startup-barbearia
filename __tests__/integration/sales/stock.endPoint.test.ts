@@ -1,39 +1,29 @@
 import 'reflect-metadata';
-import 'shared/container';
 import 'dotenv/config';
 
-import config from '@shared/infra/typeorm/ormconfig';
 import request from 'supertest';
-
-import { container } from 'tsyringe';
-import { Connection, createConnection } from 'typeorm';
-
-import ProductClass from './product-class';
-import { CreateProductService } from '@modules/sales/services/product';
-import StockClass from './stock-class';
-import Stock from '@modules/sales/infra/typeorm/entities/Stock';
 import app from '@shared/infra/config/app';
+import connection from '../config/connection';
+
+import Stock from '@modules/sales/infra/typeorm/entities/Stock';
+import StockClass from '../factories/stock-class';
+import { makeStockSut } from '../factories';
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
-let connection: Connection;
 
 const createEndPoint = '/stocks/signup',
   listEndPoint = '/stocks/';
 let commonEndPoint = '/stocks/';
 let updateEndPoint = '/stocks/';
 
-const productClass = new ProductClass();
-const stockClass = new StockClass();
+let stockClass: StockClass;
 
 describe('POST/GET/DELETE /stocks/', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
-
-    const createProduct = container.resolve(CreateProductService);
-
-    const product = await createProduct.execute(productClass);
-    if (product) stockClass.product_id = product.product_id;
+    await connection.create();
+    stockClass = await makeStockSut();
   });
+
   afterAll(async () => {
     await connection.close();
   });

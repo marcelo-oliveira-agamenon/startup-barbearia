@@ -18,7 +18,6 @@ export interface IDeleteClientDTO {
 
 export interface IGetClientDTO {
   client_id: string;
-
 }
 
 export interface IListClientsDTO {

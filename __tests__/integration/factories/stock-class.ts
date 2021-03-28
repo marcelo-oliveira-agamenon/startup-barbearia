@@ -15,15 +15,15 @@ class StockClass {
   get createRequest() {
     return {
       quantity: this.quantity,
-      product_id: this.product_id,
+      product_id: this.product_id
     };
   }
 
   get createResponse() {
     const stock_id = expect.anything(),
-    product_id = expect.anything(),
-    quantity = expect.anything(),
-    created_at = expect.anything()
+      product_id = expect.anything(),
+      quantity = expect.anything(),
+      created_at = expect.anything();
 
     return {
       stock_id,
@@ -33,7 +33,7 @@ class StockClass {
     };
   }
 
-    get getResponse() {
+  get getResponse() {
     const stock_id = expect.anything(),
       product_id = expect.anything(),
       created_at = expect.anything(),
@@ -47,20 +47,20 @@ class StockClass {
     };
   }
 
-    get listRequest() {
+  get listRequest() {
     return { limit: this.limit, offset: this.offset };
   }
 
   get updateRequest() {
     return {
       stock_id: this.stock_id,
-      quantity: this.quantity,
+      quantity: this.quantity
     };
   }
   get updateResponse() {
     const stock_id = expect.anything(),
       created_at = expect.anything(),
-      product_id =  expect.anything(),
+      product_id = expect.anything(),
       quantity = expect.anything();
 
     return {

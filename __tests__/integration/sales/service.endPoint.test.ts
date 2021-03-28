@@ -1,17 +1,11 @@
 import request from 'supertest';
 import 'dotenv/config';
-
 import Service from '@modules/sales/infra/typeorm/entities/Service';
-
 import app from '@shared/infra/config/app';
-import { Connection, createConnection } from 'typeorm';
-import config from '@shared/infra/typeorm/ormconfig';
+import connection from '../config/connection';
 
-import ServiceClass from './service-class';
-
-const serviceClass = new ServiceClass();
-
-let connection: Connection;
+import { makeServiceSut } from '../factories';
+const serviceClass = makeServiceSut();
 
 const createEndPoint = '/services/signup',
   listEndPoint = '/services/';
@@ -19,11 +13,13 @@ let commonEndPoint = '/services/';
 
 describe('POST/GET/PUT/DELETE /service/', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
+    await connection.create();
   });
+
   afterAll(async () => {
     await connection.close();
   });
+
   it('Should create a service with all input fields and return {service}.', function (done) {
     request(app)
       .post(createEndPoint)

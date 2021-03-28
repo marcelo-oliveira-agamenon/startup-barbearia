@@ -10,6 +10,7 @@ import paymentMethodRouter from '@modules/sales/infra/http/routes/paymentMethod.
 import saleRouter from '@modules/sales/infra/http/routes/sale.routes';
 import stockRouter from '@modules/sales/infra/http/routes/stock.routes';
 import paymentMovementRouter from '@modules/sales/infra/http/routes/paymentMovement.routes';
+import saleItemsrouter from '@modules/sales/infra/http/routes/saleItems.routes';
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use('/sales', saleRouter);
 router.use('/stocks', stockRouter);
 router.use('/schedules', scheduleRouter);
 router.use('/payment-movements', paymentMovementRouter);
+router.use('/sale-items', saleItemsrouter);
 
 export default router;

@@ -1,15 +1,13 @@
-import request from 'supertest';
 import 'dotenv/config';
-
+import 'reflect-metadata';
+import request from 'supertest';
+import { makeUserSut } from '../factories';
 import { User } from '@modules/users/infra/typeorm/entities/User';
-import UserClass from './user-class';
+
 import app from '@shared/infra/config/app';
-import { Connection, createConnection } from 'typeorm';
-import config from '@shared/infra/typeorm/ormconfig';
+import connection from '../config/connection';
 
-let connection: Connection;
-
-const userClass = new UserClass();
+const userClass = makeUserSut();
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
@@ -20,8 +18,9 @@ let commonEndPoint = '/users/';
 
 describe('POST/GET/PUT/LOGIN/DELETE /users/', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
+    await connection.create();
   });
+
   afterAll(async () => {
     await connection.close();
   });

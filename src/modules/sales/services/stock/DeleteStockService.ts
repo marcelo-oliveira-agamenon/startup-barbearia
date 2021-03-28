@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
-import IStockRepository from "@modules/sales/repositories/IStockRepository";
+import IStockRepository from '@modules/sales/repositories/IStockRepository';
 import Stock from '@modules/sales/infra/typeorm/entities/Stock';
 import AppError from '@shared/errors/AppError';
 import { IDeleteStockDTO } from '@modules/sales/dtos/IStockDTO';

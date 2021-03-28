@@ -1,28 +1,11 @@
 import 'reflect-metadata';
-import 'shared/container';
 import 'dotenv/config';
-
-import { container } from 'tsyringe';
-import { Connection, createConnection } from 'typeorm';
-
-import config from '@shared/infra/typeorm/ormconfig';
+import connection from '../config/connection';
 import request from 'supertest';
-
-import SaleClass from './sale-class';
-import UserClass from '../users/user-class';
-import ClientClass from '../users/client-class';
-
-import { CreateUserService } from '@modules/users/services/user';
-import { CreateClientService } from '@modules/users/services/client';
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
-
 import app from '@shared/infra/config/app';
-
-let connection: Connection;
-
-const saleClass = new SaleClass();
-const userClass = new UserClass();
-const clientClass = new ClientClass();
+import SaleClass from '../factories/sale-class';
+import { makeSaleSut } from '../factories';
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
@@ -30,21 +13,18 @@ const createEndPoint = '/sales/signup',
   listEndPoint = '/sales/';
 let commonEndPoint = '/sales/';
 
+let saleClass: SaleClass;
+
 describe('POST/GET/DELETE /sales/', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
-
-    const createUser = container.resolve(CreateUserService);
-    const createClient = container.resolve(CreateClientService);
-
-    const user = await createUser.execute(userClass);
-    const client = await createClient.execute(clientClass);
-    if (user) saleClass.user_id = user.user_id;
-    if (client) saleClass.client_id = client.client_id;
+    await connection.create();
+    saleClass = await makeSaleSut();
   });
+
   afterAll(async () => {
     await connection.close();
   });
+
   it('Should create a sale with all input fields and return {sale}.', function (done) {
     request(app)
       .post(createEndPoint)

@@ -1,22 +1,16 @@
 import 'reflect-metadata';
 import 'shared/container';
 import 'dotenv/config';
-
-import config from '@shared/infra/typeorm/ormconfig';
-
-import faker from 'faker';
-import Product from '@modules/sales/infra/typeorm/entities/Product';
-import ProductClass from './product-class';
-
-import { container } from 'tsyringe';
-import { Connection, createConnection } from 'typeorm';
 import app from '@shared/infra/config/app';
 import request from 'supertest';
+import connection from '../config/connection';
 
-const productClass = new ProductClass();
+import Product from '@modules/sales/infra/typeorm/entities/Product';
+import { makeProductSut } from '../factories';
+
+const productClass = makeProductSut();
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
-let connection: Connection;
 
 const createEndPoint = '/products/signup',
   listEndPoint = '/products/';
@@ -24,12 +18,12 @@ let commonEndPoint = '/products/';
 
 describe('POST/GET/PUT/DELETE /products', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
+    await connection.create();
   });
+
   afterAll(async () => {
     await connection.close();
   });
-
   it('Should create a product with all input fields and return {client}.', function (done) {
     request(app)
       .post(createEndPoint)
