@@ -69,54 +69,47 @@ class SaleItemsClass {
     };
   }
 
-  // get updateRequest() {
-  //   return {
-  //     user_id: this.user_id,
-  //     client_id: this.client_id,
-  //     discount: this.discount,
-  //     is_discount_fixed: this.is_discount_fixed
-  //   };
-  // }
-  // get updateResponse() {
-  //   const sale_id = expect.anything(),
-  //     created_at = expect.anything(),
-  //     updated_at = expect.anything(),
-  //     deleted_at = null,
-  //     discount = expect.anything(),
-  //     value = expect.anything();
+  get updateRequest() {
+    return {
+      product_id: this.product_id,
+      value: 90,
+      quantity: this.quantity,
+      sale_id: this.sale_id
+    };
+  }
 
-  //   return {
-  //     client_id: this.client_id,
-  //     user_id: this.user_id,
-  //     is_discount_fixed: this.is_discount_fixed,
-  //     value,
-  //     discount,
-  //     sale_id,
-  //     created_at,
-  //     updated_at,
-  //     deleted_at
-  //   };
-  // }
+  get updateResponse() {
+    return {
+      sale_id: expect.anything(),
+      service_id: null,
+      product_id: this.product_id,
+      value: expect.anything(),
+      quantity: expect.anything(),
+      created_at: expect.anything(),
+      updated_at: expect.anything(),
+      deleted_at: null
+    };
+  }
 
-  // get deleteResponse() {
-  //   const sale_id = expect.anything(),
-  //     created_at = expect.anything(),
-  //     updated_at = expect.anything(),
-  //     deleted_at = expect.anything(),
-  //     discount = expect.anything(),
-  //     value = expect.anything();
+  get deleteResponse() {
+    const sale_id = expect.anything(),
+      created_at = expect.anything(),
+      updated_at = expect.anything(),
+      deleted_at = expect.anything(),
+      discount = expect.anything(),
+      value = expect.anything();
 
-  //   return {
-  //     client_id: this.client_id,
-  //     user_id: this.user_id,
-  //     is_discount_fixed: this.is_discount_fixed,
-  //     value,
-  //     discount,
-  //     sale_id,
-  //     created_at,
-  //     updated_at,
-  //     deleted_at
-  //   };
-  //}
+    return {
+      client_id: this.client_id,
+      user_id: this.user_id,
+      is_discount_fixed: this.is_discount_fixed,
+      value,
+      discount,
+      sale_id,
+      created_at,
+      updated_at,
+      deleted_at
+    };
+  }
 }
 export default SaleItemsClass;

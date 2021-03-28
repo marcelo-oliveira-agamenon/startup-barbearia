@@ -111,7 +111,7 @@ describe('POST/GET/DELETE /sale-items/', function () {
     request(app)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
-      .query(saleClass.listRequest)
+      .query(saleItemsClass.listRequest)
       .expect('Content-Type', /json/)
       .expect(SaleItems)
       .expect(200)
@@ -133,21 +133,21 @@ describe('POST/GET/DELETE /sale-items/', function () {
       .end(done);
   });
 
-  // it('Should update a sale and return {sale}.', function (done) {
-  //   request(app)
-  //     .put(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .send(saleClass.updateRequest)
-  //     .expect('Content-Type', /json/)
-  //     .expect(Sale)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(saleClass.updateResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should update a sale items and return {saleItems}.', function (done) {
+    request(app)
+      .put(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .send(saleItemsClass.updateRequest)
+      .expect('Content-Type', /json/)
+      .expect(SaleItems)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleItemsClass.updateResponse)
+        );
+      })
+      .end(done);
+  });
 
   // it('Should delete a sale softly and return {sale}.', function (done) {
   //   request(app)
