@@ -17,9 +17,10 @@ export class UpdateSaleService {
   public async execute(sale_id: string, data: IUpdateSaleDTO): Promise<Sale> {
     const saleExists = await this.saleRepository.findOne(sale_id);
     if (!saleExists) throw new AppError('Sale does not exist!');
-    const saleEntity = Object.assign(saleExists, data);
 
-    const sale = await this.saleRepository.update(saleEntity);
+    const sale = await this.saleRepository.update(
+      Object.assign(saleExists, data)
+    );
 
     return sale;
   }
