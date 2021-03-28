@@ -7,16 +7,16 @@ import request from 'supertest';
 import { container } from 'tsyringe';
 import { Connection, createConnection } from 'typeorm';
 import app from '@shared/infra/config/app';
-import PaymentMovementClass from './paymentMovement-class';
-import SaleClass from './sale-class';
-import PaymentMethodClass from './paymentMethod-class';
+import PaymentMovementClass from '../factories/paymentMovement-class';
+import PaymentMethodClass from '../factories/paymentMethod-class';
 import { CreatePaymentMethodService } from '@modules/sales/services/paymentMethod';
 import { CreateSaleService } from '@modules/sales/services/sale';
 import { CreateClientService } from '@modules/users/services/client';
-import ClientClass from '../users/client-class';
 import { CreateUserService } from '@modules/users/services/user';
-import UserClass from '../users/user-class';
-import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
+import SaleClass from '../factories/sale-class';
+import ClientClass from '../factories/client-class';
+import UserClass from '../factories/user-class';
+import PaymentMovement from '@modules/sales/infra/typeorm/entities/PaymentMovement';
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 let connection: Connection;
@@ -32,7 +32,9 @@ const saleClass = new SaleClass();
 const clientClass = new ClientClass();
 const userClass = new UserClass();
 
-const createEndPoint = '/payment-movements/signup';
+const createEndPoint = '/payment-movements/signup',
+  listEndPoint = '/payment-movements/';
+
 let commonEndPoint = '/payment-movements/';
 
 describe('POST/GET/DELETE /sales/', function () {
@@ -67,12 +69,82 @@ describe('POST/GET/DELETE /sales/', function () {
       .set('Authorization', TOKEN)
       .send(paymentMovementClass.createRequest)
       .expect('Content-Type', /json/)
-      .expect(PaymentMethod)
+      .expect(PaymentMovement)
       .expect(201)
       .expect((res) => {
-        commonEndPoint += res.body.sale_id;
+        commonEndPoint += res.body.payment_movement_id;
         expect(res.body).toEqual(
           expect.objectContaining(paymentMovementClass.createResponse)
+        );
+      })
+      .end(done);
+  });
+
+  it('Should get a payment movement and return {payment movement}.', function (done) {
+    request(app)
+      .get(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(PaymentMovement)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(paymentMovementClass.getResponse)
+        );
+      })
+      .end(done);
+  });
+
+  it('Should list payment movement and return [{payment movement}].', function (done) {
+    request(app)
+      .get(listEndPoint)
+      .set('Authorization', TOKEN)
+      .query(paymentMovementClass.listRequest)
+      .expect('Content-Type', /json/)
+      .expect(PaymentMovement)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('payment_movement_id');
+          expect(firstElement).toHaveProperty('sale_id');
+          expect(firstElement).toHaveProperty('payment_method_id');
+          expect(firstElement).toHaveProperty('value');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('deleted_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
+
+  it('Should update a payment movement and return {payment movement}.', function (done) {
+    request(app)
+      .put(commonEndPoint)
+      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .send(paymentMovementClass.updateRequest)
+      .expect('Content-Type', /json/)
+      .expect(PaymentMovement)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(paymentMovementClass.updateResponse)
+        );
+      })
+      .end(done);
+  });
+
+  it('Should delete a payment movement and return {payment movement}.', function (done) {
+    request(app)
+      .delete(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(PaymentMovement)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(paymentMovementClass.deleteResponse)
         );
       })
       .end(done);

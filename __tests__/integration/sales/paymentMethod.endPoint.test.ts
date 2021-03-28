@@ -9,7 +9,7 @@ import app from '@shared/infra/config/app';
 
 import { Connection, createConnection } from 'typeorm';
 import config from '@shared/infra/typeorm/ormconfig';
-import PaymentMethodClass from './paymentMethod-class';
+import PaymentMethodClass from '../factories/paymentMethod-class';
 
 let connection: Connection;
 
