@@ -1,29 +1,17 @@
 import request from 'supertest';
 import 'reflect-metadata';
-import 'shared/container';
 import 'dotenv/config';
 
-import { container } from 'tsyringe';
-import { Connection, createConnection } from 'typeorm';
-import config from '@shared/infra/typeorm/ormconfig';
+import connection from '../config/connection';
 import app from '@shared/infra/config/app';
 
-import { CreateUserService } from '@modules/users/services/user/CreateUserService';
-import { CreateClientService } from '@modules/users/services/client/CreateClientService';
-import { CreateServiceService } from '@modules/sales/services/service/CreateServiceService';
 import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
-import ScheduleClass from './schedule-class';
-import UserClass from '../users/user-class';
-import ClientClass from '../users/client-class';
-import ServiceClass from '../sales/service-class';
+import { makeScheduleSut } from '../factories';
+import ScheduleClass from '../factories/schedule-class';
 
-const scheduleClass = new ScheduleClass();
-const userClass = new UserClass();
-const clientClass = new ClientClass();
-const serviceClass = new ServiceClass();
+let scheduleClass: ScheduleClass;
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
-let connection: Connection;
 
 const createEndPoint = '/schedules/register',
   listEndPoint = '/schedules/',
@@ -34,23 +22,14 @@ let commonEndPointUser = '/schedules/user/';
 
 describe('POST/GET/PUT/DELETE /schedules/', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
-
-    const createUser = container.resolve(CreateUserService);
-    const createClient = container.resolve(CreateClientService);
-    const createService = container.resolve(CreateServiceService);
-
-    const user = await createUser.execute(userClass);
-    const client = await createClient.execute(clientClass);
-    const service = await createService.execute(serviceClass);
-
-    if (user) scheduleClass.user_id = user.user_id;
-    if (client) scheduleClass.client_id = client.client_id;
-    if (service) scheduleClass.service_id = service.service_id;
+    await connection.create();
+    scheduleClass = await makeScheduleSut();
   });
+
   afterAll(async () => {
     await connection.close();
   });
+
   it('Should create a schedule with all input fields and return {schedule}.', function (done) {
     request(app)
       .post(createEndPoint)

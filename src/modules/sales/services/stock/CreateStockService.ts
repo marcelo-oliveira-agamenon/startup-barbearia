@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
-import IStockRepository from "@modules/sales/repositories/IStockRepository";
+import IStockRepository from '@modules/sales/repositories/IStockRepository';
 import { ICreateStockDTO } from '@modules/sales/dtos/IStockDTO';
 import Stock from '@modules/sales/infra/typeorm/entities/Stock';
 import AppError from '@shared/errors/AppError';
@@ -13,7 +13,9 @@ export class CreateStockService {
   ) {}
 
   public async execute(data: ICreateStockDTO): Promise<Stock | undefined> {
-    const stockExists = await this.stockRepository.findByProductId(data.product_id);
+    const stockExists = await this.stockRepository.findByProductId(
+      data.product_id
+    );
     if (stockExists) {
       throw new AppError('This name already belongs to another stock!');
     }

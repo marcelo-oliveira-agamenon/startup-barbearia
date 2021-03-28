@@ -1,34 +1,16 @@
 import 'reflect-metadata';
 import 'shared/container';
 import 'dotenv/config';
-import { container } from 'tsyringe';
-import { Connection, createConnection } from 'typeorm';
 
-import config from '@shared/infra/typeorm/ormconfig';
 import request from 'supertest';
-
-import SaleClass from './sale-class';
-import ProductClass from './product-class';
-import ServiceClass from './service-class';
-import SaleItemsClass from './saleItems-class';
-
-import { CreateSaleService } from '@modules/sales/services/sale/CreateSaleService';
-import { CreateProductService } from '@modules/sales/services/product/CreateProductService';
-import { CreateServiceService } from '@modules/sales/services/service/CreateServiceService';
+import app from '@shared/infra/config/app';
+import connection from '../config/connection';
 
 import SaleItems from '@modules/sales/infra/typeorm/entities/SaleItems';
+import SaleItemsClass from '../factories/saleItems-class';
+import { makeSaleItemsSut } from '../factories';
 
-import app from '@shared/infra/config/app';
-import { CreateUserService } from '@modules/users/services/user/CreateUserService';
-import UserClass from '../users/user-class';
-
-let connection: Connection;
-
-const saleClass = new SaleClass();
-const userClass = new UserClass();
-const productClass = new ProductClass();
-const serviceClass = new ServiceClass();
-const saleItemsClass = new SaleItemsClass();
+let saleItemsClass: SaleItemsClass;
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
@@ -38,25 +20,10 @@ let commonEndPoint = '/sale-items/';
 
 describe('POST/GET/DELETE /sale-items/', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
-
-    const createProduct = container.resolve(CreateProductService);
-    const createService = container.resolve(CreateServiceService);
-
-    const product = await createProduct.execute(productClass);
-    const service = await createService.execute(serviceClass);
-    const createUser = container.resolve(CreateUserService);
-    const user = await createUser.execute(userClass);
-    if (user) {
-      const createSale = container.resolve(CreateSaleService);
-      saleClass.user_id = user.user_id;
-      const sale = await createSale.execute(saleClass);
-      if (sale) saleItemsClass.sale_id = sale.sale_id;
-    }
-
-    if (product) saleItemsClass.product_id = product.product_id;
-    if (service) saleItemsClass.service_id = service.service_id;
+    await connection.create();
+    saleItemsClass = await makeSaleItemsSut();
   });
+
   afterAll(async () => {
     await connection.close();
   });
