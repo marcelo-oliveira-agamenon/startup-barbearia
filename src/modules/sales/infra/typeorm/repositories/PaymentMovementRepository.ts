@@ -1,4 +1,8 @@
-import { ICreatePaymentMovementDTO } from '@modules/sales/dtos/IPaymentMovementDTO';
+import {
+  ICreatePaymentMovementDTO,
+  IDeletePaymentMovementDTO,
+  IListPaymentMovementsDTO
+} from '@modules/sales/dtos/IPaymentMovementDTO';
 import IPaymentMovementRepository from '@modules/sales/repositories/IPaymentMovementRepository';
 import { getRepository, Repository } from 'typeorm';
 import PaymentMovement from '../entities/PaymentMovement';
@@ -19,16 +23,46 @@ export default class PaymenthMovementRepository
 
     return paymentMethod;
   }
-  // update(entity: PaymentMethod): Promise<PaymentMethod> {
-  //   throw new Error('Method not implemented.');
-  // }
-  // deleteById(payment_method_id: number): Promise<number | null | undefined> {
-  //   throw new Error('Method not implemented.');
-  // }
-  // findAll(query: IListPaymentMethodsDTO): Promise<PaymentMethod[]> {
-  //   throw new Error('Method not implemented.');
-  // }
-  // findById(payment_method_id: number): Promise<PaymentMethod | undefined> {
-  //   throw new Error('Method not implemented.');
-  // }
+
+  public async findOne(
+    payment_movement_id: string
+  ): Promise<PaymentMovement | undefined> {
+    const paymentMovement = await this.ormRepository.findOne(
+      payment_movement_id,
+      { loadRelationIds: true }
+    );
+
+    return paymentMovement;
+  }
+
+  public async update(entity: PaymentMovement): Promise<PaymentMovement> {
+    const paymentMovement = await this.ormRepository.save(entity);
+
+    return paymentMovement;
+  }
+
+  public async deleteById({
+    payment_movement_id
+  }: IDeletePaymentMovementDTO): Promise<number | null | undefined> {
+    const paymentMovement = await this.ormRepository.delete(
+      payment_movement_id
+    );
+    const isAffected = paymentMovement.affected;
+
+    return isAffected;
+  }
+
+  findAll(query: IListPaymentMovementsDTO): Promise<PaymentMovement[]> {
+    const { limit, offset } = query;
+    const take = limit ? limit : 0,
+      skip = offset ? offset : 0;
+
+    const paymentMovements = this.ormRepository.find({
+      take,
+      skip,
+      loadRelationIds: true
+    });
+
+    return paymentMovements;
+  }
 }
