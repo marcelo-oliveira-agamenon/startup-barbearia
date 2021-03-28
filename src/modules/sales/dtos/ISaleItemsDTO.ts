@@ -16,7 +16,11 @@ export interface IListSalesItemsDTO {
 export interface IUpdateSaleItemsDTO {
   sale_id?: string;
   product_id?: string;
-  service_id?: string;
+  service_id?: string | null;
   quantity?: number;
   value?: number;
+}
+
+export interface IDeleteSaleItemDTO {
+  sale_items_id: string;
 }

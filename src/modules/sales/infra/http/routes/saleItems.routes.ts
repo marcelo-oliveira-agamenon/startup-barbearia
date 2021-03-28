@@ -59,6 +59,9 @@ saleItemsRouter.get(
 saleItemsRouter.put(
   '/:sale_items_id',
   celebrate({
+    [Segments.PARAMS]: {
+      sale_items_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+    },
     [Segments.BODY]: Joi.object()
       .keys({
         sale_id: Joi.string().uuid({ version: 'uuidv4' }),
@@ -67,31 +70,29 @@ saleItemsRouter.put(
           .uuid({ version: 'uuidv4' })
           .when('product_id', {
             is: Joi.exist(),
-            then: Joi.forbidden()
+            then: Joi.valid(null)
           })
           .when('quantity', {
             is: Joi.exist(),
-            then: Joi.forbidden()
-          }),
+            then: Joi.valid(null)
+          })
+          .allow(null),
         quantity: Joi.number().integer().positive(),
         value: Joi.number().positive()
       })
-      .min(1),
-    [Segments.PARAMS]: {
-      sale_items_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-    }
+      .min(1)
   }),
   saleItemsController.update
 );
 
-// saleItemsRouter.delete(
-//   '/:sale_id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-//     }
-//   }),
-//   saleItemsController.delete
-// );
+saleItemsRouter.delete(
+  '/:sale_items_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      sale_items_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+    }
+  }),
+  saleItemsController.delete
+);
 
 export default saleItemsRouter;

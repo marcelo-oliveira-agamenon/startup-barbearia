@@ -20,6 +20,7 @@ export class UpdateSaleItemsService {
     const saleItemsExists = await this.saleItemsRepository.findOne(
       sale_items_id
     );
+
     if (!saleItemsExists) throw new AppError('Sale items does not exist!');
 
     const saleItems = await this.saleItemsRepository.update(

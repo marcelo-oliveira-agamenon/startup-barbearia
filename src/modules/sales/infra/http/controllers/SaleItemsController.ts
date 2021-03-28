@@ -5,7 +5,8 @@ import {
   CreateSaleItemsService,
   ListSalesItemsService,
   GetSaleItemsService,
-  UpdateSaleItemsService
+  UpdateSaleItemsService,
+  DeleteSaleItemsService
 } from '@modules/sales/services/saleItems';
 
 export default class SaleController {
@@ -36,12 +37,21 @@ export default class SaleController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { sale_items_id } = request.body;
+    const { sale_items_id } = request.params;
     const data = request.body;
 
     const updateSaleItems = container.resolve(UpdateSaleItemsService);
     const sale = await updateSaleItems.execute(sale_items_id, data);
 
     return response.status(200).json(sale);
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { sale_items_id } = request.params;
+
+    const deleteSaleItems = container.resolve(DeleteSaleItemsService);
+    const saleItems = await deleteSaleItems.execute({ sale_items_id });
+
+    return response.status(200).json(saleItems);
   }
 }
