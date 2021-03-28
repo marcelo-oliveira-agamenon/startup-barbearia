@@ -45,16 +45,16 @@ saleItemsRouter.post(
 //   saleItemsController.get
 // );
 
-// saleItemsRouter.get(
-//   '/',
-//   celebrate({
-//     [Segments.QUERY]: {
-//       limit: Joi.number().integer().positive(),
-//       offset: Joi.number().integer().positive()
-//     }
-//   }),
-//   saleItemsController.list
-// );
+saleItemsRouter.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number().integer().positive(),
+      offset: Joi.number().integer().positive()
+    }
+  }),
+  saleItemsController.list
+);
 
 // saleItemsRouter.put(
 //   '/:sale_id',
