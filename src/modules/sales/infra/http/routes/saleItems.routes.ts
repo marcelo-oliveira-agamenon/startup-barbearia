@@ -56,23 +56,33 @@ saleItemsRouter.get(
   saleItemsController.list
 );
 
-// saleItemsRouter.put(
-//   '/:sale_id',
-//   celebrate({
-//     [Segments.BODY]: Joi.object()
-//       .keys({
-//         client_id: Joi.string().uuid({ version: 'uuidv4' }),
-//         user_id: Joi.string().uuid({ version: 'uuidv4' }),
-//         discount: Joi.number().positive(),
-//         is_discount_fixed: Joi.boolean().when('discount', {
-//           is: Joi.exist(),
-//           then: Joi.required()
-//         })
-//       })
-//       .min(1)
-//   }),
-//   saleItemsController.update
-// );
+saleItemsRouter.put(
+  '/:sale_items_id',
+  celebrate({
+    [Segments.BODY]: Joi.object()
+      .keys({
+        sale_id: Joi.string().uuid({ version: 'uuidv4' }),
+        product_id: Joi.string().uuid({ version: 'uuidv4' }),
+        service_id: Joi.string()
+          .uuid({ version: 'uuidv4' })
+          .when('product_id', {
+            is: Joi.exist(),
+            then: Joi.forbidden()
+          })
+          .when('quantity', {
+            is: Joi.exist(),
+            then: Joi.forbidden()
+          }),
+        quantity: Joi.number().integer().positive(),
+        value: Joi.number().positive()
+      })
+      .min(1),
+    [Segments.PARAMS]: {
+      sale_items_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+    }
+  }),
+  saleItemsController.update
+);
 
 // saleItemsRouter.delete(
 //   '/:sale_id',

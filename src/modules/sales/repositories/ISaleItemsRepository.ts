@@ -6,7 +6,7 @@ import {
 
 export default interface ISaleItemsRepository {
   create(data: ICreateSaleItemsDTO): Promise<SaleItems>;
-  // update(productEntity: SaleItems): Promise<SaleItems>;
+  update(saleItemsEntity: SaleItems): Promise<SaleItems>;
   // delete({ product_id }: IDeleteProductDTO): Promise<number | undefined>;
   findOne(sale_items_id: string): Promise<SaleItems | undefined>;
   // findDeletedEntity(product_id: string): Promise<SaleItems | undefined>;

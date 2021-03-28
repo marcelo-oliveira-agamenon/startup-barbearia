@@ -43,4 +43,10 @@ export default class SaleItemsRepository implements ISaleItemsRepository {
 
     return saleItems;
   }
+
+  public async update(saleItemsEntity: SaleItems): Promise<SaleItems> {
+    const saleItems = await this.ormRepository.save(saleItemsEntity);
+
+    return saleItems;
+  }
 }

@@ -12,3 +12,11 @@ export interface IListSalesItemsDTO {
   limit?: number;
   offset?: number;
 }
+
+export interface IUpdateSaleItemsDTO {
+  sale_id?: string;
+  product_id?: string;
+  service_id?: string;
+  quantity?: number;
+  value?: number;
+}

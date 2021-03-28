@@ -4,7 +4,8 @@ import { Request, Response } from 'express';
 import {
   CreateSaleItemsService,
   ListSalesItemsService,
-  GetSaleItemsService
+  GetSaleItemsService,
+  UpdateSaleItemsService
 } from '@modules/sales/services/saleItems';
 
 export default class SaleController {
@@ -32,5 +33,15 @@ export default class SaleController {
     const salesItems = await listSalesItems.execute(query);
 
     return response.status(200).json(salesItems);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { sale_items_id } = request.body;
+    const data = request.body;
+
+    const updateSaleItems = container.resolve(UpdateSaleItemsService);
+    const sale = await updateSaleItems.execute(sale_items_id, data);
+
+    return response.status(200).json(sale);
   }
 }
