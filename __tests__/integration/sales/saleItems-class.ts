@@ -72,19 +72,21 @@ class SaleItemsClass {
   get updateRequest() {
     return {
       product_id: this.product_id,
+      service_id: null,
       value: 90,
-      quantity: this.quantity,
+      quantity: 10,
       sale_id: this.sale_id
     };
   }
 
   get updateResponse() {
     return {
-      sale_id: expect.anything(),
+      sale_items_id: expect.anything(),
+      sale_id: this.sale_id,
       service_id: null,
       product_id: this.product_id,
       value: expect.anything(),
-      quantity: expect.anything(),
+      quantity: 10,
       created_at: expect.anything(),
       updated_at: expect.anything(),
       deleted_at: null
@@ -92,23 +94,16 @@ class SaleItemsClass {
   }
 
   get deleteResponse() {
-    const sale_id = expect.anything(),
-      created_at = expect.anything(),
-      updated_at = expect.anything(),
-      deleted_at = expect.anything(),
-      discount = expect.anything(),
-      value = expect.anything();
-
     return {
-      client_id: this.client_id,
-      user_id: this.user_id,
-      is_discount_fixed: this.is_discount_fixed,
-      value,
-      discount,
-      sale_id,
-      created_at,
-      updated_at,
-      deleted_at
+      sale_items_id: expect.anything(),
+      sale_id: this.sale_id,
+      service_id: null,
+      product_id: this.product_id,
+      value: expect.anything(),
+      quantity: 10,
+      created_at: expect.anything(),
+      updated_at: expect.anything(),
+      deleted_at: expect.anything()
     };
   }
 }

@@ -149,18 +149,18 @@ describe('POST/GET/DELETE /sale-items/', function () {
       .end(done);
   });
 
-  // it('Should delete a sale softly and return {sale}.', function (done) {
-  //   request(app)
-  //     .delete(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .expect('Content-Type', /json/)
-  //     .expect(Sale)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(saleClass.deleteResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should delete a sale items softly and return {saleItems}.', function (done) {
+    request(app)
+      .delete(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(SaleItems)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleItemsClass.deleteResponse)
+        );
+      })
+      .end(done);
+  });
 });
