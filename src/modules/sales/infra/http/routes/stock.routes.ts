@@ -9,7 +9,7 @@ stockRouter.post(
   '/signup',
   celebrate({
     [Segments.BODY]: {
-      product_id: Joi.string().uuid().required(),
+      product_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
       quantity: Joi.number().integer().min(0)
     }
   }),
@@ -20,7 +20,7 @@ stockRouter.get(
   '/:product_id',
   celebrate({
     [Segments.PARAMS]: {
-      product_id: Joi.string().uuid().required()
+      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   stockController.get

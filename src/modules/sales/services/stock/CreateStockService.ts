@@ -4,6 +4,7 @@ import IStockRepository from '@modules/sales/repositories/IStockRepository';
 import { ICreateStockDTO } from '@modules/sales/dtos/IStockDTO';
 import Stock from '@modules/sales/infra/typeorm/entities/Stock';
 import AppError from '@shared/errors/AppError';
+import IProductRepository from '@modules/sales/repositories/IProductRepository';
 
 @injectable()
 export class CreateStockService {
@@ -17,7 +18,7 @@ export class CreateStockService {
       data.product_id
     );
     if (stockExists) {
-      throw new AppError('This name already belongs to another stock!');
+      throw new AppError('This product has a stock already!');
     }
     const stock = await this.stockRepository.create(data);
 

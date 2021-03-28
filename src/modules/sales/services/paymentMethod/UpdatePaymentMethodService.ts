@@ -25,12 +25,11 @@ export class UpdatePaymentMethodService {
     if (!paymentMethodExists)
       throw new AppError('This payment method does not exist!');
 
-    const paymentMethodToBeUpdated = Object.assign(paymentMethodExists, {
-      is_active,
-      name
-    });
     const paymentMethod = await this.serviceRepository.update(
-      paymentMethodToBeUpdated
+      Object.assign({}, paymentMethodExists, {
+        is_active,
+        name
+      })
     );
 
     return paymentMethod;

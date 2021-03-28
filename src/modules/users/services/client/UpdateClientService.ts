@@ -36,9 +36,10 @@ export class UpdateClientService {
           throw new AppError('This cpf already belongs to another client!');
       }
     }
-    const clientEntity = Object.assign(clientExists, data);
 
-    const client = await this.clientRepository.update(clientEntity);
+    const client = await this.clientRepository.update(
+      Object.assign(clientExists, data)
+    );
 
     return client;
   }
