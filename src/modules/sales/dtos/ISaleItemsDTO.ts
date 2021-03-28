@@ -5,7 +5,9 @@ export interface ICreateSaleItemsDTO {
   quantity?: number;
   value: number;
 }
-
+export interface IGetSaleItemsDTO {
+  sale_items_id: string;
+}
 export interface IListSalesItemsDTO {
   limit?: number;
   offset?: number;

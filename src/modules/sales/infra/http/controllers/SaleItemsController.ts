@@ -3,7 +3,8 @@ import { Request, Response } from 'express';
 
 import {
   CreateSaleItemsService,
-  ListSalesItemsService
+  ListSalesItemsService,
+  GetSaleItemsService
 } from '@modules/sales/services/saleItems';
 
 export default class SaleController {
@@ -13,6 +14,15 @@ export default class SaleController {
     const saleItems = await createSaleItems.execute(data);
 
     return response.status(201).json(saleItems);
+  }
+
+  public async get(request: Request, response: Response): Promise<Response> {
+    const { sale_items_id } = request.params;
+
+    const getSaleItems = container.resolve(GetSaleItemsService);
+    const saleItems = await getSaleItems.execute({ sale_items_id });
+
+    return response.status(200).json(saleItems);
   }
 
   public async list(request: Request, response: Response): Promise<Response> {

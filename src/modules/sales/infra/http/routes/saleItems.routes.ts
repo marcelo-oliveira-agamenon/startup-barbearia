@@ -35,15 +35,15 @@ saleItemsRouter.post(
   saleItemsController.create
 );
 
-// saleItemsRouter.get(
-//   '/:sale_id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-//     }
-//   }),
-//   saleItemsController.get
-// );
+saleItemsRouter.get(
+  '/:sale_items_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      sale_items_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+    }
+  }),
+  saleItemsController.get
+);
 
 saleItemsRouter.get(
   '/',

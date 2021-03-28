@@ -6,9 +6,9 @@ import {
 
 export default interface ISaleItemsRepository {
   create(data: ICreateSaleItemsDTO): Promise<SaleItems>;
-  // findOne(product_id: string): Promise<SaleItems | undefined>;
   // update(productEntity: SaleItems): Promise<SaleItems>;
   // delete({ product_id }: IDeleteProductDTO): Promise<number | undefined>;
+  findOne(sale_items_id: string): Promise<SaleItems | undefined>;
   // findDeletedEntity(product_id: string): Promise<SaleItems | undefined>;
   // findByName(name: string): Promise<SaleItems | undefined>;
   findAll(query: IListSalesItemsDTO): Promise<SaleItems[]>;

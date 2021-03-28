@@ -22,6 +22,14 @@ export default class SaleItemsRepository implements ISaleItemsRepository {
     return saleItems;
   }
 
+  public async findOne(sale_items_id: string): Promise<SaleItems | undefined> {
+    const saleItem = await this.ormRepository.findOne(sale_items_id, {
+      loadRelationIds: true
+    });
+
+    return saleItem;
+  }
+
   public async findAll(query: IListSalesItemsDTO): Promise<SaleItems[]> {
     const { limit, offset } = query;
     const take = limit ? limit : 0,
