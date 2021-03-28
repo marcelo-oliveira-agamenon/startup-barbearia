@@ -20,8 +20,12 @@ import IScheduleRepository from '@modules/schedules/repositories/IScheduleReposi
 
 import SaleRepository from '@modules/sales/infra/typeorm/repositories/SaleRepository';
 import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
+
 import IStockRepository from '@modules/sales/repositories/IStockRepository';
 import StockRepository from '@modules/sales/infra/typeorm/repositories/StockRepository';
+
+import ISaleItemsRepository from '@modules/sales/repositories/ISaleItemsRepository';
+import SaleItemsRepository from '@modules/sales/infra/typeorm/repositories/SaleItemsRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<IClientRepository>(
@@ -59,3 +63,8 @@ container.registerSingleton<IStockRepository>(
 );
 
 container.registerSingleton<ISaleRepository>('SaleRepository', SaleRepository);
+
+container.registerSingleton<ISaleItemsRepository>(
+  'SaleItemsRepository',
+  SaleItemsRepository
+);

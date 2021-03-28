@@ -9,6 +9,7 @@ import scheduleRouter from '@modules/schedules/infra/http/routes/schedule.routes
 import paymentMethodRouter from '@modules/sales/infra/http/routes/paymentMethod.routes';
 import saleRouter from '@modules/sales/infra/http/routes/sale.routes';
 import stockRouter from '@modules/sales/infra/http/routes/stock.routes';
+import saleItemsrouter from '@modules/sales/infra/http/routes/saleItems.routes';
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use('/payment-methods', paymentMethodRouter);
 router.use('/sales', saleRouter);
 router.use('/stocks', stockRouter);
 router.use('/schedules', scheduleRouter);
+router.use('/sale-items', saleItemsrouter);
 
 export default router;
