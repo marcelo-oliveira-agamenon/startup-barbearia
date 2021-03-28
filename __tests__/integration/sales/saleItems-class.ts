@@ -56,26 +56,18 @@ class SaleItemsClass {
     return { limit: this.limit, offset: this.offset };
   }
 
-  // get getResponse() {
-  //   const sale_id = expect.anything(),
-  //     created_at = expect.anything(),
-  //     updated_at = expect.anything(),
-  //     value = expect.anything(),
-  //     discount = expect.anything(),
-  //     deleted_at = null;
-
-  //   return {
-  //     client_id: this.client_id,
-  //     user_id: this.user_id,
-  //     value,
-  //     discount,
-  //     is_discount_fixed: this.is_discount_fixed,
-  //     sale_id,
-  //     created_at,
-  //     updated_at,
-  //     deleted_at
-  //   };
-  // }
+  get getResponse() {
+    return {
+      sale_id: this.sale_id,
+      service_id: this.service_id,
+      product_id: null,
+      quantity: null,
+      value: expect.anything(),
+      created_at: expect.anything(),
+      updated_at: expect.anything(),
+      deleted_at: null
+    };
+  }
 
   // get updateRequest() {
   //   return {

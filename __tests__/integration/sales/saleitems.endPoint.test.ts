@@ -85,29 +85,29 @@ describe('POST/GET/DELETE /sale-items/', function () {
       .expect(SaleItems)
       .expect(201)
       .expect((res) => {
-        commonEndPoint += res.body.sale_id;
+        commonEndPoint += res.body.sale_items_id;
         expect(res.body).toEqual(
           expect.objectContaining(saleItemsClass.createResponseWithService)
         );
       })
       .end(done);
   });
-  it('Should get a sale and return {sale}.', function (done) {
+  it('Should get a sale items and return {saleItems}.', function (done) {
     request(app)
       .get(commonEndPoint)
       .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
-      .expect(Sale)
+      .expect(SaleItems)
       .expect(200)
       .expect((res) => {
         expect(res.body).toEqual(
-          expect.objectContaining(saleClass.getResponse)
+          expect.objectContaining(saleItemsClass.getResponse)
         );
       })
       .end(done);
   });
 
-  it('Should list sales and return [{sale}].', function (done) {
+  it('Should list sales items and return [{sale items}].', function (done) {
     request(app)
       .get(listEndPoint)
       .set('Authorization', TOKEN)
@@ -119,6 +119,9 @@ describe('POST/GET/DELETE /sale-items/', function () {
         if (res.body.length) {
           const firstElement = res.body[0];
           expect(firstElement).toHaveProperty('sale_id');
+          expect(firstElement).toHaveProperty('product_id');
+          expect(firstElement).toHaveProperty('service_id');
+          expect(firstElement).toHaveProperty('quantity');
           expect(firstElement).toHaveProperty('value');
           expect(firstElement).toHaveProperty('created_at');
           expect(firstElement).toHaveProperty('updated_at');
