@@ -44,8 +44,8 @@ stockRouter.put(
       stock_id: Joi.number().integer().positive().required()
     },
     [Segments.BODY]: {
-        quantity: Joi.number().integer().min(0).required()
-      }
+      quantity: Joi.number().integer().min(0).required()
+    }
   }),
   stockController.update
 );

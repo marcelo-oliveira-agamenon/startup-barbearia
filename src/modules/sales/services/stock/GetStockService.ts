@@ -12,10 +12,11 @@ export class GetStockService {
   ) {}
 
   public async execute(data: IGetStockDTO): Promise<Stock | undefined> {
-    const stockExists = await this.stockRepository.findByProductId(data.product_id);
-    if (!stockExists)
-      throw new AppError('Stock does not exist!');
-    
+    const stockExists = await this.stockRepository.findByProductId(
+      data.product_id
+    );
+    if (!stockExists) throw new AppError('Stock does not exist!');
+
     const stock = await this.stockRepository.findByProductId(data.product_id);
 
     return stock;

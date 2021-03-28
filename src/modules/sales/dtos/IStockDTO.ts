@@ -1,22 +1,22 @@
-export interface ICreateStockDTO{
-    product_id: string;
-    quantity: number;
+export interface ICreateStockDTO {
+  product_id: string;
+  quantity: number;
 }
 
 export interface IDeleteStockDTO {
-    stock_id: number;
+  stock_id: number;
 }
 
 export interface IGetStockDTO {
-    product_id: string;
+  product_id: string;
 }
 
 export interface IListStocksDTO {
-    limit?: number;
-    offset?: number;
-  }
-  
-  export interface IUpdateStockDTO {
-    stock_id: number;
-    quantity: number;
-  }
+  limit?: number;
+  offset?: number;
+}
+
+export interface IUpdateStockDTO {
+  stock_id: number;
+  quantity: number;
+}
