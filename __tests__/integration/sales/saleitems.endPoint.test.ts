@@ -92,47 +92,43 @@ describe('POST/GET/DELETE /sale-items/', function () {
       })
       .end(done);
   });
-  // it('Should get a sale and return {sale}.', function (done) {
-  //   request(app)
-  //     .get(commonEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .expect('Content-Type', /json/)
-  //     .expect(Sale)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body).toEqual(
-  //         expect.objectContaining(saleClass.getResponse)
-  //       );
-  //     })
-  //     .end(done);
-  // });
+  it('Should get a sale and return {sale}.', function (done) {
+    request(app)
+      .get(commonEndPoint)
+      .set('Authorization', TOKEN)
+      .expect('Content-Type', /json/)
+      .expect(Sale)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body).toEqual(
+          expect.objectContaining(saleClass.getResponse)
+        );
+      })
+      .end(done);
+  });
 
-  // it('Should list sales and return [{sale}].', function (done) {
-  //   request(app)
-  //     .get(listEndPoint)
-  //     .set('Authorization', TOKEN)
-  //     .query(saleClass.listRequest)
-  //     .expect('Content-Type', /json/)
-  //     .expect(Sale)
-  //     .expect(200)
-  //     .expect((res) => {
-  //       if (res.body.length) {
-  //         const firstElement = res.body[0];
-  //         expect(firstElement).toHaveProperty('client_id');
-  //         expect(firstElement).toHaveProperty('user_id');
-  //         expect(firstElement).toHaveProperty('value');
-  //         expect(firstElement).toHaveProperty('discount');
-  //         expect(firstElement).toHaveProperty('is_discount_fixed');
-  //         expect(firstElement).toHaveProperty('sale_id');
-  //         expect(firstElement).toHaveProperty('created_at');
-  //         expect(firstElement).toHaveProperty('updated_at');
-  //         expect(firstElement).toHaveProperty('deleted_at');
-  //       } else {
-  //         expect(res.body).toEqual(expect.arrayContaining([]));
-  //       }
-  //     })
-  //     .end(done);
-  // });
+  it('Should list sales and return [{sale}].', function (done) {
+    request(app)
+      .get(listEndPoint)
+      .set('Authorization', TOKEN)
+      .query(saleClass.listRequest)
+      .expect('Content-Type', /json/)
+      .expect(SaleItems)
+      .expect(200)
+      .expect((res) => {
+        if (res.body.length) {
+          const firstElement = res.body[0];
+          expect(firstElement).toHaveProperty('sale_id');
+          expect(firstElement).toHaveProperty('value');
+          expect(firstElement).toHaveProperty('created_at');
+          expect(firstElement).toHaveProperty('updated_at');
+          expect(firstElement).toHaveProperty('deleted_at');
+        } else {
+          expect(res.body).toEqual(expect.arrayContaining([]));
+        }
+      })
+      .end(done);
+  });
 
   // it('Should update a sale and return {sale}.', function (done) {
   //   request(app)

@@ -52,9 +52,9 @@ class SaleItemsClass {
       value: expect.anything()
     };
   }
-  // get listRequest() {
-  //   return { limit: this.limit, offset: this.offset };
-  // }
+  get listRequest() {
+    return { limit: this.limit, offset: this.offset };
+  }
 
   // get getResponse() {
   //   const sale_id = expect.anything(),
