@@ -9,12 +9,15 @@ import SaleClass from './sale-class';
 import StockClass from './stock-class';
 import SaleItemsClass from './saleItems-class';
 import ScheduleClass from './schedule-class';
+import PaymentMovementClass from './paymentMovement-class';
+import PaymentMethodClass from './paymentMethod-class';
 
 import { CreateUserService } from '@modules/users/services/user';
 import { CreateClientService } from '@modules/users/services/client';
 import { CreateProductService } from '@modules/sales/services/product/CreateProductService';
 import { CreateServiceService } from '@modules/sales/services/service/CreateServiceService';
 import { CreateSaleService } from '@modules/sales/services/sale/CreateSaleService';
+import { CreatePaymentMethodService } from '@modules/sales/services/paymentMethod';
 
 export const makeServiceSut = () => new ServiceClass();
 
@@ -23,6 +26,8 @@ export const makeProductSut = () => new ProductClass();
 export const makeUserSut = () => new UserClass();
 
 export const makeClientSut = () => new ClientClass();
+
+export const makePaymentMethodSut = () => new PaymentMethodClass();
 
 export const makeSaleSut = async (): Promise<SaleClass> => {
   const saleClass = new SaleClass();
@@ -35,6 +40,23 @@ export const makeSaleSut = async (): Promise<SaleClass> => {
   if (client) saleClass.client_id = client.client_id;
 
   return saleClass;
+};
+
+export const makePaymentMovementSut = async (): Promise<PaymentMovementClass> => {
+  const paymentMovementClass = new PaymentMovementClass();
+  const createSale = container.resolve(CreateSaleService);
+  const createPaymentMethod = container.resolve(CreatePaymentMethodService);
+
+  const sale = await createSale.execute((await makeSaleSut()).createRequest);
+  const paymentMethod = await createPaymentMethod.execute(
+    makePaymentMethodSut()
+  );
+
+  if (sale) paymentMovementClass.sale_id = sale.sale_id;
+  if (paymentMethod)
+    paymentMovementClass.payment_method_id = paymentMethod.payment_method_id;
+
+  return paymentMovementClass;
 };
 
 export const makeStockSut = async (): Promise<StockClass> => {
