@@ -14,7 +14,7 @@ export class CreateScheduleService {
     @inject('UserRepository')
     private userRepository: IUserRepository,
     @inject('ClientRepository')
-    private ClientRepository: IClientRepository
+    private clientRepository: IClientRepository
   ) {}
 
   public async execute(
@@ -22,31 +22,45 @@ export class CreateScheduleService {
   ): Promise<Schedule | undefined> {
     const userExist = await this.userRepository.findOne(data.user_id);
 
-    if (userExist) throw new AppError("This user doesn't exist");
+    if (!userExist) throw new AppError("This user doesn't exist");
 
-    const clientExist = await this.ClientRepository.findOne(data.client_id);
+    const clientExist = await this.clientRepository.findOne(data.client_id);
 
-    if (clientExist) throw new AppError("This client doesn't exist");
+    if (!clientExist) throw new AppError("This client doesn't exist");
 
-    const verifyInstanceClient = await this.scheduleRepository.verifyScheduleByUserOrClient(
-      data.start_date,
-      data.end_date,
-      undefined,
-      data.client_id
-    );
+    try {
+      const verifyInstanceClient = await this.scheduleRepository.verifyScheduleByUserOrClient(
+        data.start_date,
+        data.end_date,
+        undefined,
+        data.client_id
+      );
 
-    const verifyInstanceUser = await this.scheduleRepository.verifyScheduleByUserOrClient(
-      data.start_date,
-      data.end_date,
-      data.user_id,
-      undefined
-    );
+      if (verifyInstanceClient === true)
+        throw new AppError(
+          'This client already has a schedule for this time',
+          422
+        );
+    } catch (error) {
+      return undefined;
+    }
 
-    if (verifyInstanceClient)
-      throw new AppError('This client already has a schedule for this time');
+    try {
+      const verifyInstanceUser = await this.scheduleRepository.verifyScheduleByUserOrClient(
+        data.start_date,
+        data.end_date,
+        data.user_id,
+        undefined
+      );
 
-    if (verifyInstanceUser)
-      throw new AppError('This user already has a schedule for this time');
+      if (verifyInstanceUser === true)
+        throw new AppError(
+          'This user already has a schedule for this time',
+          422
+        );
+    } catch (error) {
+      return undefined;
+    }
 
     const schedule = await this.scheduleRepository.create(data);
 
