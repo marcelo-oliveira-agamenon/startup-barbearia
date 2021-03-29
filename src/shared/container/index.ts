@@ -23,6 +23,8 @@ import ISaleRepository from '@modules/sales/repositories/ISaleRepository';
 
 import IStockRepository from '@modules/sales/repositories/IStockRepository';
 import StockRepository from '@modules/sales/infra/typeorm/repositories/StockRepository';
+import IPaymentMovementRepository from '@modules/sales/repositories/IPaymentMovementRepository';
+import PaymentMovementRepository from '@modules/sales/infra/typeorm/repositories/PaymentMovementRepository';
 
 import ISaleItemsRepository from '@modules/sales/repositories/ISaleItemsRepository';
 import SaleItemsRepository from '@modules/sales/infra/typeorm/repositories/SaleItemsRepository';
@@ -60,6 +62,11 @@ container.registerSingleton<IPaymentMethodRepository>(
 container.registerSingleton<IStockRepository>(
   'StockRepository',
   StockRepository
+);
+
+container.registerSingleton<IPaymentMovementRepository>(
+  'PaymentMovementRepository',
+  PaymentMovementRepository
 );
 
 container.registerSingleton<ISaleRepository>('SaleRepository', SaleRepository);
