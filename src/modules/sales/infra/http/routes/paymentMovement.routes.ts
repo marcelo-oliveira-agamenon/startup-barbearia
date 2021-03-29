@@ -9,10 +9,10 @@ paymentMovementRouter.post(
   '/signup',
   celebrate({
     [Segments.BODY]: {
-      sale_id: Joi.string().required(),
-      payment_method_id: Joi.number().required(),
+      sale_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
+      payment_method_id: Joi.number().integer().required(),
       is_active: Joi.boolean(),
-      value: Joi.number()
+      value: Joi.number().positive()
     }
   }),
   paymentMovementController.create
@@ -22,7 +22,7 @@ paymentMovementRouter.get(
   '/:payment_movement_id',
   celebrate({
     [Segments.PARAMS]: {
-      payment_movement_id: Joi.string().uuid().required()
+      payment_movement_id: Joi.string().uuid({ version: 'uuidv4' }).required()
     }
   }),
   paymentMovementController.get
