@@ -33,13 +33,13 @@ export interface IDeleteScheduleDTO {
 
 export interface IGetScheduleByClientIdDTO {
   client_id: string;
-  start_data?: Date;
+  start_date?: Date;
   end_date?: Date;
 }
 
 export interface IGetScheduleByUserIdDTO {
   user_id: string;
-  start_data?: Date;
+  start_date?: Date;
   end_date?: Date;
 }
 

@@ -104,14 +104,14 @@ export default class ScheduleRepository implements IScheduleRepository {
 
   public async findAllByClientId({
     client_id,
-    start_data,
+    start_date,
     end_date
   }: IGetScheduleByClientIdDTO): Promise<Schedule[]> {
     const schedules = await this.ormRepository.find({
       where: {
         client_id,
-        start_date: Between(start_data, end_date),
-        end_date: Between(start_data, end_date)
+        start_date: Between(start_date, end_date),
+        end_date: Between(start_date, end_date)
       },
       loadRelationIds: true
     });
@@ -121,14 +121,14 @@ export default class ScheduleRepository implements IScheduleRepository {
 
   public async findAllByUserId({
     user_id,
-    start_data,
+    start_date,
     end_date
   }: IGetScheduleByUserIdDTO): Promise<Schedule[]> {
     const schedules = await this.ormRepository.find({
       where: {
         user_id,
-        start_date: Between(start_data, end_date),
-        end_date: Between(start_data, end_date)
+        start_date: Between(start_date, end_date),
+        end_date: Between(start_date, end_date)
       },
       loadRelationIds: true
     });
