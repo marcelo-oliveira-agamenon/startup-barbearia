@@ -1,9 +1,6 @@
-import request from 'supertest';
-import 'dotenv/config';
-import Service from '@modules/sales/infra/typeorm/entities/Service';
-import app from '@shared/infra/config/app';
-import connection from '../config/connection';
+import { app, connection, request } from '../config';
 
+import Service from '@modules/sales/infra/typeorm/entities/Service';
 import { makeServiceSut } from '../factories';
 const serviceClass = makeServiceSut();
 

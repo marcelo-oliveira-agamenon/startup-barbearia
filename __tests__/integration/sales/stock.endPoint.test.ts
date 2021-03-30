@@ -1,9 +1,4 @@
-import 'reflect-metadata';
-import 'dotenv/config';
-
-import request from 'supertest';
-import app from '@shared/infra/config/app';
-import connection from '../config/connection';
+import { app, connection, request } from '../config';
 
 import Stock from '@modules/sales/infra/typeorm/entities/Stock';
 import StockClass from '../factories/stock-class';

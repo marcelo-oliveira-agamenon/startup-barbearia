@@ -1,4 +1,4 @@
-import { injectable, inject, container } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 import { ICreateSaleItemsDTO } from '@modules/sales/dtos/ISaleItemsDTO';
 
 import SaleItems from '@modules/sales/infra/typeorm/entities/SaleItems';

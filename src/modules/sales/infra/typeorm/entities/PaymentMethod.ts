@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 @Entity('payment_method')
-export default class Service {
+export default class PaymentMethod {
   @PrimaryGeneratedColumn('increment')
   payment_method_id: number;
 

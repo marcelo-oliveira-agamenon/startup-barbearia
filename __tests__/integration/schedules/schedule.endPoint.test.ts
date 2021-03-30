@@ -1,9 +1,4 @@
-import request from 'supertest';
-import 'reflect-metadata';
-import 'dotenv/config';
-
-import connection from '../config/connection';
-import app from '@shared/infra/config/app';
+import { app, connection, request } from '../config';
 
 import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 import { makeScheduleSut } from '../factories';

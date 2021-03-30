@@ -1,82 +1,35 @@
-import request from 'supertest';
-import 'dotenv/config';
+import { app, connection, request } from '../config';
 
 import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
+import { makePaymentMethodSut } from '../factories';
 
-import faker from 'faker';
+const paymentMethodClass = makePaymentMethodSut();
+const TOKEN = `Bearer ${process.env.TOKEN}`;
 
-import app from '@shared/infra/config/app';
-
-import { Connection, createConnection } from 'typeorm';
-import config from '@shared/infra/typeorm/ormconfig';
-
-let connection: Connection;
-
-const name = faker.name.findName(),
-  is_active = faker.random.boolean();
-
-const body = {
-    name,
-    is_active
-  },
-  bodyResponse = {
-    payment_method_id: expect.anything(),
-    name,
-    is_active,
-    created_at: expect.anything(),
-    updated_at: expect.anything()
-  },
-  getResponse = {
-    payment_method_id: expect.anything(),
-    name,
-    is_active,
-    created_at: expect.anything(),
-    updated_at: expect.anything()
-  },
-  listQuery = {
-    limit: faker.random.number(),
-    offset: 1
-  },
-  updateBody = {
-    name,
-    is_active: false
-  },
-  updateResponse = {
-    payment_method_id: expect.anything(),
-    name,
-    is_active: false,
-    created_at: expect.anything(),
-    updated_at: expect.anything()
-  },
-  deleteResponse = {
-    payment_method_id: expect.anything(),
-    name,
-    is_active: false,
-    created_at: expect.anything(),
-    updated_at: expect.anything()
-  };
 const createEndPoint = '/payment-methods/signup',
   listEndPoint = '/payment-methods/';
 let commonEndPoint = '/payment-methods/';
 
-describe('POST/GET/PUT/DELETE /users/', function () {
+describe('POST/GET/PUT/DELETE /payment methods/', function () {
   beforeAll(async () => {
-    connection = await createConnection(config);
+    await connection.create();
   });
   afterAll(async () => {
     await connection.close();
   });
-  it('Should create a payment method with all input fields and return {user}.', function (done) {
+  it('Should create a payment method with all input fields and return {payment method}.', function (done) {
     request(app)
       .post(createEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(body)
+      .set('Authorization', TOKEN)
+      .send(paymentMethodClass.createRequest)
       .expect('Content-Type', /json/)
       .expect(PaymentMethod)
       .expect(201)
       .expect((res) => {
         commonEndPoint += res.body.payment_method_id;
-        expect(res.body).toEqual(expect.objectContaining(bodyResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(paymentMethodClass.createResponse)
+        );
       })
       .end(done);
   });
@@ -84,8 +37,8 @@ describe('POST/GET/PUT/DELETE /users/', function () {
   it('Should list payment methods and return [{payment methods}].', function (done) {
     request(app)
       .get(listEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .query(listQuery)
+      .set('Authorization', TOKEN)
+      .query(paymentMethodClass.listRequest)
       .expect('Content-Type', /json/)
       .expect(PaymentMethod)
       .expect(200)
@@ -103,40 +56,46 @@ describe('POST/GET/PUT/DELETE /users/', function () {
       })
       .end(done);
   });
-  it('Should get a payment method and return {user}.', function (done) {
+  it('Should get a payment method and return {payment methods}.', function (done) {
     request(app)
       .get(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(PaymentMethod)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(getResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(paymentMethodClass.getResponse)
+        );
       })
       .end(done);
   });
-  it('Should update a payment metod and return {payment metod}.', function (done) {
+  it('Should update a payment metod and return {payment method}.', function (done) {
     request(app)
       .put(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
-      .send(updateBody)
+      .set('Authorization', TOKEN)
+      .send(paymentMethodClass.updateRequest)
       .expect('Content-Type', /json/)
       .expect(PaymentMethod)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(updateResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(paymentMethodClass.updateResponse)
+        );
       })
       .end(done);
   });
   it('Should delete a payment method softly and return {payment method}.', function (done) {
     request(app)
       .delete(commonEndPoint)
-      .set('Authorization', `Bearer ${process.env.TOKEN}`)
+      .set('Authorization', TOKEN)
       .expect('Content-Type', /json/)
       .expect(PaymentMethod)
       .expect(200)
       .expect((res) => {
-        expect(res.body).toEqual(expect.objectContaining(deleteResponse));
+        expect(res.body).toEqual(
+          expect.objectContaining(paymentMethodClass.deleteResponse)
+        );
       })
       .end(done);
   });

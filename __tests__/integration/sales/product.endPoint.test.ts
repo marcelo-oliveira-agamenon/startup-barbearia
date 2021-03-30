@@ -1,9 +1,4 @@
-import 'reflect-metadata';
-import 'shared/container';
-import 'dotenv/config';
-import app from '@shared/infra/config/app';
-import request from 'supertest';
-import connection from '../config/connection';
+import { app, connection, request } from '../config';
 
 import Product from '@modules/sales/infra/typeorm/entities/Product';
 import { makeProductSut } from '../factories';
