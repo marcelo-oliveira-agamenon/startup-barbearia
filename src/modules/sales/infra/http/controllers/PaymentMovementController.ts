@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
-import { CreatePaymentMovementService } from '@modules/sales/services/paymentMovement/CreatePaymentMovementService';
 import { container } from 'tsyringe';
-import { GetPaymentMovementService } from '@modules/sales/services/paymentMovement/GetPaymentMovementService';
-import { ListPaymentMovementsService } from '@modules/sales/services/paymentMovement/ListPaymentMovemtsService';
-import { UpdatePaymentMovementService } from '@modules/sales/services/paymentMovement/UpdatePaymentMovementService';
-import { DeletePaymentMovementService } from '@modules/sales/services/paymentMovement/DeletePaymentMovementService';
+
+import {
+  CreatePaymentMovementService,
+  GetPaymentMovementService,
+  ListPaymentMovementsService,
+  UpdatePaymentMovementService,
+  DeletePaymentMovementService
+} from '@modules/sales/services/paymentMovement';
 
 export default class PaymentMovementController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -40,7 +43,7 @@ export default class PaymentMovementController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { payment_movement_id } = request.params;
-    const params = { ...request.body, payment_movement_id };
+    const params = request.body;
 
     const updatePaymentMovement = container.resolve(
       UpdatePaymentMovementService

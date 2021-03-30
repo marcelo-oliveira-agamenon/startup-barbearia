@@ -19,6 +19,5 @@ export interface IListPaymentMovementsDTO {
 
 export interface IUpdatePaymentMovementDTO {
   value: number;
-  payment_method_id: string;
   sale_id: string;
 }
