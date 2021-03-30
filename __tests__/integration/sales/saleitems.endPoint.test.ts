@@ -1,10 +1,4 @@
-import 'reflect-metadata';
-import 'shared/container';
-import 'dotenv/config';
-
-import request from 'supertest';
-import app from '@shared/infra/config/app';
-import connection from '../config/connection';
+import { app, connection, request } from '../config';
 
 import SaleItems from '@modules/sales/infra/typeorm/entities/SaleItems';
 import SaleItemsClass from '../factories/saleItems-class';

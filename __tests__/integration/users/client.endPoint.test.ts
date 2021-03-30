@@ -1,10 +1,7 @@
-import request from 'supertest';
-import Client from '@modules/users/infra/typeorm/entities/Client';
-import 'dotenv/config';
-import { makeClientSut } from '../factories';
-import app from '@shared/infra/config/app';
-import connection from '../config/connection';
+import { app, connection, request } from '../config';
 
+import Client from '@modules/users/infra/typeorm/entities/Client';
+import { makeClientSut } from '../factories';
 const clientClass = makeClientSut();
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;

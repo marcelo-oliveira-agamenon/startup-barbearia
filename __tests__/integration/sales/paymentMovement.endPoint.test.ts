@@ -1,9 +1,5 @@
-import 'reflect-metadata';
-import 'dotenv/config';
-import request from 'supertest';
-import connection from '../config/connection';
+import { app, connection, request } from '../config';
 
-import app from '@shared/infra/config/app';
 import PaymentMovementClass from '../factories/paymentMovement-class';
 import PaymentMovement from '@modules/sales/infra/typeorm/entities/PaymentMovement';
 import { makePaymentMovementSut } from '../factories';

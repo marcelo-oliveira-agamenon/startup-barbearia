@@ -1,11 +1,6 @@
-import request from 'supertest';
-import 'dotenv/config';
-import connection from '../config/connection';
+import { app, connection, request } from '../config';
 
 import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
-
-import app from '@shared/infra/config/app';
-
 import { makePaymentMethodSut } from '../factories';
 
 const paymentMethodClass = makePaymentMethodSut();

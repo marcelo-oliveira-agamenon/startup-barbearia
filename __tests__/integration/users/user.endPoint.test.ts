@@ -1,11 +1,7 @@
-import 'dotenv/config';
-import 'reflect-metadata';
-import request from 'supertest';
+import { app, connection, request } from '../config';
+
 import { makeUserSut } from '../factories';
 import { User } from '@modules/users/infra/typeorm/entities/User';
-
-import app from '@shared/infra/config/app';
-import connection from '../config/connection';
 
 const userClass = makeUserSut();
 
