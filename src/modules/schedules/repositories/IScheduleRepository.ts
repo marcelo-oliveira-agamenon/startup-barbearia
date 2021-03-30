@@ -14,6 +14,12 @@ export default interface IScheduleRepository {
   findAll(query: IListScheduleDTO): Promise<Schedule[]>;
   delete({ schedule_id }: IDeleteScheduleDTO): Promise<number | undefined>;
   findDeletedEntity(schedule_id: string): Promise<Schedule | undefined>;
+  verifyScheduleByUserOrClient(
+    start_date: Date,
+    end_date: Date,
+    user_id?: string,
+    client_id?: string
+  ): Promise<boolean>;
   findAllByClientId({
     client_id
   }: IGetScheduleByClientIdDTO): Promise<Schedule[]>;

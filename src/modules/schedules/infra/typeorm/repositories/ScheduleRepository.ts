@@ -25,6 +25,41 @@ export default class ScheduleRepository implements IScheduleRepository {
     return schedule;
   }
 
+  public async verifyScheduleByUserOrClient(
+    start_date: Date,
+    end_date: Date,
+    user_id?: string,
+    client_id?: string
+  ): Promise<boolean> {
+    let verifyInstance: Schedule[] = [];
+
+    if (user_id) {
+      verifyInstance = await this.ormRepository.find({
+        where: {
+          user_id,
+          start_date: Between(start_date, end_date),
+          end_date: Between(start_date, end_date)
+        }
+      });
+    }
+
+    if (client_id) {
+      verifyInstance = await this.ormRepository.find({
+        where: {
+          client_id,
+          start_date: Between(start_date, end_date),
+          end_date: Between(start_date, end_date)
+        }
+      });
+    }
+
+    if (verifyInstance.length) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public async findOne(schedule_id: string): Promise<Schedule | undefined> {
     const schedule = await this.ormRepository.findOne(schedule_id, {
       loadRelationIds: true
@@ -68,11 +103,15 @@ export default class ScheduleRepository implements IScheduleRepository {
   }
 
   public async findAllByClientId({
-    client_id
+    client_id,
+    start_data,
+    end_date
   }: IGetScheduleByClientIdDTO): Promise<Schedule[]> {
     const schedules = await this.ormRepository.find({
       where: {
-        client_id: client_id
+        client_id,
+        start_date: Between(start_data, end_date),
+        end_date: Between(start_data, end_date)
       },
       loadRelationIds: true
     });
@@ -81,11 +120,15 @@ export default class ScheduleRepository implements IScheduleRepository {
   }
 
   public async findAllByUserId({
-    user_id
+    user_id,
+    start_data,
+    end_date
   }: IGetScheduleByUserIdDTO): Promise<Schedule[]> {
     const schedules = await this.ormRepository.find({
       where: {
-        user_id: user_id
+        user_id,
+        start_date: Between(start_data, end_date),
+        end_date: Between(start_data, end_date)
       },
       loadRelationIds: true
     });
