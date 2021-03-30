@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import 'dotenv/config';
+import 'express-async-errors';
 import { createConnection } from 'typeorm';
 import config from '@shared/infra/typeorm/ormconfig';
 
