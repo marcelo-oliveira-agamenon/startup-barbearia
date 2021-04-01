@@ -2,62 +2,60 @@ import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 import StockController from '../controllers/StockController';
 
-const stockRouter = Router();
-const stockController = new StockController();
+export default (router: Router): void => {
+  const url = '/stocks';
+  router.post(
+    `${url}/signup`,
+    celebrate({
+      [Segments.BODY]: {
+        product_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
+        quantity: Joi.number().integer().min(0)
+      }
+    }),
+    StockController.create
+  );
 
-stockRouter.post(
-  '/signup',
-  celebrate({
-    [Segments.BODY]: {
-      product_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
-      quantity: Joi.number().integer().min(0)
-    }
-  }),
-  stockController.create
-);
+  router.get(
+    `${url}/:product_id`,
+    celebrate({
+      [Segments.PARAMS]: {
+        product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+      }
+    }),
+    StockController.get
+  );
 
-stockRouter.get(
-  '/:product_id',
-  celebrate({
-    [Segments.PARAMS]: {
-      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-    }
-  }),
-  stockController.get
-);
+  router.get(
+    url,
+    celebrate({
+      [Segments.QUERY]: {
+        limit: Joi.number().integer().positive(),
+        offset: Joi.number().integer().positive()
+      }
+    }),
+    StockController.list
+  );
 
-stockRouter.get(
-  '/',
-  celebrate({
-    [Segments.QUERY]: {
-      limit: Joi.number().integer().positive(),
-      offset: Joi.number().integer().positive()
-    }
-  }),
-  stockController.list
-);
+  router.put(
+    `${url}/:stock_id`,
+    celebrate({
+      [Segments.PARAMS]: {
+        stock_id: Joi.number().integer().positive().required()
+      },
+      [Segments.BODY]: {
+        quantity: Joi.number().integer().min(0).required()
+      }
+    }),
+    StockController.update
+  );
 
-stockRouter.put(
-  '/:stock_id',
-  celebrate({
-    [Segments.PARAMS]: {
-      stock_id: Joi.number().integer().positive().required()
-    },
-    [Segments.BODY]: {
-      quantity: Joi.number().integer().min(0).required()
-    }
-  }),
-  stockController.update
-);
-
-stockRouter.delete(
-  '/:stock_id',
-  celebrate({
-    [Segments.PARAMS]: {
-      stock_id: Joi.number().integer().positive().required()
-    }
-  }),
-  stockController.delete
-);
-
-export default stockRouter;
+  router.delete(
+    `${url}/:stock_id`,
+    celebrate({
+      [Segments.PARAMS]: {
+        stock_id: Joi.number().integer().positive().required()
+      }
+    }),
+    StockController.delete
+  );
+};

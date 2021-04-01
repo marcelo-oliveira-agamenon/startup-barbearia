@@ -3,71 +3,70 @@ import { celebrate, Segments, Joi } from 'celebrate';
 
 import ProductController from '@modules/sales/infra/http/controllers/ProductController';
 
-const productRouter = Router();
-const productController = new ProductController();
+export default (router: Router): void => {
+  const url = '/products';
 
-productRouter.post(
-  '/signup',
-  celebrate({
-    [Segments.BODY]: {
-      name: Joi.string().required(),
-      cost: Joi.number().positive(),
-      value: Joi.number().positive().required(),
-      description: Joi.string(),
-      discount: Joi.number().positive()
-    }
-  }),
-  productController.create
-);
-
-productRouter.get(
-  '/',
-  celebrate({
-    [Segments.QUERY]: {
-      limit: Joi.number().integer().positive(),
-      offset: Joi.number().integer().positive()
-    }
-  }),
-  productController.list
-);
-
-productRouter.get(
-  '/:product_id',
-  celebrate({
-    [Segments.PARAMS]: {
-      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-    }
-  }),
-  productController.get
-);
-
-productRouter.put(
-  '/:product_id',
-  celebrate({
-    [Segments.PARAMS]: {
-      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-    },
-    [Segments.BODY]: Joi.object()
-      .keys({
-        name: Joi.string(),
+  router.post(
+    `${url}/signup`,
+    celebrate({
+      [Segments.BODY]: {
+        name: Joi.string().required(),
         cost: Joi.number().positive(),
-        value: Joi.number().positive(),
+        value: Joi.number().positive().required(),
         description: Joi.string(),
         discount: Joi.number().positive()
-      })
-      .min(1)
-  }),
-  productController.update
-);
+      }
+    }),
+    ProductController.create
+  );
 
-productRouter.delete(
-  '/:product_id',
-  celebrate({
-    [Segments.PARAMS]: {
-      product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-    }
-  }),
-  productController.delete
-);
+  router.get(
+    url,
+    celebrate({
+      [Segments.QUERY]: {
+        limit: Joi.number().integer().positive(),
+        offset: Joi.number().integer().positive()
+      }
+    }),
+    ProductController.list
+  );
 
-export default productRouter;
+  router.get(
+    `${url}/:product_id`,
+    celebrate({
+      [Segments.PARAMS]: {
+        product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+      }
+    }),
+    ProductController.get
+  );
+
+  router.put(
+    `${url}/:product_id`,
+    celebrate({
+      [Segments.PARAMS]: {
+        product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+      },
+      [Segments.BODY]: Joi.object()
+        .keys({
+          name: Joi.string(),
+          cost: Joi.number().positive(),
+          value: Joi.number().positive(),
+          description: Joi.string(),
+          discount: Joi.number().positive()
+        })
+        .min(1)
+    }),
+    ProductController.update
+  );
+
+  router.delete(
+    `${url}/:product_id`,
+    celebrate({
+      [Segments.PARAMS]: {
+        product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+      }
+    }),
+    ProductController.delete
+  );
+};

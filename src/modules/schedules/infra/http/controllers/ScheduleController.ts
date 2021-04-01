@@ -13,7 +13,7 @@ import {
 } from '@modules/schedules/services/schedule';
 
 import { classToClass } from 'class-transformer';
-export default class ScheduleController {
+class ScheduleController {
   public async create(
     request: Request,
     response: Response
@@ -97,3 +97,5 @@ export default class ScheduleController {
     return response.status(200).json(classToClass(schedule));
   }
 }
+
+export default new ScheduleController();

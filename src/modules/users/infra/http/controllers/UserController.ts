@@ -13,16 +13,19 @@ import {
 
 import { classToClass } from 'class-transformer';
 
-export default class UserController {
+class UserController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
+
     const createUser = container.resolve(CreateUserService);
     const user = await createUser.execute(data);
+
     return response.status(201).json(classToClass(user));
   }
   public async update(request: Request, response: Response): Promise<Response> {
     const data = request.body;
     const { user_id } = request.params;
+
     const updateUser = container.resolve(UpdateUserService);
     const user = await updateUser.execute(data, user_id);
 
@@ -30,6 +33,7 @@ export default class UserController {
   }
   public async delete(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
+
     const deleteUser = container.resolve(DeleteUserService);
     const user = await deleteUser.execute({ user_id });
 
@@ -74,3 +78,5 @@ export default class UserController {
     return response.status(200).json(authentication);
   }
 }
+
+export default new UserController();

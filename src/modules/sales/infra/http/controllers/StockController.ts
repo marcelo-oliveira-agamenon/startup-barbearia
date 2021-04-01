@@ -10,7 +10,7 @@ import {
   UpdateStockService
 } from '@modules/sales/services/stock';
 
-export default class StockController {
+class StockController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
     const createStock = container.resolve(CreateStockService);
@@ -55,3 +55,4 @@ export default class StockController {
     return response.status(200).json(stock);
   }
 }
+export default new StockController();

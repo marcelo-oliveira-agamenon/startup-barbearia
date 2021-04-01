@@ -9,7 +9,7 @@ import {
   DeleteSaleItemsService
 } from '@modules/sales/services/saleItems';
 
-export default class SaleController {
+class SaleItemsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
     const createSaleItems = container.resolve(CreateSaleItemsService);
@@ -55,3 +55,4 @@ export default class SaleController {
     return response.status(200).json(saleItems);
   }
 }
+export default new SaleItemsController();

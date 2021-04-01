@@ -73,9 +73,9 @@ describe('POST/GET/PUT/DELETE /service/', function () {
       .end(done);
   });
 
-  it('Should list services and return [{service}] with users.', function (done) {
+  it('Should list services by users and return [{service}] with users.', function (done) {
     request(app)
-      .get(listEndPoint + '/list/users')
+      .get(listEndPoint + 'list/users')
       .set('Authorization', `Bearer ${process.env.TOKEN}`)
       .query(serviceClass.getListSet)
       .expect('Content-Type', /json/)
