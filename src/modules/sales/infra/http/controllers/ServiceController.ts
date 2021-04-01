@@ -10,7 +10,7 @@ import {
   ListServicesUserService
 } from '@modules/sales/services/service';
 
-export default class ServicesController {
+class ServiceController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
@@ -69,3 +69,5 @@ export default class ServicesController {
     return response.status(200).json(service);
   }
 }
+
+export default new ServiceController();

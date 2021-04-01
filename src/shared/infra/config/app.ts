@@ -6,16 +6,14 @@ import express from 'express';
 import authentication from '@shared/infra/middlewares/authentication';
 import authExceptions from '@shared/infra/middlewares/authExceptions';
 import errorHandling from '@shared/infra/middlewares/errorHandling';
-import routes from '@shared/infra/routes/index';
+import setupRoutes from '@shared/infra/routes/routes';
 
 const app = express();
-app.use(
-  cors(),
-  express.json(),
-  authExceptions(authentication),
-  routes,
-  errorHandling,
-  errors()
-);
+
+app.use(cors(), express.json());
+
+setupRoutes(app);
+
+app.use(authExceptions(authentication), errorHandling, errors());
 
 export default app;

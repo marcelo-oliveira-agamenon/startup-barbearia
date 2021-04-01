@@ -10,7 +10,7 @@ import {
   DeleteClientService
 } from '@modules/users/services/client';
 
-export default class ClientController {
+class ClientController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
@@ -56,3 +56,5 @@ export default class ClientController {
     return response.status(200).json(client);
   }
 }
+
+export default new ClientController();

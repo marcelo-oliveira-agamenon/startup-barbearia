@@ -8,7 +8,7 @@ import {
   DeletePaymentMethodService
 } from '@modules/sales/services/paymentMethod';
 
-export default class PaymentMethodController {
+class PaymentMethodController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
@@ -58,3 +58,5 @@ export default class PaymentMethodController {
     return response.status(200).json(paymentMethod);
   }
 }
+
+export default new PaymentMethodController();

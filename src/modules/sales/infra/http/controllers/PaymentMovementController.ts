@@ -9,7 +9,7 @@ import {
   DeletePaymentMovementService
 } from '@modules/sales/services/paymentMovement';
 
-export default class PaymentMovementController {
+class PaymentMovementController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
@@ -68,3 +68,5 @@ export default class PaymentMovementController {
     return response.status(200).json(paymentMovement);
   }
 }
+
+export default new PaymentMovementController();

@@ -10,7 +10,7 @@ import {
   DeleteProductService
 } from '@modules/sales/services/product';
 
-export default class ProductController {
+class ProductController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
@@ -56,3 +56,4 @@ export default class ProductController {
     return response.status(200).json(product);
   }
 }
+export default new ProductController();

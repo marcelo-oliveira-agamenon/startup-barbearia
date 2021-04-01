@@ -9,7 +9,7 @@ import {
   UpdateSaleService
 } from '@modules/sales/services/sale';
 
-export default class SaleController {
+class SaleController {
   public async create(request: Request, response: Response): Promise<Response> {
     const data = request.body;
 
@@ -56,3 +56,4 @@ export default class SaleController {
     return response.status(200).json(sale);
   }
 }
+export default new SaleController();
