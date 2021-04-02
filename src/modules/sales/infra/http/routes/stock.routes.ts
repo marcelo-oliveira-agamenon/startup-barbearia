@@ -3,9 +3,11 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import StockController from '../controllers/StockController';
 
 export default (router: Router): void => {
-  const url = '/stocks';
-  router.post(
-    `${url}/signup`,
+  const stockRouter = Router();
+
+  router.use('/stocks', stockRouter);
+  stockRouter.post(
+    '/signup',
     celebrate({
       [Segments.BODY]: {
         product_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
@@ -15,18 +17,8 @@ export default (router: Router): void => {
     StockController.create
   );
 
-  router.get(
-    `${url}/:product_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    StockController.get
-  );
-
-  router.get(
-    url,
+  stockRouter.get(
+    '/',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -36,26 +28,35 @@ export default (router: Router): void => {
     StockController.list
   );
 
-  router.put(
-    `${url}/:stock_id`,
+  stockRouter.get(
+    '/:product_id',
     celebrate({
       [Segments.PARAMS]: {
-        stock_id: Joi.number().integer().positive().required()
-      },
-      [Segments.BODY]: {
-        quantity: Joi.number().integer().min(0).required()
+        product_id: Joi.string().uuid({ version: 'uuidv4' }).required()
       }
     }),
-    StockController.update
+    StockController.get
   );
 
-  router.delete(
-    `${url}/:stock_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        stock_id: Joi.number().integer().positive().required()
-      }
-    }),
-    StockController.delete
-  );
+  stockRouter
+    .route('/:stock_id')
+    .put(
+      celebrate({
+        [Segments.PARAMS]: {
+          stock_id: Joi.number().integer().positive().required()
+        },
+        [Segments.BODY]: {
+          quantity: Joi.number().integer().min(0).required()
+        }
+      }),
+      StockController.update
+    )
+    .delete(
+      celebrate({
+        [Segments.PARAMS]: {
+          stock_id: Joi.number().integer().positive().required()
+        }
+      }),
+      StockController.delete
+    );
 };

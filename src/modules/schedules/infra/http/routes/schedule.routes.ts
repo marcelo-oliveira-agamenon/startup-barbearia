@@ -4,19 +4,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import ScheduleController from '@modules/schedules/infra/http/controllers/ScheduleController';
 
 export default (router: Router): void => {
-  const url = '/schedules';
-  router.get(
-    `${url}/:schedule_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    ScheduleController.get
-  );
+  const scheduleRouter = Router();
 
-  router.get(
-    `${url}/client/:client_id`,
+  router.use('/schedules', scheduleRouter);
+
+  scheduleRouter.get(
+    '/client/:client_id',
     celebrate({
       [Segments.PARAMS]: {
         client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
@@ -25,8 +18,8 @@ export default (router: Router): void => {
     ScheduleController.getByClient
   );
 
-  router.get(
-    `${url}/user/:user_id`,
+  scheduleRouter.get(
+    '/user/:user_id',
     celebrate({
       [Segments.PARAMS]: {
         user_id: Joi.string().uuid({ version: 'uuidv4' }).required()
@@ -35,8 +28,8 @@ export default (router: Router): void => {
     ScheduleController.getByUser
   );
 
-  router.get(
-    `${url}/date/filter`,
+  scheduleRouter.get(
+    '/date/filter',
     celebrate({
       [Segments.BODY]: {
         start_date: Joi.date().required(),
@@ -46,8 +39,8 @@ export default (router: Router): void => {
     ScheduleController.getByDate
   );
 
-  router.get(
-    url,
+  scheduleRouter.get(
+    '/',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -57,8 +50,8 @@ export default (router: Router): void => {
     ScheduleController.list
   );
 
-  router.post(
-    `${url}/register`,
+  scheduleRouter.post(
+    '/register',
     celebrate({
       [Segments.BODY]: {
         user_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
@@ -73,34 +66,41 @@ export default (router: Router): void => {
     ScheduleController.create
   );
 
-  router.put(
-    `${url}/:schedule_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      },
-      [Segments.BODY]: Joi.object()
-        .keys({
-          user_id: Joi.string().uuid({ version: 'uuidv4' }),
-          client_id: Joi.string().uuid({ version: 'uuidv4' }),
-          service_id: Joi.string().uuid({ version: 'uuidv4' }),
-          start_date: Joi.date(),
-          end_date: Joi.date().min(Joi.ref('start_date')),
-          status: Joi.boolean(),
-          description: Joi.string()
-        })
-        .min(1)
-    }),
-    ScheduleController.update
-  );
-
-  router.delete(
-    `${url}/:schedule_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    ScheduleController.delete
-  );
+  scheduleRouter
+    .route('/:schedule_id')
+    .get(
+      celebrate({
+        [Segments.PARAMS]: {
+          schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      ScheduleController.get
+    )
+    .put(
+      celebrate({
+        [Segments.PARAMS]: {
+          schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        },
+        [Segments.BODY]: Joi.object()
+          .keys({
+            user_id: Joi.string().uuid({ version: 'uuidv4' }),
+            client_id: Joi.string().uuid({ version: 'uuidv4' }),
+            service_id: Joi.string().uuid({ version: 'uuidv4' }),
+            start_date: Joi.date(),
+            end_date: Joi.date().min(Joi.ref('start_date')),
+            status: Joi.boolean(),
+            description: Joi.string()
+          })
+          .min(1)
+      }),
+      ScheduleController.update
+    )
+    .delete(
+      celebrate({
+        [Segments.PARAMS]: {
+          schedule_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      ScheduleController.delete
+    );
 };

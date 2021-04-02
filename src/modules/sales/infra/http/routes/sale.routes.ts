@@ -4,10 +4,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import SaleController from '@modules/sales/infra/http/controllers/SaleController';
 
 export default (router: Router): void => {
-  const url = '/sales';
+  const saleRouter = Router();
 
-  router.post(
-    `${url}/signup`,
+  router.use('/sales', saleRouter);
+
+  saleRouter.post(
+    '/signup',
     celebrate({
       [Segments.BODY]: {
         client_id: Joi.string().uuid({ version: 'uuidv4' }),
@@ -23,18 +25,8 @@ export default (router: Router): void => {
     SaleController.create
   );
 
-  router.get(
-    `${url}/:sale_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    SaleController.get
-  );
-
-  router.get(
-    url,
+  saleRouter.get(
+    '/',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -44,31 +36,38 @@ export default (router: Router): void => {
     SaleController.list
   );
 
-  router.put(
-    `${url}/:sale_id`,
-    celebrate({
-      [Segments.BODY]: Joi.object()
-        .keys({
-          client_id: Joi.string().uuid({ version: 'uuidv4' }),
-          user_id: Joi.string().uuid({ version: 'uuidv4' }),
-          discount: Joi.number().positive(),
-          is_discount_fixed: Joi.boolean().when('discount', {
-            is: Joi.exist(),
-            then: Joi.required()
+  saleRouter
+    .route('/:sale_id')
+    .get(
+      celebrate({
+        [Segments.PARAMS]: {
+          sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      SaleController.get
+    )
+    .put(
+      celebrate({
+        [Segments.BODY]: Joi.object()
+          .keys({
+            client_id: Joi.string().uuid({ version: 'uuidv4' }),
+            user_id: Joi.string().uuid({ version: 'uuidv4' }),
+            discount: Joi.number().positive(),
+            is_discount_fixed: Joi.boolean().when('discount', {
+              is: Joi.exist(),
+              then: Joi.required()
+            })
           })
-        })
-        .min(1)
-    }),
-    SaleController.update
-  );
-
-  router.delete(
-    `${url}/:sale_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    SaleController.delete
-  );
+          .min(1)
+      }),
+      SaleController.update
+    )
+    .delete(
+      celebrate({
+        [Segments.PARAMS]: {
+          sale_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      SaleController.delete
+    );
 };
