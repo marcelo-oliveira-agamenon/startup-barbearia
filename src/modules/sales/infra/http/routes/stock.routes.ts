@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
-import StockController from '../controllers/StockController';
+import StockController from '@modules/sales/infra/http/controllers/StockController';
 
 export default (router: Router): void => {
   const stockRouter = Router();

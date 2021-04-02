@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
-import PaymentMovementController from '../controllers/PaymentMovementController';
+import PaymentMovementController from '@modules/sales/infra/http/controllers/PaymentMovementController';
 
 export default (router: Router): void => {
   const paymentMovementRouter = Router();
