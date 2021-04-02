@@ -4,10 +4,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import ClientController from '@modules/users/infra/http/controllers/ClientController';
 
 export default (router: Router): void => {
-  const url = '/clients';
+  const clientRouter = Router();
 
-  router.post(
-    `${url}/signup`,
+  router.use('/clients', clientRouter);
+
+  clientRouter.post(
+    '/signup',
     celebrate({
       [Segments.BODY]: {
         name: Joi.string().required(),
@@ -19,18 +21,8 @@ export default (router: Router): void => {
     ClientController.create
   );
 
-  router.get(
-    `${url}/:client_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    ClientController.get
-  );
-
-  router.get(
-    url,
+  clientRouter.get(
+    '/',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -40,31 +32,38 @@ export default (router: Router): void => {
     ClientController.list
   );
 
-  router.put(
-    `${url}/:client_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      },
-      [Segments.BODY]: Joi.object()
-        .keys({
-          name: Joi.string(),
-          phone: Joi.string(),
-          cpf: Joi.string().length(14),
-          email: Joi.string().email()
-        })
-        .min(1)
-    }),
-    ClientController.update
-  );
-
-  router.delete(
-    `${url}/:client_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    ClientController.delete
-  );
+  clientRouter
+    .route('/:client_id')
+    .get(
+      celebrate({
+        [Segments.PARAMS]: {
+          client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      ClientController.get
+    )
+    .put(
+      celebrate({
+        [Segments.PARAMS]: {
+          client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        },
+        [Segments.BODY]: Joi.object()
+          .keys({
+            name: Joi.string(),
+            phone: Joi.string(),
+            cpf: Joi.string().length(14),
+            email: Joi.string().email()
+          })
+          .min(1)
+      }),
+      ClientController.update
+    )
+    .delete(
+      celebrate({
+        [Segments.PARAMS]: {
+          client_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      ClientController.delete
+    );
 };
