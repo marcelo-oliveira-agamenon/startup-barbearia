@@ -10,10 +10,10 @@ import setupRoutes from '@shared/infra/routes/routes';
 
 const app = express();
 
-app.use(cors(), express.json());
+app.use(cors(), express.json(), authExceptions(authentication));
 
 setupRoutes(app);
 
-app.use(authExceptions(authentication), errorHandling, errors());
+app.use(errorHandling, errors());
 
 export default app;
