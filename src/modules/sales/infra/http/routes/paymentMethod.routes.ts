@@ -4,9 +4,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import PaymentMethodController from '@modules/sales/infra/http/controllers/PaymentMethodController';
 
 export default (router: Router): void => {
-  const url = '/payment-methods';
-  router.post(
-    `${url}/signup`,
+  const paymentMethodRouter = Router();
+
+  router.use('/payment-methods', paymentMethodRouter);
+
+  paymentMethodRouter.post(
+    '/signup',
     celebrate({
       [Segments.BODY]: {
         name: Joi.string().required(),
@@ -16,8 +19,8 @@ export default (router: Router): void => {
     PaymentMethodController.create
   );
 
-  router.get(
-    url,
+  paymentMethodRouter.get(
+    '/',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -27,39 +30,36 @@ export default (router: Router): void => {
     PaymentMethodController.list
   );
 
-  router.get(
-    `${url}/:payment_method_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        payment_method_id: Joi.number().integer().positive().required()
-      }
-    }),
-    PaymentMethodController.get
-  );
-
-  router.delete(
-    `${url}/:payment_method_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        payment_method_id: Joi.number().integer().positive().required()
-      }
-    }),
-    PaymentMethodController.delete
-  );
-
-  router.put(
-    `${url}/:payment_method_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        payment_method_id: Joi.number().integer().positive().required()
-      },
-      [Segments.BODY]: Joi.object()
-        .keys({
-          name: Joi.string(),
-          is_active: Joi.boolean()
-        })
-        .min(1)
-    }),
-    PaymentMethodController.update
-  );
+  paymentMethodRouter
+    .route('/:payment_method_id')
+    .get(
+      celebrate({
+        [Segments.PARAMS]: {
+          payment_method_id: Joi.number().integer().positive().required()
+        }
+      }),
+      PaymentMethodController.get
+    )
+    .delete(
+      celebrate({
+        [Segments.PARAMS]: {
+          payment_method_id: Joi.number().integer().positive().required()
+        }
+      }),
+      PaymentMethodController.delete
+    )
+    .put(
+      celebrate({
+        [Segments.PARAMS]: {
+          payment_method_id: Joi.number().integer().positive().required()
+        },
+        [Segments.BODY]: Joi.object()
+          .keys({
+            name: Joi.string(),
+            is_active: Joi.boolean()
+          })
+          .min(1)
+      }),
+      PaymentMethodController.update
+    );
 };
