@@ -4,10 +4,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import ServiceController from '@modules/sales/infra/http/controllers/ServiceController';
 
 export default (router: Router): void => {
-  const url = '/services';
+  const serviceRouter = Router();
 
-  router.post(
-    `${url}/signup`,
+  router.use('/services', serviceRouter);
+
+  serviceRouter.post(
+    '/signup',
     celebrate({
       [Segments.BODY]: {
         name: Joi.string().required(),
@@ -17,8 +19,8 @@ export default (router: Router): void => {
     ServiceController.create
   );
 
-  router.get(
-    url,
+  serviceRouter.get(
+    '/',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -28,8 +30,8 @@ export default (router: Router): void => {
     ServiceController.list
   );
 
-  router.get(
-    `${url}/list/users`,
+  serviceRouter.get(
+    '/list/users',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -39,39 +41,36 @@ export default (router: Router): void => {
     ServiceController.listWithUser
   );
 
-  router.get(
-    `${url}/:service_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    ServiceController.get
-  );
-
-  router.delete(
-    `${url}/:service_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    ServiceController.delete
-  );
-
-  router.put(
-    `${url}/:service_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      },
-      [Segments.BODY]: Joi.object()
-        .keys({
-          name: Joi.string(),
-          value: Joi.number().positive()
-        })
-        .min(1)
-    }),
-    ServiceController.update
-  );
+  serviceRouter
+    .route('/:service_id')
+    .get(
+      celebrate({
+        [Segments.PARAMS]: {
+          service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      ServiceController.get
+    )
+    .delete(
+      celebrate({
+        [Segments.PARAMS]: {
+          service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        }
+      }),
+      ServiceController.delete
+    )
+    .put(
+      celebrate({
+        [Segments.PARAMS]: {
+          service_id: Joi.string().uuid({ version: 'uuidv4' }).required()
+        },
+        [Segments.BODY]: Joi.object()
+          .keys({
+            name: Joi.string(),
+            value: Joi.number().positive()
+          })
+          .min(1)
+      }),
+      ServiceController.update
+    );
 };
