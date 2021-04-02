@@ -3,10 +3,12 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import PaymentMovementController from '../controllers/PaymentMovementController';
 
 export default (router: Router): void => {
-  const url = '/payment-movements';
+  const paymentMovementRouter = Router();
 
-  router.post(
-    `${url}/signup`,
+  router.use('/payment-movements', paymentMovementRouter);
+
+  paymentMovementRouter.post(
+    '/signup',
     celebrate({
       [Segments.BODY]: {
         sale_id: Joi.string().uuid({ version: 'uuidv4' }).required(),
@@ -18,18 +20,8 @@ export default (router: Router): void => {
     PaymentMovementController.create
   );
 
-  router.get(
-    `${url}/:payment_movement_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        payment_movement_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    PaymentMovementController.get
-  );
-
-  router.get(
-    url,
+  paymentMovementRouter.get(
+    '/',
     celebrate({
       [Segments.QUERY]: {
         limit: Joi.number().integer().positive(),
@@ -39,29 +31,42 @@ export default (router: Router): void => {
     PaymentMovementController.list
   );
 
-  router.put(
-    `${url}/:payment_movement_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        payment_movement_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      },
-      [Segments.BODY]: Joi.object()
-        .keys({
-          value: Joi.number().integer().positive(),
-          payment_method_id: Joi.number().integer().positive()
-        })
-        .min(1)
-    }),
-    PaymentMovementController.update
-  );
-
-  router.delete(
-    `${url}/:payment_movement_id`,
-    celebrate({
-      [Segments.PARAMS]: {
-        payment_movement_id: Joi.string().uuid({ version: 'uuidv4' }).required()
-      }
-    }),
-    PaymentMovementController.delete
-  );
+  paymentMovementRouter
+    .route('/:payment_movement_id')
+    .get(
+      celebrate({
+        [Segments.PARAMS]: {
+          payment_movement_id: Joi.string()
+            .uuid({ version: 'uuidv4' })
+            .required()
+        }
+      }),
+      PaymentMovementController.get
+    )
+    .put(
+      celebrate({
+        [Segments.PARAMS]: {
+          payment_movement_id: Joi.string()
+            .uuid({ version: 'uuidv4' })
+            .required()
+        },
+        [Segments.BODY]: Joi.object()
+          .keys({
+            value: Joi.number().integer().positive(),
+            payment_method_id: Joi.number().integer().positive()
+          })
+          .min(1)
+      }),
+      PaymentMovementController.update
+    )
+    .delete(
+      celebrate({
+        [Segments.PARAMS]: {
+          payment_movement_id: Joi.string()
+            .uuid({ version: 'uuidv4' })
+            .required()
+        }
+      }),
+      PaymentMovementController.delete
+    );
 };
