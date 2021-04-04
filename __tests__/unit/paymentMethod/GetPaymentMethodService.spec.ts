@@ -22,9 +22,6 @@ describe('Should validate payment method get service', () => {
       paymentMethodRepository
     );
 
-    jest
-      .spyOn(paymentMethodRepository, 'findById')
-      .mockReturnValueOnce(new Promise((resolve) => resolve(undefined)));
     const promise = getPaymentMethod.execute({ payment_method_id: 1 });
     await expect(promise).rejects.toEqual(
       new AppError('This payment method does not exist!')
