@@ -17,7 +17,7 @@ export class UpdatePaymentMethodService {
   public async execute(
     params: IUpdatePaymentMethodDTO
   ): Promise<PaymentMethod> {
-    const { is_active, name, payment_method_id } = params;
+    const { payment_method_id, ...data } = params;
     const paymentMethodExists = await this.serviceRepository.findById(
       payment_method_id
     );
@@ -26,10 +26,7 @@ export class UpdatePaymentMethodService {
       throw new AppError('This payment method does not exist!');
 
     const paymentMethod = await this.serviceRepository.update(
-      Object.assign({}, paymentMethodExists, {
-        is_active,
-        name
-      })
+      Object.assign({}, paymentMethodExists, data)
     );
 
     return paymentMethod;
