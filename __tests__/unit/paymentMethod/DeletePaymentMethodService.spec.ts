@@ -78,11 +78,14 @@ describe('Should validate payment method delete service', () => {
       paymentMethodRepository,
       'deleteByEntity'
     );
+    const findByIdSpy = jest.spyOn(paymentMethodRepository, 'findById');
 
     await deletePaymentMethod.execute({
       payment_method_id: paymentMethod.payment_method_id
     });
 
-    expect(deleteByEntitySpy).toHaveBeenLastCalledWith(paymentMethod);
+    expect(deleteByEntitySpy).toHaveBeenLastCalledWith(
+      await findByIdSpy.mock.results[0].value
+    );
   });
 });
