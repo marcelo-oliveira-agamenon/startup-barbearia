@@ -1,8 +1,8 @@
 import { app, connection, request } from '../config';
 
 import Stock from '@modules/sales/infra/typeorm/entities/Stock';
-import StockClass from '../factories/stock-class';
-import { makeStockSut } from '../factories';
+import StockClass from './factories/stock-class';
+import { makeStockSut } from './factories';
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
