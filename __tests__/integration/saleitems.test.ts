@@ -1,8 +1,8 @@
-import { app, connection, request } from '../../config';
+import { app, connection, request } from '../config';
 
 import SaleItems from '@modules/sales/infra/typeorm/entities/SaleItems';
-import SaleItemsClass from '../factories/saleItems-class';
-import { makeSaleItemsSut } from '../factories';
+import SaleItemsClass from './factories/saleItems-class';
+import { makeSaleItemsSut } from './factories';
 
 let saleItemsClass: SaleItemsClass;
 

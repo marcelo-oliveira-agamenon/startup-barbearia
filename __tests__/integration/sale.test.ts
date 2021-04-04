@@ -1,8 +1,8 @@
-import { app, connection, request } from '../../config';
+import { app, connection, request } from '../config';
 
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
-import SaleClass from '../factories/sale-class';
-import { makeSaleSut } from '../factories';
+import SaleClass from './factories/sale-class';
+import { makeSaleSut } from './factories';
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;
 
