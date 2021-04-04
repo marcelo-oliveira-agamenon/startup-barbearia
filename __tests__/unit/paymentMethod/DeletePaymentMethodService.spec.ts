@@ -70,10 +70,7 @@ describe('Should validate payment method delete service', () => {
       paymentMethodRepository
     );
 
-    const {
-      payment_method_id,
-      ...paymentMethod
-    } = await paymentMethodRepository.create({
+    const paymentMethod = await paymentMethodRepository.create({
       name: 'any_name',
       is_active: false
     });
@@ -83,7 +80,7 @@ describe('Should validate payment method delete service', () => {
     );
 
     await deletePaymentMethod.execute({
-      payment_method_id
+      payment_method_id: paymentMethod.payment_method_id
     });
 
     expect(deleteByEntitySpy).toHaveBeenLastCalledWith(paymentMethod);
