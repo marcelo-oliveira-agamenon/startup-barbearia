@@ -22,17 +22,11 @@ describe('Should validate payment method create service', () => {
       paymentMethodRepository
     );
 
-    jest.spyOn(paymentMethodRepository, 'findByName').mockReturnValueOnce(
-      new Promise((resolve) =>
-        resolve({
-          payment_method_id: 1,
-          name: 'any_name',
-          is_active: true,
-          created_at: new Date('2021-02-01'),
-          updated_at: new Date('2021-02-01')
-        })
-      )
-    );
+    await createPaymentMethod.execute({
+      name: 'any_name',
+      is_active: true
+    });
+
     const promise = createPaymentMethod.execute({ name: 'any_name' });
     await expect(promise).rejects.toEqual(
       new AppError('This payment method already exists!')
