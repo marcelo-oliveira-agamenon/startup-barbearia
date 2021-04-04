@@ -21,18 +21,13 @@ export class DeletePaymentMethodService {
     const paymentMethodExists = await this.serviceRepository.findById(
       payment_method_id
     );
-
     if (!paymentMethodExists)
       throw new AppError('This payment method does not exist!');
 
-    const isPaymentMethodDeleted = await this.serviceRepository.deleteById(
-      payment_method_id
+    const paymentMethod = await this.serviceRepository.deleteByEntity(
+      paymentMethodExists
     );
-    if (!isPaymentMethodDeleted)
-      throw new AppError(
-        'Something went wrong! This payment method has not been deleted!'
-      );
 
-    return paymentMethodExists;
+    return paymentMethod;
   }
 }

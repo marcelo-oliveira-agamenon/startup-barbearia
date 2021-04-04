@@ -1,10 +1,10 @@
-import { connection } from '../../../../../__tests__/config';
+import { connection } from '../../config';
 import { CreatePaymentMethodService } from '@modules/sales/services/paymentMethod/CreatePaymentMethodService';
 import PaymentMethodRepository from '@modules/sales/infra/typeorm/repositories/PaymentMethodRepository';
 
 import AppError from '@shared/errors/AppError';
 
-describe('Should create a payment method', () => {
+describe('Should validate payment method create service', () => {
   beforeAll(async () => {
     await connection.create();
   });

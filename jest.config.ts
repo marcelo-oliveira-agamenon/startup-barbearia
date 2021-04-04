@@ -25,6 +25,6 @@ export default {
 
   testMatch: [
     '**/__tests__/integration/*test.ts',
-    '**/src/modules/**/services/**/*spec.ts'
+    '**/__tests__/unit/**/*spec.ts'
   ]
 };

@@ -52,12 +52,14 @@ export default class PaymenthMovementRepository
     return isAffected;
   }
 
-  findAll(query: IListPaymentMovementsDTO): Promise<PaymentMovement[]> {
+  public async findAll(
+    query: IListPaymentMovementsDTO
+  ): Promise<PaymentMovement[]> {
     const { limit, offset } = query;
     const take = limit ? limit : 0,
       skip = offset ? offset : 0;
 
-    const paymentMovements = this.ormRepository.find({
+    const paymentMovements = await this.ormRepository.find({
       take,
       skip,
       loadRelationIds: true
