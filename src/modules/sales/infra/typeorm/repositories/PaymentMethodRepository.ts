@@ -20,13 +20,17 @@ export default class ServiceRepository implements IPaymentMethodRepository {
     return paymentMethod;
   }
   public async update(entity: PaymentMethod): Promise<PaymentMethod> {
-    const paymentMethod = await this.ormRepository.save(entity);
+    const paymentMethod = await this.ormRepository.save(
+      Object.assign({}, entity)
+    );
 
     return paymentMethod;
   }
 
   public async deleteByEntity(entity: PaymentMethod): Promise<PaymentMethod> {
-    const paymentMethod = await this.ormRepository.remove(entity);
+    const paymentMethod = await this.ormRepository.remove(
+      Object.assign({}, entity)
+    );
 
     return paymentMethod;
   }
