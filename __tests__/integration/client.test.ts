@@ -1,7 +1,7 @@
 import { app, connection, request } from '../config';
 
 import Client from '@modules/users/infra/typeorm/entities/Client';
-import { makeClientSut } from '../factories';
+import { makeClientSut } from './factories';
 const clientClass = makeClientSut();
 
 const TOKEN = `Bearer ${process.env.TOKEN}`;

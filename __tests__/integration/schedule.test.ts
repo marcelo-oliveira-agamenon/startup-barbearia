@@ -1,8 +1,8 @@
 import { app, connection, request } from '../config';
 
 import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
-import { makeScheduleSut } from '../factories';
-import ScheduleClass from '../factories/schedule-class';
+import { makeScheduleSut } from './factories';
+import ScheduleClass from './factories/schedule-class';
 
 let scheduleClass: ScheduleClass;
 

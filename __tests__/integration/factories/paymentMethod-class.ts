@@ -77,14 +77,12 @@ class PaymentMethodClass {
   }
 
   get deleteResponse() {
-    const payment_method_id = expect.anything(),
-      name = expect.anything(),
+    const name = expect.anything(),
       is_active = false,
       created_at = expect.anything(),
       updated_at = expect.anything();
 
     return {
-      payment_method_id,
       name,
       is_active,
       created_at,
