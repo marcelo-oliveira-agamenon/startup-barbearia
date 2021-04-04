@@ -30,7 +30,7 @@ export class DeletePaymentMethodService {
     );
     if (!isPaymentMethodDeleted)
       throw new AppError(
-        'Somethign went wrong! This payment method has not been deleted!'
+        'Something went wrong! This payment method has not been deleted!'
       );
 
     return paymentMethodExists;

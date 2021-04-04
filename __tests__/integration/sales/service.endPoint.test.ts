@@ -1,4 +1,4 @@
-import { app, connection, request } from '../config';
+import { app, connection, request } from '../../config';
 
 import Service from '@modules/sales/infra/typeorm/entities/Service';
 import { makeServiceSut } from '../factories';

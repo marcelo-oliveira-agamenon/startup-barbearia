@@ -1,4 +1,4 @@
-import { app, connection, request } from '../config';
+import { app, connection, request } from '../../config';
 
 import Sale from '@modules/sales/infra/typeorm/entities/Sale';
 import SaleClass from '../factories/sale-class';

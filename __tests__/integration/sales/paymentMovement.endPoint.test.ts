@@ -1,4 +1,4 @@
-import { app, connection, request } from '../config';
+import { app, connection, request } from '../../config';
 
 import PaymentMovementClass from '../factories/paymentMovement-class';
 import PaymentMovement from '@modules/sales/infra/typeorm/entities/PaymentMovement';

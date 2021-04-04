@@ -1,4 +1,4 @@
-import { app, connection, request } from '../config';
+import { app, connection, request } from '../../config';
 
 import PaymentMethod from '@modules/sales/infra/typeorm/entities/PaymentMethod';
 import { makePaymentMethodSut } from '../factories';

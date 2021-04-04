@@ -1,4 +1,4 @@
-import { app, connection, request } from '../config';
+import { app, connection, request } from '../../config';
 
 import { makeUserSut } from '../factories';
 import { User } from '@modules/users/infra/typeorm/entities/User';

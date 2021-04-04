@@ -1,4 +1,4 @@
-import { app, connection, request } from '../config';
+import { app, connection, request } from '../../config';
 
 import { Schedule } from '@modules/schedules/infra/typeorm/entities/Schedule';
 import { makeScheduleSut } from '../factories';
