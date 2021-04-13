@@ -1,14 +1,27 @@
+import AppError from '@shared/errors/AppError';
 import { connection } from '../../config';
 import { CreatePaymentMethodService } from '@modules/sales/services/paymentMethod/CreatePaymentMethodService';
 import PaymentMethodRepository from '@modules/sales/infra/typeorm/repositories/PaymentMethodRepository';
 
-import AppError from '@shared/errors/AppError';
+let paymentMethodRepository: PaymentMethodRepository,
+  createPaymentMethodService: CreatePaymentMethodService;
 
-describe('Should validate payment method create service', () => {
+const paymentMethodSchema = {
+  name: 'cash',
+  is_active: true
+};
+
+describe('Should validate create user service', () => {
   beforeAll(async () => {
     await connection.create();
   });
   beforeEach(async () => {
+    paymentMethodRepository = new PaymentMethodRepository();
+    createPaymentMethodService = new CreatePaymentMethodService(
+      paymentMethodRepository
+    );
+  });
+  afterEach(async () => {
     await connection.clear();
   });
   afterAll(async () => {
@@ -16,76 +29,39 @@ describe('Should validate payment method create service', () => {
   });
 
   test('Should throws if payment method name already exists', async () => {
-    const paymentMethodRepository = new PaymentMethodRepository();
+    await paymentMethodRepository.create(paymentMethodSchema);
 
-    const createPaymentMethod = new CreatePaymentMethodService(
-      paymentMethodRepository
-    );
-
-    await createPaymentMethod.execute({
-      name: 'any_name',
-      is_active: true
+    const promise = createPaymentMethodService.execute({
+      ...paymentMethodSchema
     });
 
-    const promise = createPaymentMethod.execute({ name: 'any_name' });
     await expect(promise).rejects.toEqual(
       new AppError('This payment method already exists!')
     );
   });
-  test('Should return payment method values if it is created', async () => {
-    const paymentMethodRepository = new PaymentMethodRepository();
-    const createPaymentMethod = new CreatePaymentMethodService(
-      paymentMethodRepository
-    );
-    jest.spyOn(paymentMethodRepository, 'create').mockReturnValueOnce(
-      new Promise((resolve) =>
-        resolve({
-          payment_method_id: 1,
-          name: 'any_name',
-          is_active: true,
-          created_at: new Date('2021-02-01'),
-          updated_at: new Date('2021-02-01')
-        })
-      )
-    );
-    const paymentMethod = await createPaymentMethod.execute({
-      name: 'any_name',
-      is_active: true
-    });
 
-    expect(paymentMethod).toEqual({
-      payment_method_id: 1,
-      name: 'any_name',
-      is_active: true,
-      created_at: new Date('2021-02-01'),
-      updated_at: new Date('2021-02-01')
-    });
-  });
-
-  test('Should call payment method findByName method with correct param', async () => {
-    const paymentMethodRepository = new PaymentMethodRepository();
-    const createPaymentMethod = new CreatePaymentMethodService(
-      paymentMethodRepository
-    );
+  test('Should call findByName method with correct param', async () => {
     const findByNameSpy = jest.spyOn(paymentMethodRepository, 'findByName');
-
-    await createPaymentMethod.execute({
+    const data = Object.assign({}, paymentMethodSchema, {
       name: 'credit-card'
     });
 
-    expect(findByNameSpy).toHaveBeenCalledWith('credit-card');
+    await createPaymentMethodService.execute(data);
+    expect(findByNameSpy).toHaveBeenLastCalledWith('credit-card');
   });
-  test('Should call payment method create method with correct params', async () => {
-    const paymentMethodRepository = new PaymentMethodRepository();
-    const createPaymentMethod = new CreatePaymentMethodService(
-      paymentMethodRepository
-    );
+
+  test('Should call create method with correct param', async () => {
     const createSpy = jest.spyOn(paymentMethodRepository, 'create');
-    await createPaymentMethod.execute({
-      name: 'cash',
-      is_active: false
+
+    await createPaymentMethodService.execute({ ...paymentMethodSchema });
+    expect(createSpy).toHaveBeenCalledWith({ name: 'cash', is_active: true });
+  });
+  test('Should return payment method with correct values', async () => {
+    const createSpyOn = jest.spyOn(paymentMethodRepository, 'create');
+    const paymentMethod = await createPaymentMethodService.execute({
+      ...paymentMethodSchema
     });
 
-    expect(createSpy).toHaveBeenCalledWith({ name: 'cash', is_active: false });
+    expect(paymentMethod).toBe(await createSpyOn.mock.results[0].value);
   });
 });
