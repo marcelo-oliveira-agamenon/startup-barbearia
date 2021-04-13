@@ -62,10 +62,6 @@ describe('Should validate create user service', () => {
       ...paymentMethodSchema
     });
 
-    const result = Object.assign({}, await createSpyOn.mock.results[0].value, {
-      name: 'cash'
-    });
-
-    expect(paymentMethod).toEqual(result);
+    expect(paymentMethod).toBe(await createSpyOn.mock.results[0].value);
   });
 });
